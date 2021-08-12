@@ -1,0 +1,24 @@
+% Function that produces the initial PSO population
+function [PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimMinMax)
+    PosPop = zeros(PopNum, ProbDim);
+    VelPop = zeros(PopNum, ProbDim);
+    
+    % Create each particle
+    for RowNum = 1:PopNum
+        TempPos = PSO_GA_Cons_Feasible(ProbDim, DimMinMax);
+        % Add to positions
+        PosPop(RowNum, :) = TempPos; 
+        
+        % Randomize Velocity
+        TempVel = zeros(1, ProbDim);
+        for i = 1:ProbDim
+           % Set Boundary
+           VelBound = (DimMinMax(i, 2) - DimMinMax(i, 1));
+           % Generate within bounds
+           TempVel(1, i) = (VelBound - -VelBound)*rand(1,'double') + -VelBound;
+        end 
+        % Add to velocities
+        VelPop(RowNum, :) = TempVel;
+    end
+end
+
