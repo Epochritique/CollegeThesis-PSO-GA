@@ -1,0 +1,367 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.19)  9 JUN 2018 14:02
+entering extended mode
+**./7_5.tex
+(7_5.tex
+LaTeX2e <2017/01/01> patch level 1
+Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
+sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
+y"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
+sty"
+Package: graphics 2016/10/09 v1.0u Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
+ics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
+x.def"
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
+rr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
+.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
+"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color
+.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+) (7_5.aux)
+\openout1 = `7_5.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
+ii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count88
+\scratchdimen=\dimen105
+\scratchbox=\box26
+\nofMPsegments=\count89
+\nofMParguments=\count90
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count91
+\MPscratchDim=\dimen106
+\MPnumerator=\count92
+\makeMPintoPDFobject=\count93
+\everyMPtoPDFconversion=\toks16
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
+mds.sty"
+Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
+x.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
+ty"
+Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
+base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
+y"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
+ekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
+.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
+ys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
+s.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+) [1
+
+{C:/Users/Lance/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (111.74602pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA
+_B)*(GA_MaxItr-GA_MinItr));[] 
+ []
+
+
+Overfull \hbox (95.99615pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)
+*(GA_NumMax-GA_NumMin));[] 
+ []
+
+
+Overfull \hbox (74.99634pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(
+GA_MaxPS-GA_MinPS));[] 
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 [PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimM
+inMax);[] 
+ []
+
+
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, D
+imMinMax);[] 
+ []
+
+
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 [Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, Pr
+obDim, FitVal);[] 
+ []
+
+
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDi
+m, DimMinMax);[] 
+ []
+
+[2]
+Overfull \hbox (221.99506pt too wide) in paragraph at lines 324--324
+[]                \OT1/cmtt/m/n/10 if PrevDiff - CurrDiff < AcceptThreshold && 
+CurrDiff < AcceptThreshold && PSO_Curr < PSO_Max[] 
+ []
+
+
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 seq_route = ObtainSequence(PosPop(minInd
+,:), ProbDim);[] 
+ []
+
+
+Overfull \hbox (610.49167pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 X = sprintf('Population Converged!\nNumb
+er of Iterations: %d\nBest Value: %0.15f\nWorst Value: %0.15f\nMean: %0.15f',PS
+O_Curr,FitVal(minInd),FitVal(maxInd),mPos);[] 
+ []
+
+
+Overfull \hbox (127.49588pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, P
+robDim, FitVal, Pbest, Gbest);[] 
+ []
+
+
+Overfull \hbox (326.99414pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 [Tao, TransPos, TransVel] = PSO_ChangeVel(PopNum
+, PosPop, VelPop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax, Tao);[] 
+ []
+
+
+Overfull \hbox (80.24629pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 TransFitVal = PSO_GetFitValues(PopNum, TransPos,
+ ProbDim, DimMinMax);[] 
+ []
+
+[3]
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 if TransFitVal(RowNum) == PSO_Arranged(G
+A_Num_Curr);[] 
+ []
+
+
+Overfull \hbox (69.74638pt too wide) in paragraph at lines 324--324
+[]                \OT1/cmtt/m/n/10 % Generate a population with the first indiv
+ being the selected[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 324--324
+[]                \OT1/cmtt/m/n/10 GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMi
+nMax);[] 
+ []
+
+
+Overfull \hbox (111.74602pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 GA_FitVal = PSO_GetFitValues(GA_PS, GA_C
+hroms, ProbDim, DimMinMax);[] 
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 GA_RouWheel = GA_CreateWheel(GA_PS, GA_F
+itVal);[] 
+ []
+
+
+Overfull \hbox (227.24501pt too wide) in paragraph at lines 324--324
+[]                        \OT1/cmtt/m/n/10 [Parent1, Parent2] = GA_Selection(GA
+_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);[] 
+ []
+
+
+Overfull \hbox (90.7462pt too wide) in paragraph at lines 324--324
+[]                        \OT1/cmtt/m/n/10 SibRep = GA_CrossOver(Parent1, Paren
+t2, GA_cross, ProbDim);[] 
+ []
+
+
+Overfull \hbox (59.24648pt too wide) in paragraph at lines 324--324
+[]                            \OT1/cmtt/m/n/10 SibRep = GA_Mutation(SibRep, Dim
+MinMax, ProbDim);[] 
+ []
+
+[4]
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 324--324
+[]                    \OT1/cmtt/m/n/10 if TransFitVal(RowNum) == PSO_Arranged(G
+A_Num_Curr);[] 
+ []
+
+
+Overfull \hbox (132.74583pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max
+)^GA_B)*(GA_MaxItr-GA_MinItr));[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^G
+A_y)*(GA_NumMax-GA_NumMin));[] 
+ []
+
+
+Overfull \hbox (95.99615pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_
+y)*(GA_MaxPS-GA_MinPS));[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 seq_route = ObtainSequence(PosPop(minInd,:), Pro
+bDim);[] 
+ []
+
+[5]
+Overfull \hbox (557.99213pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 X = sprintf('Did Not Converge!\nNumber of Iterat
+ions: %d\nBest Value: %0.15f\nWorst Value: %0.15f\nMean: %0.15e\n',PSO_Curr,Fit
+Val(minInd),FitVal(maxInd),mPos);[] 
+ []
+
+
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 324--324
+[]                \OT1/cmtt/m/n/10 Ans(trials,:) = [PosPop(minInd, :) FitVal(mi
+nInd) 0];[] 
+ []
+
+
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 324--324
+[]                \OT1/cmtt/m/n/10 Ans(trials,:) = [PosPop(minInd, :) FitVal(mi
+nInd) 1];[] 
+ []
+
+
+Overfull \hbox (85.49625pt too wide) in paragraph at lines 324--324
+[]            \OT1/cmtt/m/n/10 X = sprintf('Running Time for this trial: %0.15e
+\n', timeRec(trials));[] 
+ []
+
+[6]
+Overfull \hbox (1523.9837pt too wide) in paragraph at lines 324--324
+[]        \OT1/cmtt/m/n/10 X = sprintf('\n\nBest OverAll Value: %0.15f\nMean: %
+0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Best Overall Value: %0.
+15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\nTotal Running 
+Time for all trials: %0.15e\nAverage running time: %0.15e\n', Best, Mean, Media
+n, StdDev, Worst, convRuns, ConvRatio, totalTime, aveTime);[] 
+ []
+
+[7] [8] [9] [10] [11] [12] [13] [14] [15] [16] (7_5.aux) ) 
+Here is how much of TeX's memory you used:
+ 1505 strings out of 493333
+ 22390 string characters out of 3130143
+ 88292 words of memory out of 3000000
+ 5052 multiletter control sequences out of 15000+200000
+ 3808 words of font info for 15 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 39i,5n,25p,369b,241s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Lance/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users
+/Lance/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.
+pfb>
+Output written on 7_5.pdf (16 pages, 47402 bytes).
+PDF statistics:
+ 62 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

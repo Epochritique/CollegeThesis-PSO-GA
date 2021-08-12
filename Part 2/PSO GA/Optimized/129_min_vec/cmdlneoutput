@@ -1,0 +1,1952 @@
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 1
+
+{Undefined function 'isconnection' for input arguments of type 'double'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dmd', 'C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\database\database\@dmd\dmd.m', 26)" style="font-weight:bold">dmd</a> (<a href="matlab: opentoline('C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\database\database\@dmd\dmd.m',26,0)">line 26</a>)
+if ~isconnection(c)
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA_Eval', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m', 23)" style="font-weight:bold">PSO_GA_Eval</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m',23,0)">line 23</a>)
+            if AccWst + dmd(seq_inds(SeqCur)) > vec_cap
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GetFitValues', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m', 6)" style="font-weight:bold">PSO_GetFitValues</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m',6,0)">line 6</a>)
+        FitVal(RowNum, 1) = PSO_GA_Eval(PosPop(RowNum, :), ProbDim, DimMinMax);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 74)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',74,0)">line 74</a>)
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+} 
+load('demand.mat')
+dmd
+
+dmd =
+
+  Columns 1 through 16
+
+     0     5     7     4    10     2     5     7     2     9     8     3     5    12    11     1
+
+  Columns 17 through 32
+
+     8    12     9    14    10    13    12     2    14    12     3     6     3     1     1     4
+
+  Columns 33 through 48
+
+    13     2     5     4     1     8     9     5    12    12     7     2     9    13    13     6
+
+  Columns 49 through 64
+
+     5     6    11     2     1     1    14    10    10     6    12    11     3     9    10     5
+
+  Columns 65 through 80
+
+     7    11     4     4     8    11     8     3     6     9     3     9     3     8     4    14
+
+  Columns 81 through 96
+
+     1     7    12    11     2     4     7    14     5    11    13     8    10     6    12     6
+
+  Columns 97 through 112
+
+     8    13     4    10    12    11     5     2     3     1     4     9     2     2    12     1
+
+  Columns 113 through 128
+
+     2     7     4     2     5    10     7     6    11    13     6    14     3    11     4    11
+
+  Columns 129 through 130
+
+    11     5
+
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 1
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dmd')" style="font-weight:bold">dmd</a>
+Too many input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA_Eval', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m', 23)" style="font-weight:bold">PSO_GA_Eval</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m',23,0)">line 23</a>)
+            if AccWst + dmd(1,seq_inds(SeqCur)) > vec_cap
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GetFitValues', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m', 6)" style="font-weight:bold">PSO_GetFitValues</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m',6,0)">line 6</a>)
+        FitVal(RowNum, 1) = PSO_GA_Eval(PosPop(RowNum, :), ProbDim, DimMinMax);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 74)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',74,0)">line 74</a>)
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+} 
+dmd
+
+dmd =
+
+  Columns 1 through 16
+
+     0     5     7     4    10     2     5     7     2     9     8     3     5    12    11     1
+
+  Columns 17 through 32
+
+     8    12     9    14    10    13    12     2    14    12     3     6     3     1     1     4
+
+  Columns 33 through 48
+
+    13     2     5     4     1     8     9     5    12    12     7     2     9    13    13     6
+
+  Columns 49 through 64
+
+     5     6    11     2     1     1    14    10    10     6    12    11     3     9    10     5
+
+  Columns 65 through 80
+
+     7    11     4     4     8    11     8     3     6     9     3     9     3     8     4    14
+
+  Columns 81 through 96
+
+     1     7    12    11     2     4     7    14     5    11    13     8    10     6    12     6
+
+  Columns 97 through 112
+
+     8    13     4    10    12    11     5     2     3     1     4     9     2     2    12     1
+
+  Columns 113 through 128
+
+     2     7     4     2     5    10     7     6    11    13     6    14     3    11     4    11
+
+  Columns 129 through 130
+
+    11     5
+
+dmnd = dmd
+
+dmnd =
+
+  Columns 1 through 16
+
+     0     5     7     4    10     2     5     7     2     9     8     3     5    12    11     1
+
+  Columns 17 through 32
+
+     8    12     9    14    10    13    12     2    14    12     3     6     3     1     1     4
+
+  Columns 33 through 48
+
+    13     2     5     4     1     8     9     5    12    12     7     2     9    13    13     6
+
+  Columns 49 through 64
+
+     5     6    11     2     1     1    14    10    10     6    12    11     3     9    10     5
+
+  Columns 65 through 80
+
+     7    11     4     4     8    11     8     3     6     9     3     9     3     8     4    14
+
+  Columns 81 through 96
+
+     1     7    12    11     2     4     7    14     5    11    13     8    10     6    12     6
+
+  Columns 97 through 112
+
+     8    13     4    10    12    11     5     2     3     1     4     9     2     2    12     1
+
+  Columns 113 through 128
+
+     2     7     4     2     5    10     7     6    11    13     6    14     3    11     4    11
+
+  Columns 129 through 130
+
+    11     5
+
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 1
+
+{Undefined function or variable 'vex_cap'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA_Eval', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m', 24)" style="font-weight:bold">PSO_GA_Eval</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m',24,0)">line 24</a>)
+                TotExSp = TotExSp+(vex_cap-AccWst);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GetFitValues', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m', 6)" style="font-weight:bold">PSO_GetFitValues</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m',6,0)">line 6</a>)
+        FitVal(RowNum, 1) = PSO_GA_Eval(PosPop(RowNum, :), ProbDim, DimMinMax);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 74)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',74,0)">line 74</a>)
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+} 
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 1
+
+  Columns 1 through 17
+
+    67     3    47    40    63    19    84    68   126   129   107    27    77    22    18   109    70
+
+  Columns 18 through 34
+
+    55    24   106    72    75    71   112    25    49    87    20   127    50    17    59    15    58
+
+  Columns 35 through 51
+
+    33   119    45    94     4     9   102    97    36    41    23    46    12    10    39    37   121
+
+  Columns 52 through 68
+
+   117   122    29   113    98    91     7    60    14    78    62   120    26    34    38    42     5
+
+  Columns 69 through 85
+
+    95    48    89    96    31    80    28    51    61    79    81    35    52    64    88   123    82
+
+  Columns 86 through 102
+
+   103    92    57     6    32     8    74    73     1    90   110    86    93   116   115   105    16
+
+  Columns 103 through 119
+
+    30    66    11   108    85    44   114   100    83    69   104    53    13    21   101    76    99
+
+  Columns 120 through 129
+
+   111   128    54    56   125   124    65   118     2    43
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9401.814918130927300
+Worst Value: 11809.354680060183000
+Mean: 9.888578385108000e+03
+
+Running Time for this trial: 3.772562146133334e+03
+
+
+Trial: 2
+
+  Columns 1 through 16
+
+    20   126   123    17    99   100    18    80     7   122    45    41    81   110    23    13
+
+  Columns 17 through 32
+
+    63    64    56   105    46     6    70     9    51    86    53    93   104    91    92   120
+
+  Columns 33 through 48
+
+    62    77    39   103    58    29     5    84   125    74     4    78    10   119     2    38
+
+  Columns 49 through 64
+
+    55   106    37    26    25   115    40    22   117    89   102   107   128   111    76    88
+
+  Columns 65 through 80
+
+    57    72    27    19    36    42   112   108     1    44    65    28    66   109    32    73
+
+  Columns 81 through 96
+
+   101    60    50    83    59    48    75   121    90   114    31    98    82   113    34    79
+
+  Columns 97 through 112
+
+    96    21    11    14   127   124    52    97    54     8    47    16    43    15    12    95
+
+  Columns 113 through 128
+
+    87    33    94    30    69    24    68   118    67    71    85    35    49   129    61   116
+
+  Column 129
+
+     3
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9267.471788571356200
+Worst Value: 11474.313081215003000
+Mean: 9.432664053193403e+03
+
+Running Time for this trial: 3.905594056960000e+03
+
+
+Trial: 3
+
+  Columns 1 through 16
+
+   104    86   108     8    33    14    63   111     7   128    19   123    28    34     5   100
+
+  Columns 17 through 32
+
+    23     3    56    71    83    45    49    11     9    15   126    29   117    40    25    18
+
+  Columns 33 through 48
+
+   127    96    78    91    21    77    95    64    42   105    90    55    85    20    82    65
+
+  Columns 49 through 64
+
+     2    93    54    60    44    47   113    58    26   125    81    17    41   115    30    75
+
+  Columns 65 through 80
+
+    59    51   121    80   119    97   110    48     1    37    27    88   107    79    50    72
+
+  Columns 81 through 96
+
+   116    74    13    66    70   109    87    22     6    57   112    92   120    46    62    53
+
+  Columns 97 through 112
+
+    67    68    38    36     4    31    24    39    10   102    16    69    12   103    35    98
+
+  Columns 113 through 128
+
+    73   101    99    32    76    52   124   118   129    61    43    94   106   122    84    89
+
+  Column 129
+
+   114
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 8912.139528651330700
+Worst Value: 11256.409851385401000
+Mean: 9.106901072740682e+03
+
+Running Time for this trial: 3.743161060266667e+03
+
+
+Trial: 4
+
+  Columns 1 through 16
+
+   107    51   123    14    86    42   100    38    45    58    70    80    53    89    15    18
+
+  Columns 17 through 32
+
+   103     2    64    60    34    35    57    65    26    52    41    59    74    40   116    85
+
+  Columns 33 through 48
+
+   129   111   105   110    76   102    39    13    37    84    93    72    83     4    33    61
+
+  Columns 49 through 64
+
+    27    30    28   106    68    97    17    20    10   108   114    63    19   104   117    77
+
+  Columns 65 through 80
+
+   122    55    98    78    16    54    94    23    11     9    87     3   112    31    24    67
+
+  Columns 81 through 96
+
+    47   128    25    32    48    82    49     6    29   120   127    44    56   113    92    46
+
+  Columns 97 through 112
+
+     1    73     7    66   124   118    22    75    88   115     5    99    95     8   119    96
+
+  Columns 113 through 128
+
+   126    36    79    71   125    62    90    50   101    91    21   109    12    81   121    43
+
+  Column 129
+
+    69
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9597.541669581029100
+Worst Value: 11812.241178369663000
+Mean: 1.002516125617123e+04
+
+Running Time for this trial: 3.608694578773333e+03
+
+
+Trial: 5
+
+  Columns 1 through 16
+
+    89   110    85    55    70    30     3   106     5    31   104    20    58   116    86   114
+
+  Columns 17 through 32
+
+   115    88    14    21   118     7    57    82    23     8   127    99    54    84    52    63
+
+  Columns 33 through 48
+
+    93    50   121    67    77    22    53   111   125    48    18    45    94   112    42     2
+
+  Columns 49 through 64
+
+    40    75   128   123    76    56   124    25   100    60    91    11   120   119   103    19
+
+  Columns 65 through 80
+
+     1    43    47    69    97   113    15    95    38    78   109    59    34    29   126   101
+
+  Columns 81 through 96
+
+     9     4    51    32   102    13   108    96    98    33    62    24    64    73    39    92
+
+  Columns 97 through 112
+
+    27    37    81    72    36    80    17    26    49    41    61    46    66    10    90    74
+
+  Columns 113 through 128
+
+    71    12   129   122    83    35   105    16    87    79    44    65     6   107    68    28
+
+  Column 129
+
+   117
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9572.400512197642500
+Worst Value: 11597.936220396889000
+Mean: 1.010296479451773e+04
+
+Running Time for this trial: 3.813069047893333e+03
+
+
+Trial: 6
+
+  Columns 1 through 16
+
+    97   108    17    14    25    88    12   111     4    66    40   105    37    81     2    21
+
+  Columns 17 through 32
+
+   121   128    18    36    91    48    89    23    56    31     9    74   117    15    76    52
+
+  Columns 33 through 48
+
+    46    20    54    93    41   114    28    42    51    53    50    72    67     8   115    73
+
+  Columns 49 through 64
+
+    39   103    71    44    19   118   106    35    59    43    63    61    92    82   122    64
+
+  Columns 65 through 80
+
+    57    78     7     1    80    22    99   126    27     6    30   109    75   116     5   113
+
+  Columns 81 through 96
+
+    11   110   123   124   127   104   125    83    65    13    62    45   101    24   129    38
+
+  Columns 97 through 112
+
+    68    33   120   107    49    29    90    85    70   119    16   100    69    60    10   112
+
+  Columns 113 through 128
+
+    87    77    34    32    79    94    58    47    98     3    95   102    26    84    55    86
+
+  Column 129
+
+    96
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 8972.101920368071700
+Worst Value: 11593.541942321393000
+Mean: 9.432151904128714e+03
+
+Running Time for this trial: 3.120978219946667e+03
+
+
+Trial: 7
+
+  Columns 1 through 16
+
+    13    58    67    91   128   104    61    39    90     4     3    65   113    26    72    24
+
+  Columns 17 through 32
+
+    42     1    41    16    34    99   101    60   115   107    25    71   120    95     5    46
+
+  Columns 33 through 48
+
+    43   111    14    69    21   110    32   109    53    15    64    63    18   127    56    77
+
+  Columns 49 through 64
+
+   112   114    62    59    74    68    29    87    82    54   108    88   118     9    76    80
+
+  Columns 65 through 80
+
+    22    38    48    27   124    86   105    49    10    17    36   103   126     2    93    52
+
+  Columns 81 through 96
+
+    81   129    12    23     8    35   122    47   100    28    20    73   117    89    51   123
+
+  Columns 97 through 112
+
+    79    11    78    33    31   116    44    50    57     7    70   119   121     6    85    96
+
+  Columns 113 through 128
+
+    40   102    84   106    83    45    92    97    37    19    98    30    75    94    66    55
+
+  Column 129
+
+   125
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9286.086032422479500
+Worst Value: 11589.939047459060000
+Mean: 9.355425052704060e+03
+
+Running Time for this trial: 3.080903435946667e+03
+
+
+Trial: 8
+
+  Columns 1 through 16
+
+    21    81   127    60   105   106   111    95    24   108     4    53    54    69    99   109
+
+  Columns 17 through 32
+
+    85    86    33   123    58    30   122    98   126   115   118   121    73   112    56   117
+
+  Columns 33 through 48
+
+    90    72    27    82    80    22    35   113    94   101    23    92    67   120    66    75
+
+  Columns 49 through 64
+
+   114    12   102    36   110    96   124    44    88    39    37    20    16   125   119    93
+
+  Columns 65 through 80
+
+    14    87     6   129   100     9    68    38    28    84    47    31     8    49    10    48
+
+  Columns 81 through 96
+
+     5    42   103    64    61    34    77    41    51    29    46    57    15     2   128    97
+
+  Columns 97 through 112
+
+    32    40    65    74    50    43    83   116    26    89    71   107     1    45    19    55
+
+  Columns 113 through 128
+
+    11    13    62    25    18    91    63    17     7    79    59    70    52    76     3   104
+
+  Column 129
+
+    78
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9349.426032422479700
+Worst Value: 11445.477746683879000
+Mean: 1.023036869714198e+04
+
+Running Time for this trial: 2.991655399253333e+03
+
+
+Trial: 9
+
+  Columns 1 through 16
+
+   100    28   101    14   128    11   115   120   110    57    74    98   122    47   105    60
+
+  Columns 17 through 32
+
+   104     9    21    18    12    68   127    26    25   113   119    72   114   117    33    95
+
+  Columns 33 through 48
+
+     2    62    61    99   107    24    56    66    52    40    36    16   124    82    64    34
+
+  Columns 49 through 64
+
+    97    94   103    78   108    43    46    92     5    51    44   102   126    93    87    27
+
+  Columns 65 through 80
+
+    22   109    30   111    23     7    17    32    81    54   125    76    39    75    83    65
+
+  Columns 81 through 96
+
+    53    91    41    84    58    13    37    45    88    35   129     4    85    20    15    89
+
+  Columns 97 through 112
+
+   106    86    96     6   123    73     3   118    71     8    70    48    63    50   121    42
+
+  Columns 113 through 128
+
+   112     1    90    79    38    59    55    67    80    69    29    77    31    19    10    49
+
+  Column 129
+
+   116
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9477.928272465771400
+Worst Value: 11149.396387069437000
+Mean: 9.577410627604313e+03
+
+Running Time for this trial: 2.987775592533333e+03
+
+
+Trial: 10
+
+  Columns 1 through 16
+
+    78   114   112    65    76    25    93    77    34    63    59   113    88    51    44   127
+
+  Columns 17 through 32
+
+     8    87   120   115    90   106    20    60     9    71    49    73    38    75    94    10
+
+  Columns 33 through 48
+
+    17    24    37    14    80   101    86    36   116    19   121   122    43     6    96     1
+
+  Columns 49 through 64
+
+   108   111    69    85   102    68   104    72   119     2    64    66    56    30    46     3
+
+  Columns 65 through 80
+
+    42    23    45     4    67    82    55   109    22   105    27    70    62   126    18    48
+
+  Columns 81 through 96
+
+   110    33    97   117    54    41    53    11   118    98    47    15     7    12   103    21
+
+  Columns 97 through 112
+
+   100    61    84    28    92    83    40    99    95    74    26    79   123   107   129    35
+
+  Columns 113 through 128
+
+    39    58   128    89    31    52   124    57     5    50   125    29    91    16    32    81
+
+  Column 129
+
+    13
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9331.087946165833300
+Worst Value: 11309.576615631360000
+Mean: 9.707141053714990e+03
+
+Running Time for this trial: 2.982360372906667e+03
+
+
+
+Best OverAll Value: 8912.139528651330700
+Mean: 9316.799862097690500
+Median: 9340.256989294157400
+Standard Deviation:227.192881878348200
+Worst Best Overall Value: 9597.541669581029100
+Number of Converged Runs: 0
+Ratio of Convergence: 0.000000000000000e+00
+Total Running Time for all trials: 3.400675391061333e+04
+Average running time: 3.400675391061333e+03
+
+{Undefined function or variable 'Popnum'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 299)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',299,0)">line 299</a>)
+        save(sprintf('run_%d_%d',Popnum, PSO_Max), 'Ans', 'Best', 'Mean', 'Median', 'StdDev',
+        'Worst', 'convRuns', 'ConvRatio', 'totalTime', 'aveTime');
+} 
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 2
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA_Eval', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m', 18)" style="font-weight:bold">PSO_GA_Eval</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m',18,0)">line 18</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GetFitValues', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m', 6)" style="font-weight:bold">PSO_GetFitValues</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GetFitValues.m',6,0)">line 6</a>)
+        FitVal(RowNum, 1) = PSO_GA_Eval(PosPop(RowNum, :), ProbDim, DimMinMax);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 156)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',156,0)">line 156</a>)
+                    GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+} 
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 200
+
+
+Trial: 2
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('unique', 'C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p', 84)" style="font-weight:bold">unique</a> (<a href="matlab: opentoline('C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p',84,0)">line 84</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Resolve_Uniqueness', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\Resolve_Uniqueness.m', 8)" style="font-weight:bold">Resolve_Uniqueness</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\Resolve_Uniqueness.m',8,0)">line 8</a>)
+            if ~(length(TempPos(1:i)) == length(unique(TempPos(1:i))))
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GA_CrossOver', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m', 27)" style="font-weight:bold">GA_CrossOver</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m',27,0)">line 27</a>)
+    Sibling2 = Resolve_Uniqueness(Sibling2, ProbDim, uniq);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 174)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',174,0)">line 174</a>)
+                        SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim, DimMinMax);
+} 
+clrea
+{Undefined function or variable 'clrea'.
+} 
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 400
+
+
+Trial: 1
+
+  Columns 1 through 17
+
+     1   119     4    92    45     8   129    76   110    84    29    53    42    37   100    44     6
+
+  Columns 18 through 34
+
+    18    87   104    11    49    89    61   101    26    68    72   121    99    77    65    28    36
+
+  Columns 35 through 51
+
+    16    15   111    43    83    74    59    48    12   128     9    21    55    54    58    27   127
+
+  Columns 52 through 68
+
+   109    46    13    63    50    95    78    98   102    73    41    19    22   118    34   126    17
+
+  Columns 69 through 85
+
+    79    32    75    10   122    88     2    81     3    33   120    64    93     5   125    70   124
+
+  Columns 86 through 102
+
+    23    52    90   103   108   117   115    94   107     7    57    97    40    82    67    86    51
+
+  Columns 103 through 119
+
+    14    85    80    66    30    24   113   116   123    35    38    20    31    47    39    96    60
+
+  Columns 120 through 129
+
+   106   105    91    69   112    25    62    71    56   114
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9655.056529143363200
+Worst Value: 11689.217125040730000
+Mean: 1.002123027781741e+04
+
+Running Time for this trial: 2.980662636800000e+03
+
+
+Trial: 2
+
+  Columns 1 through 16
+
+    99    53   113     6    29    70    82    43    75    45    32    67    20    21   119   114
+
+  Columns 17 through 32
+
+    48    12    56   100   121    62    46    79   120    58    66   128    59    89    92    86
+
+  Columns 33 through 48
+
+    42    38     1    71     8    23   123    19    27     3    69    60   111    81    84    28
+
+  Columns 49 through 64
+
+    33    95    47    57    37     5    25    93     2    68   122     7    35   101    85    18
+
+  Columns 65 through 80
+
+    49    78    39    31   116    54    51    40    13    96    17    36   125   117   106   105
+
+  Columns 81 through 96
+
+   126    44    34    91    90    61    88    65   127   124    11    77    97   104    63   129
+
+  Columns 97 through 112
+
+     4    14    80   112   107    74    87    41    52    24    94    50    76   110   103   118
+
+  Columns 113 through 128
+
+    64    55     9   108    26    30    16   109    15    73    83    22    10    72   115   102
+
+  Column 129
+
+    98
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 9055.939103213657300
+Worst Value: 11185.494440440547000
+Mean: 9.430037851506171e+03
+
+Running Time for this trial: 2.983082720000000e+03
+
+
+Trial: 3
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('uniqueRuniqueR2012a', 'C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p', 193)" style="font-weight:bold">uniqueRuniqueR2012a</a> (<a href="matlab: opentoline('C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p',193,0)">line 193</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('unique', 'C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p', 87)" style="font-weight:bold">unique</a> (<a href="matlab: opentoline('C:\Program Files (x86)\MATLAB\MATLAB Production Server\R2015a\toolbox\matlab\ops\unique.p',87,0)">line 87</a>)
+    [varargout{1:nlhs}] = uniqueR2012a(varargin{:});
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Resolve_Uniqueness', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\Resolve_Uniqueness.m', 8)" style="font-weight:bold">Resolve_Uniqueness</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\Resolve_Uniqueness.m',8,0)">line 8</a>)
+            if ~(length(TempPos(1:i)) == length(unique(TempPos(1:i))))
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GA_CrossOver', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m', 27)" style="font-weight:bold">GA_CrossOver</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m',27,0)">line 27</a>)
+    Sibling2 = Resolve_Uniqueness(Sibling2, ProbDim, uniq);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 174)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',174,0)">line 174</a>)
+                        SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim, DimMinMax);
+} 
+clrea
+{Undefined function or variable 'clrea'.
+} 
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 400
+
+
+Trial: 1
+
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA_Eval', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m', 22)" style="font-weight:bold">PSO_GA_Eval</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA_Eval.m',22,0)">line 22</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('GA_CrossOver', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m', 32)" style="font-weight:bold">GA_CrossOver</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\GA_CrossOver.m',32,0)">line 32</a>)
+    Sib2_FitVal = PSO_GA_Eval(Sibling2, ProbDim, DimMinMax);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('PSO_GA', 'Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m', 174)" style="font-weight:bold">PSO_GA</a> (<a href="matlab: opentoline('Z:\CMSC FILES\IV-1 CMSC 190\P2\PSO GA\Optimized\129_min_vec\PSO_GA.m',174,0)">line 174</a>)
+                    for i = 1:GA_PS
+} 
+clear
+clc
+PSO_GA
+
+CurPopNum: 40
+
+
+MaxIt: 400
+
+
+Trial: 1
+
+  Columns 1 through 17
+
+    56    98    60    47    53    79    96    49   129   122    38    78     5    72     3    94    61
+
+  Columns 18 through 34
+
+    46    34    44   121    45    83   110    74   113    66   126    73    40    84   123   120    26
+
+  Columns 35 through 51
+
+    92    14    11    70     2    68   111   116     7   101    71   105   117    87    19   109    39
+
+  Columns 52 through 68
+
+    58   124    55     9    48   108    89   107    13   119    91   128   104    30     8    33     6
+
+  Columns 69 through 85
+
+    25    23    29    93     1    36    24    59    28   125    62    80    52    99   114    63    18
+
+  Columns 86 through 102
+
+    90    77   106   118    81    85    50    95    37   100    86   102    17    75    31    51    22
+
+  Columns 103 through 119
+
+    69    82    41   127    15    65    43    21   115    10   103    76    97    16    57     4    42
+
+  Columns 120 through 129
+
+    64   112    32    54    35    88    20    67    27    12
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9273.539032422480900
+Worst Value: 11067.456432843552000
+Mean: 9.318501492433004e+03
+
+Running Time for this trial: 7.119233705813334e+03
+
+
+Trial: 2
+
+  Columns 1 through 16
+
+    72    62     5    92   106   118     3   121    50    93   103    80    21    22    51    82
+
+  Columns 17 through 32
+
+    74    35    25    90    36    13    49    77    79    48   126    84   116    26    12    41
+
+  Columns 33 through 48
+
+    68    52    44    38     1    24    96    97    53    11   117    30    27    70    15    32
+
+  Columns 49 through 64
+
+   110   127    28   101    56   105   111    33    98    71    16    47     7   129   108    31
+
+  Columns 65 through 80
+
+    63    81    29    85   115    40   113   104   114     8    18    45     9   100    87    67
+
+  Columns 81 through 96
+
+    43   102    69    94    91     4    46    57    37   128    14    65    61    99    55    10
+
+  Columns 97 through 112
+
+    34    54    95    19   125   109    83   123   120    60   119    59    76    23    17    75
+
+  Columns 113 through 128
+
+    78   107    88    64    86    39    66    73    58   112   122     6   124    89    42     2
+
+  Column 129
+
+    20
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9530.635512197643000
+Worst Value: 11069.784865536656000
+Mean: 9.621326382411780e+03
+
+Running Time for this trial: 8.111144907520000e+03
+
+
+Trial: 3
+
+  Columns 1 through 16
+
+    35     4   101   104    67    20     1    37   124    54    81    93    45    24    80    23
+
+  Columns 17 through 32
+
+    14    84    96    95    16    68    82    33   111    97    34    43     7     8    58    74
+
+  Columns 33 through 48
+
+    47    40    79   126   117    44    83   125    70   122   102   129    86    27     3    46
+
+  Columns 49 through 64
+
+    53    94   106   105    41    49    77   118    64   112   109    63    66    13   120   128
+
+  Columns 65 through 80
+
+   110    89    73     2    92    21    61     6    60    28    76   114    52    72    12   119
+
+  Columns 81 through 96
+
+    51    87    50   115   100    55    15    71    88    11    18    22    29    91     9    78
+
+  Columns 97 through 112
+
+   103    75    90   123    25    10   116    36    65    85    99    62    98   108    69    57
+
+  Columns 113 through 128
+
+    42    30    38   121    59    56    39   107    26   127   113    31    32    48     5    19
+
+  Column 129
+
+    17
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9548.199990142520600
+Worst Value: 11619.583151207999000
+Mean: 9.790914213744834e+03
+
+Running Time for this trial: 7.362952735573334e+03
+
+
+Trial: 4
+
+  Columns 1 through 16
+
+    95    23    50    63    96   105    51    77   127     1    91    32   100    62    61    65
+
+  Columns 17 through 32
+
+    89    87    92    78    53   116    49   113    42    86   117    85   125     5    56    28
+
+  Columns 33 through 48
+
+    17   119    81   106    88     3    46    15    84     9   111   129    37    72    90    13
+
+  Columns 49 through 64
+
+    93     7   110   103    34    71    27    24    30    94    97    82    54    52    45    59
+
+  Columns 65 through 80
+
+   120    43    48    16    60    25    36    10    47    58   118    66     2    70    39    20
+
+  Columns 81 through 96
+
+   109    11    83    12    64    35    75    19    98    26     6     4    76    41   101    18
+
+  Columns 97 through 112
+
+    80    55    79    40    21   108   124   107    99   121    22     8    68    33    67    14
+
+  Columns 113 through 128
+
+   126   114   128    69    74    38   104   123    31    44    73   112    29   102   115    57
+
+  Column 129
+
+   122
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9234.570142257154700
+Worst Value: 10863.627654289365000
+Mean: 9.311080414322591e+03
+
+Running Time for this trial: 6.802072241066667e+03
+
+
+Trial: 5
+
+  Columns 1 through 16
+
+    43    73    79    88   109   104    18    52    90    35    29    72     9   125    45    50
+
+  Columns 17 through 32
+
+    22   115    77    97    84     4    64   106    81   102    57    10   118    54   120   127
+
+  Columns 33 through 48
+
+    21     3   129   116    89    26   117   114    94    24    32    75   103    19   110    60
+
+  Columns 49 through 64
+
+   108     1    51    53    30     6    91   122   111    93   124    14    31   112    86    28
+
+  Columns 65 through 80
+
+    96    95    33    34    12   126   128   100   105    59     8    16   107    87    49    68
+
+  Columns 81 through 96
+
+    15    38    74    55    69    58    20    82    92    85   123   121    40   101    17    65
+
+  Columns 97 through 112
+
+    23    71    62    44    66    47    48    70    25    63   119     2     7    61    99    41
+
+  Columns 113 through 128
+
+    27    67    36    78    37    80    13    46    39    98    76    42     5    56    83    11
+
+  Column 129
+
+   113
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9508.776738122196500
+Worst Value: 11511.212093067104000
+Mean: 1.041765364061317e+04
+
+Running Time for this trial: 6.207665879466666e+03
+
+
+Trial: 6
+
+  Columns 1 through 16
+
+   103    61   106    47   108    83    16    11    30   114   110    21    29   112    52     4
+
+  Columns 17 through 32
+
+    70   101    90    24    57    56    53    91    26    86     8   116    92    60    45    82
+
+  Columns 33 through 48
+
+   119   129   128    42    48   121    15   109    35    96    68    34    44    95    89   113
+
+  Columns 49 through 64
+
+    67    58    59    65   124     7    72    64    93    74   125    18    12    84    17     6
+
+  Columns 65 through 80
+
+     2    79    39     9   123     5    80   122    31    14    63    69   127    62    76    43
+
+  Columns 81 through 96
+
+    37    32    19   102    98    85   104    77    36   117    38    51    28    55    73    10
+
+  Columns 97 through 112
+
+    27   105    46    40    94     1    78    88    81   100    13    25    20   126   107    66
+
+  Columns 113 through 128
+
+    23    71    75    54    99     3    87   120   111   118    49    22   115    33    50    97
+
+  Column 129
+
+    41
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9331.312946165833600
+Worst Value: 11289.396851385402000
+Mean: 9.429122703117571e+03
+
+Running Time for this trial: 6.527234309120000e+03
+
+
+Trial: 7
+
+  Columns 1 through 16
+
+   121   100    51    10    58   117    54    25    79    19    87    14    20    18   129    30
+
+  Columns 17 through 32
+
+    55    98    74    46    45    82    89    23     5    61    94    92   120    96   127    80
+
+  Columns 33 through 48
+
+    53    52    83   108   128    24    91    63    48    33   119    41   126    64    50     8
+
+  Columns 49 through 64
+
+   123    71   102    84    86    29    34    15    37    57     1    49    16    47   110    76
+
+  Columns 65 through 80
+
+    39     6   118    43   116    27    70    40    56   125    28     7    59   122    68     9
+
+  Columns 81 through 96
+
+   112    36    90    44    97   105    35     3    95     2    12    42   106    93    67    26
+
+  Columns 97 through 112
+
+    21    81    72    11    69   111    78   113    66    88   103   115    77    31   109    17
+
+  Columns 113 through 128
+
+   104   107   101    65    13    22    62    60   114    99    32   124    38    85     4    75
+
+  Column 129
+
+    73
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 8992.420760045137300
+Worst Value: 10671.988240495524000
+Mean: 9.055483574195861e+03
+
+Running Time for this trial: 7.602060354560000e+03
+
+
+Trial: 8
+
+  Columns 1 through 16
+
+    35   126    49    96    55   123    26   125    25    67    27    50    17    30    16   102
+
+  Columns 17 through 32
+
+    51    99   101   118   122    22    39    84    81    71   112    38    42    88    64   113
+
+  Columns 33 through 48
+
+    60    79    83    90     3    34    73     1    93    63    91   115     8    43    56   127
+
+  Columns 49 through 64
+
+    78     2    29   103    80    46   105    70    77    11    20   109    62    48    52    66
+
+  Columns 65 through 80
+
+    57    33    28    10   111    23     4   114    58    37    14    68   100    36    97   117
+
+  Columns 81 through 96
+
+    85    94    19    72     7    12   119    45    69    31    53    76    95    59   104    18
+
+  Columns 97 through 112
+
+    44    24   121   128   124   120    87     9    40   107     5    41   108    32   116    74
+
+  Columns 113 through 128
+
+     6    15   129    86    98    47    89    61    21   106    92    65   110    82    13    54
+
+  Column 129
+
+    75
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9507.907356922098200
+Worst Value: 10022.061830738601000
+Mean: 9.520980118767515e+03
+
+Running Time for this trial: 6.712796698026667e+03
+
+
+Trial: 9
+
+  Columns 1 through 16
+
+    72   124    33     4    96   123     5    26    37    80     3    73   122    81    20    86
+
+  Columns 17 through 32
+
+   102    45    67    60    74    85     7    42   117    92    58   112    76    18   118    34
+
+  Columns 33 through 48
+
+     8    68    63    39   115    64    89    77   119    98    78    79    52    94    36   127
+
+  Columns 49 through 64
+
+   106    23    16     6   126    31    83     9    88    38    21    17    40   100     2    54
+
+  Columns 65 through 80
+
+   111    93    51   129    22    15    65   108    70    35    87   110    90    46   101    14
+
+  Columns 81 through 96
+
+    41   125    24    69    25   113    19   103    62    82    48    10    30    57    49   109
+
+  Columns 97 through 112
+
+   128    13    53    11    55    71    75   104    47   116    59    44    56    28    91    84
+
+  Columns 113 through 128
+
+    43    97   121    99   114     1    32   120    61    50   107    12    95    27   105    66
+
+  Column 129
+
+    29
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 9213.732808739350700
+Worst Value: 11567.039942321395000
+Mean: 9.466381443793493e+03
+
+Running Time for this trial: 6.487126694826667e+03
+
+
+Trial: 10
+
+  Columns 1 through 16
+
+    92    22    81    89    83    69    28    87    54    42     7   121   101    74    84   112
+
+  Columns 17 through 32
+
+    99    31    62    85    93   107    30    78    79    48     2     8    95    52   113    56
+
+  Columns 33 through 48
+
+    20    43    24     6    47   117    19    94    25    96    50    11    12    10    97   122
+
+  Columns 49 through 64
+
+   106     3    37   108    26   116   105    16    51   127     9   102   110    57   115    39
+
+  Columns 65 through 80
+
+    18    27    77    71    45    36    46   103    15   125     1    38    82    13    21   111
+
+  Columns 81 through 96
+
+    72    88   120   129    68    53   100    58    14   123     5    73   124    23    40    86
+
+  Columns 97 through 112
+
+    76    17    29    33    34    65    59    60    49     4   114    61    35    41   104   128
+
+  Columns 113 through 128
+
+    67   118   109    32    55   126    70    80    90    75    63    98    66    91    64   119
+
+  Column 129
+
+    44
+
+Did Not Converge!
+Number of Iterations: 400
+Best Value: 8978.656760045136300
+Worst Value: 11444.482527686916000
+Mean: 9.194339952995329e+03
+
+Running Time for this trial: 6.179872370773333e+03
+
+
+
+Best OverAll Value: 8978.656760045136300
+Mean: 9311.975204705955500
+Median: 9302.425989294157300
+Standard Deviation:213.813355639931790
+Worst Best Overall Value: 9548.199990142520600
+Number of Converged Runs: 0
+Ratio of Convergence: 0.000000000000000e+00
+Total Running Time for all trials: 6.911215989674667e+04
+Average running time: 6.911215989674667e+03
+
+
+MaxIt: 600
+
+
+Trial: 1
+
+  Columns 1 through 16
+
+    96   122   110    79    43   127    87    84   109    37    68    86    49    50   129    53
+
+  Columns 17 through 32
+
+    34   113   116     5    73    78    11    91     1    85   126     6    77    80   111    25
+
+  Columns 33 through 48
+
+   114    33    23    12     3    26    81    94    40    45   105    18    19    69    83    58
+
+  Columns 49 through 64
+
+    13   101    56   123    63   107   128    28   120    64    48    38    39     4    89   104
+
+  Columns 65 through 80
+
+    22    21    92    93    88    74    61   106    95    98    27     7    99    15    42    82
+
+  Columns 81 through 96
+
+    14   108    35    41    52    44    31    60    59    32   121    46    75    66    65   118
+
+  Columns 97 through 112
+
+    71   102     9    36    55    76   103    62    51     2    47    30    10   117    54    97
+
+  Columns 113 through 128
+
+    20   115   124   112    16    90    24     8   100    29    57    17   125    67    70    72
+
+  Column 129
+
+   119
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9098.846878545435200
+Worst Value: 10841.468654289363000
+Mean: 9.142513047939032e+03
+
+Running Time for this trial: 9.259433745493334e+03
+
+
+Trial: 2
+
+  Columns 1 through 7
+
+   127     6   115    48    29   120   106
+
+  Columns 8 through 14
+
+    77    80    78    34   126    19    14
+
+  Columns 15 through 21
+
+   109    81    49    10    57   103   112
+
+  Columns 22 through 28
+
+    62    75    84    58    11    71    41
+
+  Columns 29 through 35
+
+    33    54    92    99    73     8    20
+
+  Columns 36 through 42
+
+    24   100    76   124    47     5   121
+
+  Columns 43 through 49
+
+    79   101    70     1    37    43   108
+
+  Columns 50 through 56
+
+    21    40   102    42    35    86    97
+
+  Columns 57 through 63
+
+    52    28   128    27     3    51    59
+
+  Columns 64 through 70
+
+    45    53    22    30    90   123    95
+
+  Columns 71 through 77
+
+    67    91    85    36    32    44   116
+
+  Columns 78 through 84
+
+    17    55    46    87     2   129    93
+
+  Columns 85 through 91
+
+    65    88    72    66   117    31    56
+
+  Columns 92 through 98
+
+    16   111    39     4    74   107   119
+
+  Columns 99 through 105
+
+    64    18    98   104     9    94   114
+
+  Columns 106 through 112
+
+    12    69    15   125    61    68   122
+
+  Columns 113 through 119
+
+    96    82    83    23    60    50    38
+
+  Columns 120 through 126
+
+    26   110    89   105     7   118    25
+
+  Columns 127 through 129
+
+    13   113    63
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9098.927878545435300
+Worst Value: 11779.934178369662000
+Mean: 9.209317767040247e+03
+
+Running Time for this trial: 9.830042819840000e+03
+
+
+Trial: 3
+
+  Columns 1 through 7
+
+    77    72    46    19    87    59    97
+
+  Columns 8 through 14
+
+   101    34    70    99    80    65     6
+
+  Columns 15 through 21
+
+    42     5    14    15    21     9    55
+
+  Columns 22 through 28
+
+    90    82    23    86   114    26    41
+
+  Columns 29 through 35
+
+    32    94    22    71    18   111     3
+
+  Columns 36 through 42
+
+    44    10    38    67    25   123    66
+
+  Columns 43 through 49
+
+    61     4    30    28   106    81    60
+
+  Columns 50 through 56
+
+    75    29    17   109    68     1    96
+
+  Columns 57 through 63
+
+   126    91    62    51    24   121    49
+
+  Columns 64 through 70
+
+   107    33   119    35   104    73    43
+
+  Columns 71 through 77
+
+    52    20    31    37    27    78   129
+
+  Columns 78 through 84
+
+   120    69    84    11    39    57   125
+
+  Columns 85 through 91
+
+    48    98    93    47     7   128    76
+
+  Columns 92 through 98
+
+   127    83   102    79   113    12    13
+
+  Columns 99 through 105
+
+   117     2    36    88   122    16   116
+
+  Columns 106 through 112
+
+   110    54   118    45    63   112    64
+
+  Columns 113 through 119
+
+   105    50   103    56   124    58    89
+
+  Columns 120 through 126
+
+    95    53   115    74    40     8    85
+
+  Columns 127 through 129
+
+    92   108   100
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9407.552616448045200
+Worst Value: 11324.555930565770000
+Mean: 9.781690958639332e+03
+
+Running Time for this trial: 1.067571091114667e+04
+
+
+Trial: 4
+
+  Columns 1 through 16
+
+    49    12     1    77    75    88    51   100    80   127    82     8    67    84    79    76
+
+  Columns 17 through 32
+
+   117    55    98    32    99    70   108   128    68   119    73   104    64    65   103    69
+
+  Columns 33 through 48
+
+    47   118   109    71    91   122    63    60    29    13    39     6    35   105    94    15
+
+  Columns 49 through 64
+
+    40     2   112   116   123     7    93    19   120    34    18    86   121    30    66    92
+
+  Columns 65 through 80
+
+    17    96   113    43   102   110    22    24     4    37    50    97    36   101    87    31
+
+  Columns 81 through 96
+
+    57    72    74    85    28    83     9    48    10    53    89     5    58    54   125   107
+
+  Columns 97 through 112
+
+    44    27   111    42    81    38   129    41    26   115    11    95   114    33    16   126
+
+  Columns 113 through 128
+
+    62    21    90    45    46   106    78    56     3    20    23    25    14   124    59    52
+
+  Column 129
+
+    61
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 8952.554760045137300
+Worst Value: 10858.869036116752000
+Mean: 9.000414166946928e+03
+
+Running Time for this trial: 1.065823069824000e+04
+
+
+Trial: 5
+
+  Columns 1 through 16
+
+    95    68   122    49    23    28    81    51   108    94    12    39    35     5    22   119
+
+  Columns 17 through 32
+
+    96    45    31    20    75    99   107    34     1    74   123    79   125    97   105    46
+
+  Columns 33 through 48
+
+    72    10   124     3   118    64    43   104    78    85    57    65    42   102    29    86
+
+  Columns 49 through 64
+
+   113    77   111     6    55    98    26    69   127    53    11   109    71   115   114    91
+
+  Columns 65 through 80
+
+   116    73    76    61    88   126    70    32   100    47    89    80   103    52    50   121
+
+  Columns 81 through 96
+
+    21   101    40     8    54    92    63    93    17    33    30    56    24    66   117    60
+
+  Columns 97 through 112
+
+    44   120    25    90    19    48     2    62    13    18     9   106   110    58    36    37
+
+  Columns 113 through 128
+
+    16    83     7    59    84    41    82    87   112    27    15    67    14    38   129   128
+
+  Column 129
+
+     4
+
+Population Converged!
+Number of Iterations: 536
+Best Value: 8724.343495763452700
+Worst Value: 8724.343495763452700
+Mean: 8724.343495763450800
+Running Time for this trial: 1.041498203776000e+04
+
+
+Trial: 6
+
+  Columns 1 through 16
+
+    65    39    96   102     7    36    22    81   123    94    19    21   129   119   101     4
+
+  Columns 17 through 32
+
+    67    34    73     8    56   117    32    12     9    63    88    68    93    13    90    80
+
+  Columns 33 through 48
+
+    31   103   118   115   124    77   105    86   116    20    14    10    66    44     5    50
+
+  Columns 49 through 64
+
+   126    64   125    46    53    87    45    58   121    11   106    38    78   113    57    70
+
+  Columns 65 through 80
+
+    85   108   100    28    92   110    25    75    97    17    54    83   111    61     6   122
+
+  Columns 81 through 96
+
+    33    59    43    91    51   112    16   127    18    82    48    76    74    62    95    84
+
+  Columns 97 through 112
+
+   107   128    24    55    98   114    49    29    42    72    79    41    89    23    35    47
+
+  Columns 113 through 128
+
+    71    52    99    69    40    26    15    60     3   120   104     1    37    30     2   109
+
+  Column 129
+
+    27
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9533.766849784720800
+Worst Value: 11376.302426152221000
+Mean: 1.076398220624059e+04
+
+Running Time for this trial: 1.163233712768000e+04
+
+
+Trial: 7
+
+  Columns 1 through 8
+
+    60    12    68    72    59    46    87   108
+
+  Columns 9 through 16
+
+   110   120   109    38    30    83    44    31
+
+  Columns 17 through 24
+
+   121    79    10   125    92    23    84    45
+
+  Columns 25 through 32
+
+    17    54    89    78     5    98   112    22
+
+  Columns 33 through 40
+
+    52    90    32    91     1    21   115    99
+
+  Columns 41 through 48
+
+    55   106    37    34    76     9    15    96
+
+  Columns 49 through 56
+
+    40   103    65    53    77    47   113    81
+
+  Columns 57 through 64
+
+   102     6    41    64     3   124    26   117
+
+  Columns 65 through 72
+
+    29    28    43    73    74    11   118   107
+
+  Columns 73 through 80
+
+   129   114   127    27    62    39     8    42
+
+  Columns 81 through 88
+
+    57    86    35     4    33    20    66    75
+
+  Columns 89 through 96
+
+    85    49    94    19    50   126    67   122
+
+  Columns 97 through 104
+
+    25    14    71    13    61    36    93    51
+
+  Columns 105 through 112
+
+     2     7    97    80    24   119    16    18
+
+  Columns 113 through 120
+
+    48   101   128    88    70    69   104    63
+
+  Columns 121 through 128
+
+   123    95   116    58   105   111    56    82
+
+  Column 129
+
+   100
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9018.326878545434700
+Worst Value: 11291.135319015626000
+Mean: 9.153789647615764e+03
+
+Running Time for this trial: 1.183153128490667e+04
+
+
+Trial: 8
+
+  Columns 1 through 16
+
+    90    55    71    70   106    91    34    44   114    81    93    61    38    13    16   122
+
+  Columns 17 through 32
+
+    59   119    95   108    60    96   124    36    32   118    64   123    26   127    24    17
+
+  Columns 33 through 48
+
+    10   125    33    48    84     7    31    47    28    72   117    66    43    50    69    46
+
+  Columns 49 through 64
+
+    57    77    53    52    11    79    65    74    98    99    56    29    54    23    89    20
+
+  Columns 65 through 80
+
+    67    37     1    80    82    87   111   109    35   113    85     4     9    27    12    68
+
+  Columns 81 through 96
+
+    92    21   103    25    73    39     8    22    75    45   105    40    41    30   100   121
+
+  Columns 97 through 112
+
+   129   126   110   102    78   116    94   128   120   104   107     3    86     2     5     6
+
+  Columns 113 through 128
+
+    49    19    15    62    76    42   115    14    97    58   101   112    18    63    88    51
+
+  Column 129
+
+    83
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 8708.555749902885500
+Worst Value: 8708.555749902885500
+Mean: 8.708555749902889e+03
+
+Running Time for this trial: 1.470928921856000e+04
+
+
+Trial: 9
+
+  Columns 1 through 16
+
+     1     9    52     6   118    49    81    54   123    87    17    61    62    23   105    37
+
+  Columns 17 through 32
+
+   122    53   117   120   126    99    19    56    21    90    44    48    45    78    95    60
+
+  Columns 33 through 48
+
+    27   115    74    31    16   129    12    85   111    68    64    40     5    26    83    72
+
+  Columns 49 through 64
+
+     7     3    91    97    67    28   114   113   124    92    65    43    41    30    24   121
+
+  Columns 65 through 80
+
+    59   128   107   127   110   102   108    42     4    38    86    73    55    33    58    13
+
+  Columns 81 through 96
+
+    51   104     2    50    22    84    70   100    14    11    79    18    66    20   112   125
+
+  Columns 97 through 112
+
+   119    96    46   116     8    39    63    15    47    76    69    34    77    36    94    82
+
+  Columns 113 through 128
+
+   109    29   106    75    71   101    88    80    93    25    57    35    98    89   103    32
+
+  Column 129
+
+    10
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 8971.692920368073800
+Worst Value: 9249.818709041312100
+Mean: 8.978719065084903e+03
+
+Running Time for this trial: 1.228700349269333e+04
+
+
+Trial: 10
+
+  Columns 1 through 16
+
+    58    40    10    46   118     9    87    23    48   108   102   121    27     2    97    41
+
+  Columns 17 through 32
+
+    53   106    51    64    59    83   125   123    68   129    32    22   124    66    98    26
+
+  Columns 33 through 48
+
+    42   126    56    96    24    35     3    69    45   127    65    30    89    77   114    75
+
+  Columns 49 through 64
+
+    88    79    16     8     5    92    71    13     4    39    91    72   122   110    43    62
+
+  Columns 65 through 80
+
+   103    74    52   109   115    49   104    80   113    93   116    47    86     6    70    17
+
+  Columns 81 through 96
+
+    25   120    76    18   101   111    11    55    33   119    78    50    20   105    94    54
+
+  Columns 97 through 112
+
+    57   112    84    67     7    81    60    95    34    37   117    38    73    12    82   128
+
+  Columns 113 through 128
+
+    99   100    19    28   107    36    14    15    31    61    90    85    63     1    29    21
+
+  Column 129
+
+    44
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 9314.278788571356900
+Worst Value: 11426.097527686918000
+Mean: 9.367610332049249e+03
+
+Running Time for this trial: 1.344398622805333e+04
+
+
+
+Best OverAll Value: 8724.343495763452700
+Mean: 8724.343495763452700
+Median: 8724.343495763452700
+Standard Deviation:0.000000000000000
+Worst Best Overall Value: 8724.343495763452700
+Number of Converged Runs: 1
+Ratio of Convergence: 1.000000000000000e-01
+Total Running Time for all trials: 1.147425475643733e+05
+Average running time: 1.147425475643733e+04
+

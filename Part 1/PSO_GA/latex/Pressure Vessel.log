@@ -1,0 +1,527 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.19)  24 JAN 2018 10:00
+entering extended mode
+**"./Pressure Vessel.tex"
+("Pressure Vessel.tex"
+LaTeX2e <2017/01/01> patch level 1
+Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
+sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
+y"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
+sty"
+Package: graphics 2016/10/09 v1.0u Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
+ics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
+x.def"
+File: pdftex.def 2017/01/12 v0.06k Graphics/color for pdfTeX
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
+rr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
+.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
+"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color
+.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+) ("Pressure Vessel.aux")
+\openout1 = `"Pressure Vessel.aux"'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
+ii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count88
+\scratchdimen=\dimen105
+\scratchbox=\box26
+\nofMPsegments=\count89
+\nofMParguments=\count90
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count91
+\MPscratchDim=\dimen106
+\MPnumerator=\count92
+\makeMPintoPDFobject=\count93
+\everyMPtoPDFconversion=\toks16
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
+mds.sty"
+Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
+x.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
+ty"
+Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
+base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
+y"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
+ekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
+.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
+ys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Users\Lance\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
+s.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+Overfull \hbox (69.74638pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_
+MaxItr-GA_MinItr));[] 
+ []
+
+
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_Num
+Max-GA_NumMin));[] 
+ []
+
+
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS
+-GA_MinPS));[] 
+ []
+
+[1
+
+{C:/Users/Lance/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 [Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, ProbDim, F
+itVal);[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMi
+nMax);[] 
+ []
+
+
+Overfull \hbox (85.49625pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, ProbDim, 
+FitVal, Pbest, Gbest);[] 
+ []
+
+
+Overfull \hbox (232.49496pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 [TransPos, TransVel] = PSO_ChangeVel(PopNum, PosPop, Vel
+Pop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax);[] 
+ []
+
+
+Overfull \hbox (38.24666pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 TransFitVal = PSO_GetFitValues(PopNum, TransPos, ProbDim
+, DimMinMax);[] 
+ []
+
+[2]
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 235--235
+[]        \OT1/cmtt/m/n/10 % Generate a population with the first indiv being t
+he selected[] 
+ []
+
+
+Overfull \hbox (69.74638pt too wide) in paragraph at lines 235--235
+[]            \OT1/cmtt/m/n/10 GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, P
+robDim, DimMinMax);[] 
+ []
+
+
+Overfull \hbox (185.24538pt too wide) in paragraph at lines 235--235
+[]                \OT1/cmtt/m/n/10 [Parent1, Parent2] = GA_Selection(GA_PS, GA_
+Chroms, ProbDim, GA_FitVal, GA_RouWheel);[] 
+ []
+
+
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 235--235
+[]                \OT1/cmtt/m/n/10 SibRep = GA_CrossOver(Parent1, Parent2, GA_c
+ross, ProbDim);[] 
+ []
+
+
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 235--235
+[]                    \OT1/cmtt/m/n/10 SibRep = GA_Mutation(SibRep, DimMinMax, 
+ProbDim);[] 
+ []
+
+[3]
+Overfull \hbox (90.7462pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*
+(GA_MaxItr-GA_MinItr));[] 
+ []
+
+
+Overfull \hbox (74.99634pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA
+_NumMax-GA_NumMin));[] 
+ []
+
+
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_M
+axPS-GA_MinPS));[] 
+ []
+
+
+Overfull \hbox (64.49643pt too wide) in paragraph at lines 235--235
+[]        \OT1/cmtt/m/n/10 if PrevDiff - CurrDiff < AcceptThreshold && CurrDiff
+ < AcceptThreshold[] 
+ []
+
+
+Overfull \hbox (80.24629pt too wide) in paragraph at lines 235--235
+[]            \OT1/cmtt/m/n/10 g3 = -(pi*(Gbest(3)^2)*Gbest(4)) - ((4/3)*pi*(Gb
+est(3)^3)) + 1296000;[] 
+ []
+
+
+Overfull \hbox (956.98865pt too wide) in paragraph at lines 235--235
+[]            \OT1/cmtt/m/n/10 X = sprintf('Population Converged!\nNumber of It
+erations: %0.15f\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15
+f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\n',PSO_Curr,Gbest(ProbDim+1),
+Gbest(1:ProbDim),g1,g2,g3,g4);[] 
+ []
+
+
+Overfull \hbox (38.24666pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 g3 = -(pi*(Gbest(3)^2)*Gbest(4)) - ((4/3)*pi*(Gbest(3)^3
+)) + 1296000;[] 
+ []
+
+
+Overfull \hbox (893.9892pt too wide) in paragraph at lines 235--235
+[]    \OT1/cmtt/m/n/10 X = sprintf('Did Not Converge!\nNumber of Iterations: %0
+.15f\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15
+f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\n',PSO_Curr,Gbest(ProbDim+1),Gbest(1:Prob
+Dim),g1,g2,g3,g4);[] 
+ []
+
+[4]
+Overfull \hbox (248.24483pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 % g1 = 85.334407 + 0.0056858*Gbest( 2)*Gbest( 5) + 0.0006262
+*Gbest( 1)*Gbest( 4) - 0.0022053*Gbest( 3)*Gbest( 5);[] 
+ []
+
+
+Overfull \hbox (200.99524pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 % g2 = 80.51249 + 0.0071317*Gbest( 2)*Gbest( 5) + 0.0029955*
+Gbest( 1)*Gbest( 2) - 0.0021813*Gbest( 3)^2;[] 
+ []
+
+
+Overfull \hbox (242.99487pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 % g3 = 9.300961 + 0.0047026*Gbest( 3)*Gbest( 5) + 0.0012547*
+Gbest( 1)*Gbest( 3) + 0.0019085*Gbest( 3)*Gbest( 4);[] 
+ []
+
+
+Overfull \hbox (794.24007pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 % X = sprintf('Best Value: %d\nBest Position: %d %d %d %d %d
+\nConstraints:\nG1: %d\n G2: %d\n G3: %dMean: %d\nMedian %d\nStandard Deviation
+: %d\nWorst Value: %d\n',PSO_Curr,Gbest(ProbDim+1),Gbest(1:ProbDim),g1,g2,g3);[
+] 
+ []
+
+
+Overfull \hbox (1733.98187pt too wide) in paragraph at lines 235--235
+[]\OT1/cmtt/m/n/10 X = sprintf('\n\nBest OverAll Value: %0.15f\nPosition: %0.15
+f %0.15f %0.15f %0.15f\nConstraints:\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %
+0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Overall V
+alue: %0.15f', Best, Ans(BesInd, 1), Ans(BesInd, 2), Ans(BesInd, 3), Ans(BesInd
+, 4), Ans(BesInd, 6), Ans(BesInd, 7), Ans(BesInd, 8), Ans(BesInd, 9), Mean, Med
+ian, StdDev, Worst);[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.974142663601552 0.479500274832428 50.473713
+139973256 94.630710102925477[] 
+ []
+
+[5]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.778168641383470 0.383036377883055 40.319618
+724532091 199.999999993967120[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 1.004337437280571 0.494362987262457 52.038209
+185521787 82.954490722096239[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.799244013095071 0.393472246273199 41.411597
+865626973 185.337744016118990[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.856284083110852 0.421503175674648 44.360203
+763879099 150.490123425416810[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.799599890831761 0.393585297553328 41.430020
+811565775 185.099306958752550[] 
+ []
+
+[6]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.876872718675961 0.430141383180968 45.278040
+334551783 140.853329133747560[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.904753000325718 0.445088385168432 46.850925
+555199424 125.471907313615490[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.779240251964442 0.384207833816176 40.319618
+724131423 199.999999999545280[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.897663687071498 0.441855182755401 46.511071
+868989525 128.681610336575350[] 
+ []
+
+[7]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.786651391743123 0.387212092758755 40.759139
+432587567 193.970717570438210[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.830394797660820 0.409256595463213 43.006236
+693319764 165.703225356577800[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.857907027730247 0.422285842665148 44.451141
+333173432 149.512005143074820[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.861311425074148 0.426184729882802 44.572443
+775584368 148.215437974300900[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.999897808251834 0.493751493799536 51.808176
+524602040 84.616998094233338[] 
+ []
+
+[8]
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.993602738256051 0.489079068053497 51.482007
+163525964 87.005554182370943[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.990470734553036 0.487533446553123 51.319310
+163486570 88.210947369335358[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.779390025544754 0.387197184650815 40.319618
+724098731 199.999999999999770[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.884012526205397 0.435135698555104 45.803757
+742642560 135.559740874396450[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.923920377824140 0.454779460590032 47.871522
+167030321 116.182971304097680[] 
+ []
+
+[9]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.841867348663343 0.413519527887044 43.528369
+621284263 159.688190620910320[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.825133139469621 0.406153617873647 42.753012
+407752358 168.690853142444920[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.784417112859033 0.384329372409025 40.455722
+503901242 198.113971955401840[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.929687243354160 0.457618073153602 48.170323
+489852834 113.558265151175630[] 
+ []
+
+[10]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.837748796273313 0.412262599265015 43.395904
+777162023 161.196044836386560[] 
+ []
+
+
+Overfull \hbox (116.99597pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.980794181930193 0.482774338255795 50.818351
+395346788 91.982310273175415[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.778168642325347 0.383036378357710 40.319618
+773334021 199.999999369337250[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.951209076472837 0.468211721579951 49.285444
+376828941 104.117390390976180[] 
+ []
+
+
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.780150759032813 0.383036903623740 40.319674
+065656827 199.999999999999770[] 
+ []
+
+[11]
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Best Position: 0.948060097465768 0.471575701160376 49.120459
+894838469 105.480135364846520[] 
+ []
+
+
+Overfull \hbox (95.99615pt too wide) in paragraph at lines 550--550
+[]\OT1/cmtt/m/n/10 Position: 0.778168641383470 0.383036377883055 40.31961872453
+2091 199.999999993967120[] 
+ []
+
+[12] ("Pressure Vessel.aux") ) 
+Here is how much of TeX's memory you used:
+ 1505 strings out of 493333
+ 22514 string characters out of 3130143
+ 86292 words of memory out of 3000000
+ 5052 multiletter control sequences out of 15000+200000
+ 3808 words of font info for 15 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 39i,5n,25p,423b,241s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Lance/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Lance/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on "Pressure Vessel.pdf" (12 pages, 44908 bytes).
+PDF statistics:
+ 49 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

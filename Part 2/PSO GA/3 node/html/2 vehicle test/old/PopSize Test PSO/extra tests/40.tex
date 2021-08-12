@@ -1,0 +1,754 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
+%LICNACHAN, LANCE OLIVER C.
+%2014-64880
+
+format long;
+% rng('shuffle');
+% rune=1;
+% while rune <= 3
+    CurPopNum = 40;
+%     if rune == 2
+%         CurPopNum = 120;
+%     elseif rune == 3
+%         CurPopNum = 360;
+%     end
+%     Y = sprintf('\nCurPopNum: %d\n',CurPopNum);
+%     disp(Y);
+%
+%     mun=1;
+%     while mun <= 3
+%     Y = sprintf('\nMaxIt: %d\n',(CurPopNum*(5*mun)));
+%     disp(Y);
+
+
+        ProbDim = 4;
+        ConsNum = 0;
+        RunMax = 20;
+
+        convRuns=0;
+        Ans = zeros(RunMax, ProbDim+ConsNum+1+1);
+        timeRec = zeros(RunMax,1);
+
+        for trials = 1:RunMax
+        tic;
+        Y = sprintf('\nTrial: %d\n',trials);
+        disp(Y);
+
+        % Variables specific to the problem
+
+        DimMinMax = zeros(ProbDim, 2);
+        DimMinMax(1, :) = [0 1];
+        DimMinMax(2, :) = [0 1];
+        DimMinMax(3, :) = [0 1];
+        DimMinMax(4, :) = [0 1];
+
+        % Variables specific to the algorithm
+        AcceptThreshold = 1e-5;
+        PopNum = CurPopNum;
+        % PopNum = 200;
+        PSO_Curr = 1;
+        PSO_Max = CurPopNum*5;
+        c1 = 1.49445;
+        c2 = 1.49445;
+        wmax = 0.9;
+        wmin = 0.4;
+        Tao = zeros(PopNum, 1);
+
+        GA_cross = 0.85;
+        GA_mut = 0.02;
+        GA_y = 10;
+        GA_B = 15;
+        GA_NumMax = 5;
+        GA_NumMin = 1;
+        GA_MinPS = 10;
+        GA_MaxPS = 5;
+        GA_MinItr = 10;
+        GA_MaxItr = 15;
+        GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+        GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+        GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+        TransPos = zeros(PopNum, ProbDim);
+        TransVel = zeros(PopNum, ProbDim);
+
+        % Initialization Step
+        [PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimMinMax);
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        [Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, ProbDim, FitVal);
+
+        PrevDiff = 0;
+        while PSO_Curr <= PSO_Max
+        %     disp(Gbest(ProbDim+1));
+
+            % Evaluate
+            FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        %
+%             clf;    %clear frame
+%             figure(1);
+%             hold on;
+%             posit = 1:PopNum;
+%             plot(posit,FitVal,'.r','MarkerSize', 10);
+%             M(PSO_Curr)=getframe(gca);
+
+            if(PSO_Curr == 1)
+                PrevDiff = max(FitVal) - min(FitVal);
+            else
+                CurrDiff = max(FitVal) - min(FitVal);
+                % disp(CurrDiff);
+                % Check for population convergence
+                if PrevDiff - CurrDiff < AcceptThreshold && CurrDiff < AcceptThreshold && PSO_Curr < PSO_Max
+                    for i = 1:PopNum
+                        if min(FitVal) == FitVal(i)
+                            minInd = i;
+                        end
+                        if max(FitVal) == FitVal(i)
+                            maxInd = i;
+                        end
+                    end
+                    mPos = mean(FitVal);
+                    disp(PosPop(minInd,:));
+                    seq_route = ObtainSequence(PosPop(minInd,:), ProbDim);
+                    disp(seq_route);
+                    X = sprintf('Population Converged!\nNumber of Iterations: %d\nBest Value: %0.15f\nWorst Value: %0.15f\nMean: %0.15f',PSO_Curr,FitVal(minInd),FitVal(maxInd),mPos);
+                    disp(X);
+                    convRuns = convRuns + 1;
+                    break;
+                end
+                PrevDiff = CurrDiff;
+            end
+
+            if(PSO_Curr == PSO_Max)
+                % if max gen reached
+                break;
+            end
+
+            % Get best values
+            [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, ProbDim, FitVal, Pbest, Gbest);
+
+            % Change value according to how current iteration
+            w = wmax-(wmax-wmin)*(PSO_Curr/PSO_Max);
+
+            % Calculate new velocities and move
+            [Tao, TransPos, TransVel] = PSO_ChangeVel(PopNum, PosPop, VelPop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax, Tao);
+
+            % Evaluate
+            TransFitVal = PSO_GetFitValues(PopNum, TransPos, ProbDim, DimMinMax);
+
+%             % GA Portion
+%             PSO_Arranged = sort(TransFitVal);
+%             GA_Num_Curr = 1;
+%             while GA_Num_Curr <= GA_Num
+%                 % Get one from best individuals
+%                 for RowNum = 1:PopNum
+%                     if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+%                        Sel_Indiv = TransPos(RowNum, :);
+%                        break;
+%                     end
+%                 end
+%
+%                 % Generate a population with the first indiv being the selected
+%                 % chromosome
+%                 GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMinMax);
+%                 GA_Chroms(1, :) = Sel_Indiv;
+%
+%                 GA_Fit_Elite = PSO_Arranged(GA_Num_Curr);
+%                 GA_Fit_Chrom = Sel_Indiv;
+%                 GA_Curr = 1;
+%                 while GA_Curr <= GA_MaxItr
+%                     % Get Fitness
+%                     GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+%                     TransPop = zeros(GA_PS, ProbDim);
+%
+%                     % Keep Elite
+%                     for i = 1:GA_PS
+%                         if GA_Fit_Elite < GA_FitVal(i)
+%                             GA_Chroms(i,:)=GA_Fit_Chrom;
+%                         end
+%                     end
+%
+%                     % Create Wheel
+%                     GA_RouWheel = GA_CreateWheel(GA_PS, GA_FitVal);
+%
+%                     % Create the population
+%                     for i = 1:GA_PS
+%                         % Select 2 Parents
+%                         [Parent1, Parent2] = GA_Selection(GA_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);
+%                         % Cross-over
+%                         SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim);
+%                         % Mutate
+%                         if rand() <= GA_mut
+%                             SibRep = GA_Mutation(SibRep, DimMinMax, ProbDim);
+%                         end
+%                         % Place
+%                         TransPop(i, :) = SibRep;
+%                     end
+%
+%
+%                     GA_Chroms = TransPop;
+%                     GA_Curr = GA_Curr + 1;
+%                 end
+%                 % Obtain current best
+%                 Arranged = sort(GA_FitVal);
+%                 if Arranged(1) < GA_Fit_Elite
+%                     GA_Fit_Elite = Arranged(1);
+%                     for i = 1:GA_PS
+%                         if Arranged(1) == GA_FitVal(i)
+%                             GA_Fit_Chrom = GA_Chroms(i,:);
+%                         end
+%                     end
+%                 end
+%                 % Replace the individual
+%                 for RowNum = 1:PopNum
+%                     if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+%                         TransPos(RowNum,:) = GA_Fit_Chrom(1,:);
+%                         break;
+%                     end
+%                 end
+%                 GA_Num_Curr = GA_Num_Curr + 1;
+%             end
+%
+%             % Update GA_Vars
+%             GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+%             GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+%             GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+            PosPop = TransPos;
+            VelPop = TransVel;
+            PSO_Curr = PSO_Curr + 1;
+        end
+
+        if PSO_Curr >= PSO_Max
+            for i = 1:PopNum
+                if min(FitVal) == FitVal(i)
+                    minInd = i;
+                end
+                if max(FitVal) == FitVal(i)
+                    maxInd = i;
+                end
+            end
+
+            disp(PosPop(minInd,:));
+            seq_route = ObtainSequence(PosPop(minInd,:), ProbDim);
+            disp(seq_route);
+            mPos = mean(FitVal);
+            X = sprintf('Did Not Converge!\nNumber of Iterations: %d\nBest Value: %0.15f\nWorst Value: %0.15f\nMean: %0.15e\n',PSO_Curr,FitVal(minInd),FitVal(maxInd),mPos);
+            disp(X);
+        end
+            %movie(M,1,120);
+
+            if PSO_Curr >= PSO_Max
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) 0];
+            else % Converged
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) 1];
+            end
+
+            timeRec(trials) = toc;
+            X = sprintf('Running Time for this trial: %0.15e\n', timeRec(trials));
+            disp(X);
+        end
+        if convRuns > 0
+            % Get Best Fit
+            ConvVals = zeros(convRuns,1);
+            i=1;
+            for o = 1:RunMax
+                if(Ans(o,ProbDim+ConsNum+1+1) == 1)
+                    ConvVals(i) = Ans(o,ProbDim+1);
+                    i=i+1;
+                end
+            end
+
+            Best = min(ConvVals);
+            for o = 1:RunMax
+                if min(ConvVals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                    break;
+                end
+            end
+
+            % Generate Stats
+            Mean = mean(ConvVals);
+            StdDev = std(ConvVals);
+            Median = median(ConvVals);
+            Worst = max(ConvVals);
+
+        else
+            % Get Best Fit
+            Vals = zeros(RunMax,1);
+            for o = 1:RunMax
+                Vals(o) = Ans(o,ProbDim+1);
+            end
+
+            % Generate Stats
+            Mean = mean(Vals);
+            StdDev = std(Vals);
+            Median = median(Vals);
+            Worst = max(Vals);
+            Best = min(Vals);
+
+            % Get index of best run
+            BesInd = 0;
+            for o = 1:RunMax
+                if min(Vals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                end
+            end
+        end
+
+        ConvRatio = convRuns/RunMax;
+        totalTime = sum(timeRec);
+        aveTime = mean(timeRec);
+
+        X = sprintf('\n\nBest OverAll Value: %0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Best Overall Value: %0.15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\nTotal Running Time for all trials: %0.15e\nAverage running time: %0.15e\n', Best, Mean, Median, StdDev, Worst, convRuns, ConvRatio, totalTime, aveTime);
+        disp(X);
+
+
+%         mun=mun+1;
+%     end
+%     rune = rune+1;
+% end
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+Trial: 1
+
+  Columns 1 through 3
+
+   0.721163805872750   0.912678827680306   0.413135464089156
+
+  Column 4
+
+   0.022437360957701
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 96
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 4.009439577360887e-01
+
+
+Trial: 2
+
+  Columns 1 through 3
+
+   0.720423281462961   0.830987938869361   0.581392224477780
+
+  Column 4
+
+   0.533152801427296
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 700.000000000000000
+Mean: 4.285000000000000e+02
+
+Running Time for this trial: 8.248293652605292e-01
+
+
+Trial: 3
+
+  Columns 1 through 3
+
+   0.687702937559268   0.872481836511257   0.286238234560739
+
+  Column 4
+
+   0.911044340042160
+
+     0     3     1     2     4     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 700.000000000000000
+Mean: 4.292500000000000e+02
+
+Running Time for this trial: 7.610320047069887e-01
+
+
+Trial: 4
+
+  Columns 1 through 3
+
+   0.341663263328208   0.391802841124060   0.241380092188120
+
+  Column 4
+
+   0.736075724454782
+
+     0     3     1     2     4     0
+
+Population Converged!
+Number of Iterations: 188
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 7.051126208480516e-01
+
+
+Trial: 5
+
+  Columns 1 through 3
+
+   0.519336548903531   0.870180056416251   0.481856974582104
+
+  Column 4
+
+   0.464276623606070
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 480.000000000000000
+Mean: 4.230000000000000e+02
+
+Running Time for this trial: 7.486437327546593e-01
+
+
+Trial: 6
+
+  Columns 1 through 3
+
+   0.705989710387281   0.875159992154587   0.372014390264243
+
+  Column 4
+
+   0.206801792093943
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 98
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 3.742905063639494e-01
+
+
+Trial: 7
+
+  Columns 1 through 3
+
+   0.755350496694742   0.865916183341172   0.749556666487995
+
+  Column 4
+
+   0.359335523269722
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 187
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 7.196082003661655e-01
+
+
+Trial: 8
+
+  Columns 1 through 3
+
+   0.368917187198219   0.475817392957698   0.149374661543191
+
+  Column 4
+
+   0.966685203879182
+
+     0     3     1     2     4     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 4.200000000000000e+02
+
+Running Time for this trial: 7.838399077716940e-01
+
+
+Trial: 9
+
+  Columns 1 through 3
+
+   0.655077772210513   0.979139445971931   0.193038485704910
+
+  Column 4
+
+   0.092340915443717
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 700.000000000000000
+Mean: 4.285000000000000e+02
+
+Running Time for this trial: 7.724675295861460e-01
+
+
+Trial: 10
+
+  Columns 1 through 3
+
+   0.605563741329402   0.807907135194922   0.358067004699831
+
+  Column 4
+
+   0.234184181694255
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 690.000000000000000
+Mean: 4.340000000000000e+02
+
+Running Time for this trial: 7.691100881536376e-01
+
+
+Trial: 11
+
+  Columns 1 through 3
+
+   0.423952023861810   0.456639927719209   0.262947133203476
+
+  Column 4
+
+   0.925462854078369
+
+     0     3     1     2     4     0
+
+Population Converged!
+Number of Iterations: 141
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 5.438572987124475e-01
+
+
+Trial: 12
+
+  Columns 1 through 3
+
+   0.429577382311376   0.801179025305321   0.280534125464146
+
+  Column 4
+
+   0.176381295357593
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 700.000000000000000
+Mean: 4.425000000000000e+02
+
+Running Time for this trial: 7.594115240155835e-01
+
+
+Trial: 13
+
+  Columns 1 through 3
+
+   0.813806792888092   0.884157688070718   0.704906639793041
+
+  Column 4
+
+   1.002787489258692
+
+     0     3     1     2     4     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 700.000000000000000
+Mean: 4.285000000000000e+02
+
+Running Time for this trial: 7.709298222633908e-01
+
+
+Trial: 14
+
+  Columns 1 through 3
+
+   0.784653610322820   0.928967586101272   0.359148603959496
+
+  Column 4
+
+   0.249850569851968
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 670.000000000000000
+Mean: 4.300000000000000e+02
+
+Running Time for this trial: 7.762239045221993e-01
+
+
+Trial: 15
+
+  Columns 1 through 3
+
+   0.626739875613814   0.905427196120738   0.329842781534836
+
+  Column 4
+
+   0.271693288649846
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 86
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 3.220647774143050e-01
+
+
+Trial: 16
+
+  Columns 1 through 3
+
+   0.746441812115703   0.820259703915521   0.537474614182003
+
+  Column 4
+
+   0.392526295526390
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 77
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 2.910298841727506e-01
+
+
+Trial: 17
+
+  Columns 1 through 3
+
+   0.721142017304627   0.910674337657160   0.640294622740900
+
+  Column 4
+
+   0.225769099902036
+
+     0     4     3     1     2     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 480.000000000000000
+Mean: 4.230000000000000e+02
+
+Running Time for this trial: 7.735329167073778e-01
+
+
+Trial: 18
+
+  Columns 1 through 3
+
+   0.942847242600733   0.959789012830078   0.808182656726251
+
+  Column 4
+
+   0.517138363594632
+
+     0     4     3     1     2     0
+
+Population Converged!
+Number of Iterations: 105
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 4.079084407076014e-01
+
+
+Trial: 19
+
+  Columns 1 through 3
+
+   0.344490816183067   0.406125077506304   0.254979318870455
+
+  Column 4
+
+   0.961634031574061
+
+     0     3     1     2     4     0
+
+Did Not Converge!
+Number of Iterations: 200
+Best Value: 420.000000000000000
+Worst Value: 670.000000000000000
+Mean: 4.347500000000000e+02
+
+Running Time for this trial: 7.544929085836410e-01
+
+
+Trial: 20
+
+  Columns 1 through 3
+
+   0.260244771623992   0.413357782233669   0.103246202084218
+
+  Column 4
+
+   0.800828364597872
+
+     0     3     1     2     4     0
+
+Population Converged!
+Number of Iterations: 94
+Best Value: 420.000000000000000
+Worst Value: 420.000000000000000
+Mean: 420.000000000000000
+Running Time for this trial: 3.631007415896497e-01
+
+
+
+Best OverAll Value: 420.000000000000000
+Mean: 420.000000000000000
+Median: 420.000000000000000
+Standard Deviation:0.000000000000000
+Worst Best Overall Value: 420.000000000000000
+Number of Converged Runs: 9
+Ratio of Convergence: 4.500000000000000e-01
+Total Running Time for all trials: 1.262243013223686e+01
+Average running time: 6.311215066118427e-01
+
+\end{verbatim} \color{black}
+    
+
+
+\end{document}
+    

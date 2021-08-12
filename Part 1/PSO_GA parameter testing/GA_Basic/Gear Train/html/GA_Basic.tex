@@ -1,0 +1,601 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
+%LICNACHAN, LANCE OLIVER C.
+%2014-64880
+
+format long;
+% rng('shuffle');
+
+ProbDim = 4;
+ConsNum = 1;
+RunMax = 30;
+
+convRuns=0;
+Ans = zeros(RunMax, ProbDim+ConsNum+1+1);
+timeRec = zeros(RunMax,1);
+for trials = 1:RunMax
+tic;
+Y = sprintf('Trial: %d',trials);
+disp(Y);
+% Variables specific to the problem
+DimMinMax = zeros(ProbDim, 2);
+DimMinMax(1, :) = [12 60];
+DimMinMax(2, :) = [12 60];
+DimMinMax(3, :) = [12 60];
+DimMinMax(4, :) = [12 60];
+
+% Variables specific to the algorithm
+AcceptThreshold = 1e-6;
+GA_cross = 0.85;
+GA_mut = 0.02;
+GA_Curr = 1;
+GA_MaxItr = 500;
+GA_PS = 20*ProbDim; % Population Size
+
+GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMinMax);
+
+PrevDiff = 0;
+while GA_Curr <= GA_MaxItr
+    GA_FitVal = GA_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+
+    if(GA_Curr == 1)
+        PrevDiff = max(GA_FitVal) - min(GA_FitVal);
+    else
+        CurrDiff = max(GA_FitVal) - min(GA_FitVal);
+        % Check for population convergence
+        if PrevDiff - CurrDiff < AcceptThreshold && CurrDiff < AcceptThreshold
+            for i = 1:GA_PS
+                if min(GA_FitVal) == GA_FitVal(i)
+                    minInd = i;
+                end
+                if max(GA_FitVal) == GA_FitVal(i)
+                    maxInd = i;
+                end
+            end
+            GearRatio_b = (GA_Chroms(minInd, 1)*GA_Chroms(minInd, 2))/(GA_Chroms(minInd, 3)*GA_Chroms(minInd, 4));
+            GearRatio_w = (GA_Chroms(maxInd, 1)*GA_Chroms(maxInd, 2))/(GA_Chroms(maxInd, 3)*GA_Chroms(maxInd, 4));
+            mPos = mean(GA_FitVal);
+            X = sprintf('Population Converged!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nGear Ratio: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nGear Ratio: %0.15f\nMean: %0.15e\n',GA_Curr,GA_FitVal(minInd),GA_Chroms(minInd, :),GearRatio_b,GA_FitVal(maxInd),GA_Chroms(maxInd, :),GearRatio_w,mPos);
+            disp(X);
+            convRuns = convRuns + 1;
+            break;
+        end
+        PrevDiff = CurrDiff;
+    end
+
+    if(GA_Curr == GA_MaxItr)
+        % if max gen reached
+        break;
+    end
+
+
+    TransPop = zeros(GA_PS, ProbDim);
+
+    Arranged = sort(GA_FitVal);
+    % Keep half
+    for RowNum = 1:ceil(GA_PS/2)
+        for i = 1:GA_PS
+            if Arranged(RowNum) == GA_FitVal(i)
+                TransPop(RowNum, :) = GA_Chroms(i, :);
+            end
+        end
+    end
+
+    % Creatwheel
+    GA_RouWheel = GA_CreateWheel(GA_PS, GA_FitVal);
+    for i = ceil(GA_PS/2)+1:GA_PS
+        [Parent1, Parent2] = GA_Selection(GA_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);
+        SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim);
+        if rand() <= GA_mut
+            SibRep = GA_Mutation(SibRep, DimMinMax, ProbDim);
+        end
+        TransPop(i, :) = SibRep;
+    end
+
+    % Make transfer
+    GA_Chroms = TransPop;
+    GA_Curr = GA_Curr + 1;
+end
+
+if GA_Curr >= GA_MaxItr
+    for i = 1:GA_PS
+        if min(GA_FitVal) == GA_FitVal(i)
+            minInd = i;
+        end
+        if max(GA_FitVal) == GA_FitVal(i)
+            maxInd = i;
+        end
+    end
+    GearRatio_b = (GA_Chroms(minInd, 1)*GA_Chroms(minInd, 2))/(GA_Chroms(minInd, 3)*GA_Chroms(minInd, 4));
+    GearRatio_w = (GA_Chroms(maxInd, 1)*GA_Chroms(maxInd, 2))/(GA_Chroms(maxInd, 3)*GA_Chroms(maxInd, 4));
+    mPos = mean(GA_FitVal);
+    X = sprintf('Did Not Converge!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nGear Ratio: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nGear Ratio: %0.15f\nMean: %0.15e\n',GA_Curr,GA_FitVal(minInd),GA_Chroms(minInd, :),GearRatio_b,GA_FitVal(maxInd),GA_Chroms(maxInd, :),GearRatio_w,mPos);
+    disp(X);
+end
+
+    %movie(M,1,120);
+
+    if GA_Curr >= GA_MaxItr
+        Ans(trials,:) = [GA_Chroms(minInd, :) GA_FitVal(minInd) GearRatio_b 0];
+    else % Converged
+        Ans(trials,:) = [GA_Chroms(minInd, :) GA_FitVal(minInd) GearRatio_b 1];
+    end
+
+    timeRec(trials) = toc;
+    X = sprintf('Running Time for this trial: %0.15e\n', timeRec(trials));
+    disp(X);
+end
+
+% Get Best Fit
+Vals = zeros(RunMax,1);
+for o = 1:RunMax
+    Vals(o) = Ans(o,ProbDim+1);
+end
+
+% Generate Stats
+Mean = mean(Vals);
+StdDev = std(Vals);
+Median = median(Vals);
+Worst = max(Vals);
+Best = min(Vals);
+
+% Get index of best run
+BesInd = 0;
+minConvVal = 0;
+for o = 1:RunMax
+    if min(Vals) == Ans(o,ProbDim+1)
+        BesInd = o;
+    end
+end
+
+if convRuns > 0
+    % Get Best Fit
+    ConvVals = zeros(convRuns,1);
+    i=1;
+    for o = 1:RunMax
+        if(Ans(o,ProbDim+ConsNum+1+1) == 1)
+            ConvVals(i) = Ans(o,ProbDim+1);
+            i=i+1;
+        end
+    end
+
+    Best = min(ConvVals);
+    for o = 1:RunMax
+        if min(ConvVals) == Ans(o,ProbDim+1)
+            BesInd = o;
+        end
+    end
+end
+
+ConvRatio = convRuns/RunMax;
+totalTime = sum(timeRec);
+aveTime = mean(timeRec);
+
+X = sprintf('\n\nBest OverAll Value: %0.15e\nPosition: %0.15f %0.15f %0.15f %0.15f\nGear Ratio: %0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Overall Value: %0.15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\nTotal Running Time for all trials: %0.15e\nAverage running time: %0.15e\n', Best, Ans(BesInd, 1), Ans(BesInd, 2), Ans(BesInd, 3), Ans(BesInd, 4), Ans(BesInd,ProbDim+2), Mean, Median, StdDev, Worst, convRuns, ConvRatio, totalTime, aveTime);
+disp(X);
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}Trial: 1
+Population Converged!
+Number of Iterations: 24
+Best Value: 0.000018727138306
+Best Position: 12.000000000000000 16.000000000000000 34.000000000000000 38.000000000000000
+Gear Ratio: 0.148606811145511
+Worst Value: 0.000018727138306
+Worst Position: 12.000000000000000 16.000000000000000 34.000000000000000 38.000000000000000
+Gear Ratio: 0.148606811145511
+Mean: 1.872713830634360e-05
+
+Running Time for this trial: 3.923986740901009e-01
+
+Trial: 2
+Population Converged!
+Number of Iterations: 13
+Best Value: 0.000501193077075
+Best Position: 27.000000000000000 17.000000000000000 54.000000000000000 51.000000000000000
+Gear Ratio: 0.166666666666667
+Worst Value: 0.000501193077075
+Worst Position: 27.000000000000000 17.000000000000000 54.000000000000000 51.000000000000000
+Gear Ratio: 0.166666666666667
+Mean: 5.011930770746652e-04
+
+Running Time for this trial: 2.075990219089160e-01
+
+Trial: 3
+Population Converged!
+Number of Iterations: 61
+Best Value: 0.000002678728395
+Best Position: 15.000000000000000 19.000000000000000 37.000000000000000 54.000000000000000
+Gear Ratio: 0.142642642642643
+Worst Value: 0.000002678728395
+Worst Position: 15.000000000000000 19.000000000000000 37.000000000000000 54.000000000000000
+Gear Ratio: 0.142642642642643
+Mean: 2.678728395045686e-06
+
+Running Time for this trial: 1.070230216631559e+00
+
+Trial: 4
+Population Converged!
+Number of Iterations: 13
+Best Value: 0.000014967794310
+Best Position: 24.000000000000000 20.000000000000000 54.000000000000000 60.000000000000000
+Gear Ratio: 0.148148148148148
+Worst Value: 0.000014967794310
+Worst Position: 24.000000000000000 20.000000000000000 54.000000000000000 60.000000000000000
+Gear Ratio: 0.148148148148148
+Mean: 1.496779430994918e-05
+
+Running Time for this trial: 2.481443192082429e-01
+
+Trial: 5
+Population Converged!
+Number of Iterations: 19
+Best Value: 0.000000009520866
+Best Position: 19.000000000000000 20.000000000000000 47.000000000000000 56.000000000000000
+Gear Ratio: 0.144376899696049
+Worst Value: 0.000000009520866
+Worst Position: 19.000000000000000 20.000000000000000 47.000000000000000 56.000000000000000
+Gear Ratio: 0.144376899696049
+Mean: 9.520865654771035e-09
+
+Running Time for this trial: 3.391852113856902e-01
+
+Trial: 6
+Population Converged!
+Number of Iterations: 15
+Best Value: 0.000008877889758
+Best Position: 16.000000000000000 23.000000000000000 51.000000000000000 49.000000000000000
+Gear Ratio: 0.147258903561425
+Worst Value: 0.000008877889758
+Worst Position: 16.000000000000000 23.000000000000000 51.000000000000000 49.000000000000000
+Gear Ratio: 0.147258903561425
+Mean: 8.877889757859431e-06
+
+Running Time for this trial: 1.845675454154860e-01
+
+Trial: 7
+Population Converged!
+Number of Iterations: 64
+Best Value: 0.000016206743360
+Best Position: 35.000000000000000 14.000000000000000 56.000000000000000 59.000000000000000
+Gear Ratio: 0.148305084745763
+Worst Value: 0.000016206743360
+Worst Position: 35.000000000000000 14.000000000000000 56.000000000000000 59.000000000000000
+Gear Ratio: 0.148305084745763
+Mean: 1.620674336023023e-05
+
+Running Time for this trial: 1.070229789964710e+00
+
+Trial: 8
+Population Converged!
+Number of Iterations: 11
+Best Value: 0.000015432700387
+Best Position: 30.000000000000000 12.000000000000000 45.000000000000000 57.000000000000000
+Gear Ratio: 0.140350877192982
+Worst Value: 0.000015432700387
+Worst Position: 30.000000000000000 12.000000000000000 45.000000000000000 57.000000000000000
+Gear Ratio: 0.140350877192982
+Mean: 1.543270038706061e-05
+
+Running Time for this trial: 1.760670617886130e-01
+
+Trial: 9
+Population Converged!
+Number of Iterations: 4
+Best Value: 0.000037168715395
+Best Position: 20.000000000000000 24.000000000000000 57.000000000000000 56.000000000000000
+Gear Ratio: 0.150375939849624
+Worst Value: 0.000037168715395
+Worst Position: 20.000000000000000 24.000000000000000 57.000000000000000 56.000000000000000
+Gear Ratio: 0.150375939849624
+Mean: 3.716871539544531e-05
+
+Running Time for this trial: 5.099948842644839e-02
+
+Trial: 10
+Population Converged!
+Number of Iterations: 45
+Best Value: 0.000001381143651
+Best Position: 24.000000000000000 16.000000000000000 60.000000000000000 44.000000000000000
+Gear Ratio: 0.145454545454545
+Worst Value: 0.000001381143651
+Worst Position: 24.000000000000000 16.000000000000000 60.000000000000000 44.000000000000000
+Gear Ratio: 0.145454545454545
+Mean: 1.381143650896102e-06
+
+Running Time for this trial: 6.239520528862093e-01
+
+Trial: 11
+Population Converged!
+Number of Iterations: 32
+Best Value: 0.000009933132693
+Best Position: 34.000000000000000 12.000000000000000 49.000000000000000 59.000000000000000
+Gear Ratio: 0.141127637495676
+Worst Value: 0.000009933132693
+Worst Position: 34.000000000000000 12.000000000000000 49.000000000000000 59.000000000000000
+Gear Ratio: 0.141127637495676
+Mean: 9.933132692532007e-06
+
+Running Time for this trial: 5.140426726582070e-01
+
+Trial: 12
+Population Converged!
+Number of Iterations: 119
+Best Value: 0.000027000491351
+Best Position: 19.000000000000000 18.000000000000000 52.000000000000000 44.000000000000000
+Gear Ratio: 0.149475524475524
+Worst Value: 0.000027000491351
+Worst Position: 19.000000000000000 18.000000000000000 52.000000000000000 44.000000000000000
+Gear Ratio: 0.149475524475524
+Mean: 2.700049135100902e-05
+
+Running Time for this trial: 1.967229852684737e+00
+
+Trial: 13
+Population Converged!
+Number of Iterations: 18
+Best Value: 0.000050013559928
+Best Position: 12.000000000000000 28.000000000000000 60.000000000000000 37.000000000000000
+Gear Ratio: 0.151351351351351
+Worst Value: 0.000050013559928
+Worst Position: 12.000000000000000 28.000000000000000 60.000000000000000 37.000000000000000
+Gear Ratio: 0.151351351351351
+Mean: 5.001355992830176e-05
+
+Running Time for this trial: 2.567787762256112e-01
+
+Trial: 14
+Population Converged!
+Number of Iterations: 11
+Best Value: 0.000236921495401
+Best Position: 15.000000000000000 21.000000000000000 52.000000000000000 47.000000000000000
+Gear Ratio: 0.128887070376432
+Worst Value: 0.000236921495401
+Worst Position: 15.000000000000000 21.000000000000000 52.000000000000000 47.000000000000000
+Gear Ratio: 0.128887070376432
+Mean: 2.369214954012787e-04
+
+Running Time for this trial: 1.838981051298582e-01
+
+Trial: 15
+Population Converged!
+Number of Iterations: 45
+Best Value: 0.000002059112904
+Best Position: 12.000000000000000 17.000000000000000 25.000000000000000 56.000000000000000
+Gear Ratio: 0.145714285714286
+Worst Value: 0.000002059112904
+Worst Position: 12.000000000000000 17.000000000000000 25.000000000000000 56.000000000000000
+Gear Ratio: 0.145714285714286
+Mean: 2.059112903704175e-06
+
+Running Time for this trial: 7.096237694394749e-01
+
+Trial: 16
+Population Converged!
+Number of Iterations: 17
+Best Value: 0.000053643521406
+Best Position: 13.000000000000000 20.000000000000000 49.000000000000000 35.000000000000000
+Gear Ratio: 0.151603498542274
+Worst Value: 0.000053643521406
+Worst Position: 13.000000000000000 20.000000000000000 49.000000000000000 35.000000000000000
+Gear Ratio: 0.151603498542274
+Mean: 5.364352140603688e-05
+
+Running Time for this trial: 3.311361412847536e-01
+
+Trial: 17
+Population Converged!
+Number of Iterations: 6
+Best Value: 0.000036161621391
+Best Position: 22.000000000000000 21.000000000000000 58.000000000000000 53.000000000000000
+Gear Ratio: 0.150292778139232
+Worst Value: 0.000036161621391
+Worst Position: 22.000000000000000 21.000000000000000 58.000000000000000 53.000000000000000
+Gear Ratio: 0.150292778139232
+Mean: 3.616162139073601e-05
+
+Running Time for this trial: 7.316312454959981e-02
+
+Trial: 18
+Population Converged!
+Number of Iterations: 11
+Best Value: 0.000026150600625
+Best Position: 20.000000000000000 16.000000000000000 42.000000000000000 51.000000000000000
+Gear Ratio: 0.149393090569561
+Worst Value: 0.000026150600625
+Worst Position: 20.000000000000000 16.000000000000000 42.000000000000000 51.000000000000000
+Gear Ratio: 0.149393090569561
+Mean: 2.615060062453270e-05
+
+Running Time for this trial: 1.354812311386586e-01
+
+Trial: 19
+Population Converged!
+Number of Iterations: 13
+Best Value: 0.000000027264506
+Best Position: 25.000000000000000 13.000000000000000 50.000000000000000 45.000000000000000
+Gear Ratio: 0.144444444444444
+Worst Value: 0.000000027264506
+Worst Position: 25.000000000000000 13.000000000000000 50.000000000000000 45.000000000000000
+Gear Ratio: 0.144444444444444
+Mean: 2.726450597715290e-08
+
+Running Time for this trial: 2.369524210996997e-01
+
+Trial: 20
+Population Converged!
+Number of Iterations: 14
+Best Value: 0.000010586457926
+Best Position: 22.000000000000000 17.000000000000000 52.000000000000000 51.000000000000000
+Gear Ratio: 0.141025641025641
+Worst Value: 0.000010586457926
+Worst Position: 22.000000000000000 17.000000000000000 52.000000000000000 51.000000000000000
+Gear Ratio: 0.141025641025641
+Mean: 1.058645792626660e-05
+
+Running Time for this trial: 1.863569861789808e-01
+
+Trial: 21
+Population Converged!
+Number of Iterations: 8
+Best Value: 0.001570435544284
+Best Position: 32.000000000000000 18.000000000000000 58.000000000000000 54.000000000000000
+Gear Ratio: 0.183908045977011
+Worst Value: 0.001570435544284
+Worst Position: 32.000000000000000 18.000000000000000 58.000000000000000 54.000000000000000
+Gear Ratio: 0.183908045977011
+Mean: 1.570435544284290e-03
+
+Running Time for this trial: 7.574488565115121e-02
+
+Trial: 22
+Population Converged!
+Number of Iterations: 21
+Best Value: 0.000040701962075
+Best Position: 32.000000000000000 15.000000000000000 59.000000000000000 54.000000000000000
+Gear Ratio: 0.150659133709981
+Worst Value: 0.000040701962075
+Worst Position: 32.000000000000000 15.000000000000000 59.000000000000000 54.000000000000000
+Gear Ratio: 0.150659133709981
+Mean: 4.070196207544608e-05
+
+Running Time for this trial: 3.859619780104440e-01
+
+Trial: 23
+Population Converged!
+Number of Iterations: 10
+Best Value: 0.000056600520978
+Best Position: 16.000000000000000 15.000000000000000 31.000000000000000 51.000000000000000
+Gear Ratio: 0.151802656546490
+Worst Value: 0.000056600520978
+Worst Position: 16.000000000000000 15.000000000000000 31.000000000000000 51.000000000000000
+Gear Ratio: 0.151802656546490
+Mean: 5.660052097760779e-05
+
+Running Time for this trial: 1.592427346102334e-01
+
+Trial: 24
+Population Converged!
+Number of Iterations: 8
+Best Value: 0.000000977066740
+Best Position: 33.000000000000000 12.000000000000000 58.000000000000000 47.000000000000000
+Gear Ratio: 0.145267791636097
+Worst Value: 0.000000977066740
+Worst Position: 33.000000000000000 12.000000000000000 58.000000000000000 47.000000000000000
+Gear Ratio: 0.145267791636097
+Mean: 9.770667399148611e-07
+
+Running Time for this trial: 8.307672877940428e-02
+
+Trial: 25
+Population Converged!
+Number of Iterations: 7
+Best Value: 0.000165653985298
+Best Position: 22.000000000000000 12.000000000000000 49.000000000000000 41.000000000000000
+Gear Ratio: 0.131408661025386
+Worst Value: 0.000165653985298
+Worst Position: 22.000000000000000 12.000000000000000 49.000000000000000 41.000000000000000
+Gear Ratio: 0.131408661025386
+Mean: 1.656539852979752e-04
+
+Running Time for this trial: 9.514670726259510e-02
+
+Trial: 26
+Population Converged!
+Number of Iterations: 38
+Best Value: 0.000029056799018
+Best Position: 20.000000000000000 19.000000000000000 57.000000000000000 48.000000000000000
+Gear Ratio: 0.138888888888889
+Worst Value: 0.000029056799018
+Worst Position: 20.000000000000000 19.000000000000000 57.000000000000000 48.000000000000000
+Gear Ratio: 0.138888888888889
+Mean: 2.905679901812594e-05
+
+Running Time for this trial: 6.523527050038208e-01
+
+Trial: 27
+Population Converged!
+Number of Iterations: 5
+Best Value: 0.000000027264506
+Best Position: 26.000000000000000 17.000000000000000 51.000000000000000 60.000000000000000
+Gear Ratio: 0.144444444444444
+Worst Value: 0.000000027264506
+Worst Position: 26.000000000000000 17.000000000000000 51.000000000000000 60.000000000000000
+Gear Ratio: 0.144444444444444
+Mean: 2.726450597715290e-08
+
+Running Time for this trial: 7.142616380849656e-02
+
+Trial: 28
+Population Converged!
+Number of Iterations: 14
+Best Value: 0.000293237677637
+Best Position: 23.000000000000000 16.000000000000000 57.000000000000000 40.000000000000000
+Gear Ratio: 0.161403508771930
+Worst Value: 0.000293237677637
+Worst Position: 23.000000000000000 16.000000000000000 57.000000000000000 40.000000000000000
+Gear Ratio: 0.161403508771930
+Mean: 2.932376776374213e-04
+
+Running Time for this trial: 2.563922160606789e-01
+
+Trial: 29
+Population Converged!
+Number of Iterations: 35
+Best Value: 0.000011551988460
+Best Position: 16.000000000000000 28.000000000000000 53.000000000000000 60.000000000000000
+Gear Ratio: 0.140880503144654
+Worst Value: 0.000011551988460
+Worst Position: 16.000000000000000 28.000000000000000 53.000000000000000 60.000000000000000
+Gear Ratio: 0.140880503144654
+Mean: 1.155198845968100e-05
+
+Running Time for this trial: 5.817453148780010e-01
+
+Trial: 30
+Population Converged!
+Number of Iterations: 4
+Best Value: 0.000000001183409
+Best Position: 16.000000000000000 23.000000000000000 51.000000000000000 50.000000000000000
+Gear Ratio: 0.144313725490196
+Worst Value: 0.000000001183409
+Worst Position: 16.000000000000000 23.000000000000000 51.000000000000000 50.000000000000000
+Gear Ratio: 0.144313725490196
+Mean: 1.183409360112702e-09
+
+Running Time for this trial: 3.274881397282729e-02
+
+
+
+Best OverAll Value: 1.183409360112701e-09
+Position: 16.000000000000000 23.000000000000000 51.000000000000000 50.000000000000000
+Gear Ratio: 0.144313725490196
+Mean: 0.000107912823401
+Median: 0.000017466940833
+Standard Deviation:0.000296785468080
+Worst Overall Value: 0.001570435544284
+Number of Converged Runs: 30
+Ratio of Convergence: 1.000000000000000e+00
+Total Running Time for all trials: 1.135187471013321e+01
+Average running time: 3.783958236711070e-01
+
+\end{verbatim} \color{black}
+    
+
+
+\end{document}
+    

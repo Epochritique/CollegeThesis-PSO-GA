@@ -1,0 +1,487 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
+%LICNACHAN, LANCE OLIVER C.
+%2014-64880
+
+format long;
+rng('shuffle');
+
+ProbDim = 5;
+ConsNum = 3;
+RunMax = 10;
+Ans = zeros(RunMax, ProbDim+ConsNum+1+1);
+for trials = 1:RunMax
+Y = sprintf('\nTrial: %d\n',trials);
+disp(Y);
+
+convRuns=0;
+
+
+ctr=0;
+
+% Variables specific to the problem
+
+DimMinMax = zeros(ProbDim, 2);
+DimMinMax(1, :) = [78 102];
+DimMinMax(2, :) = [33 45];
+DimMinMax(3, :) = [27 45];
+DimMinMax(4, :) = [27 45];
+DimMinMax(5, :) = [27 45];
+
+% Variables specific to the algorithm
+AcceptThreshold = 1e-6;
+% PopNum = 20*ProbDim;
+PopNum = 250;
+PSO_Curr = 1;
+PSO_Max = 500;
+c1 = 1.5;
+c2 = 1.5;
+wmax = 0.9;
+wmin = 0.4;
+
+GA_cross = 0.85;
+GA_mut = 0.02;
+GA_y = 10;
+GA_B = 15;
+GA_NumMax = 20;
+GA_NumMin = 1;
+GA_MinPS = 10;
+GA_MaxPS = 5;
+GA_MinItr = 10;
+GA_MaxItr = 15;
+GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+TransPos = zeros(PopNum, ProbDim);
+TransVel = zeros(PopNum, ProbDim);
+
+% Initialization Step
+[PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimMinMax);
+FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+[Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, ProbDim, FitVal);
+
+PrevDiff = 0;
+while PSO_Curr <= PSO_Max
+%     disp(Gbest(ProbDim+1));
+
+    % Evaluate
+    FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+%
+%     clf;    %clear frame
+%     figure(1);
+%     hold on;
+%     posit = 1:PopNum;
+%     plot(posit,FitVal,'.r','MarkerSize', 10);
+%     M(PSO_Curr)=getframe(gca);
+
+    if(PSO_Curr == 1)
+        PrevDiff = max(FitVal) - min(FitVal);
+    else
+        CurrDiff = max(FitVal) - min(FitVal);
+        % disp(CurrDiff);
+        % Check for population convergence
+        if PrevDiff - CurrDiff < AcceptThreshold && CurrDiff < AcceptThreshold
+            for i = 1:PopNum
+                if min(FitVal) == FitVal(i)
+                    minInd = i;
+                end
+                if max(FitVal) == FitVal(i)
+                    maxInd = i;
+                end
+            end
+            g1_b = 85.334407 + 0.0056858*PosPop(minInd, 2)*PosPop(minInd, 5) + 0.00026*PosPop(minInd, 1)*PosPop(minInd, 4) - 0.0022053*PosPop(minInd, 3)*PosPop(minInd, 5);
+            g2_b = 80.51249 + 0.0071317*PosPop(minInd, 2)*PosPop(minInd, 5) + 0.0029955*PosPop(minInd, 1)*PosPop(minInd, 2) - 0.0021813*PosPop(minInd, 3)^2;
+            g3_b = 9.300961 + 0.0047026*PosPop(minInd, 3)*PosPop(minInd, 5) + 0.0012547*PosPop(minInd, 1)*PosPop(minInd, 3) + 0.0019085*PosPop(minInd, 3)*PosPop(minInd, 4);
+
+            g1_w = 85.334407 + 0.0056858*PosPop(maxInd, 2)*PosPop(maxInd, 5) + 0.0006262*PosPop(maxInd, 1)*PosPop(maxInd, 4) - 0.0022053*PosPop(maxInd, 3)*PosPop(maxInd, 5);
+            g2_w = 80.51249 + 0.0071317*PosPop(maxInd, 2)*PosPop(maxInd, 5) + 0.0029955*PosPop(maxInd, 1)*PosPop(maxInd, 2) - 0.0021813*PosPop(maxInd, 3)^2;
+            g3_w = 9.300961 + 0.0047026*PosPop(maxInd, 3)*PosPop(maxInd, 5) + 0.0012547*PosPop(maxInd, 1)*PosPop(maxInd, 3) + 0.0019085*PosPop(maxInd, 3)*PosPop(maxInd, 4);
+
+            mPos = mean(FitVal);
+            X = sprintf('Population Converged!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nMean: %0.15e\n',PSO_Curr,FitVal(minInd),PosPop(minInd, :),g1_b,g2_b,g3_b,FitVal(maxInd),PosPop(maxInd, :),g1_w,g2_w,g3_w,mPos);
+            disp(X);
+            convRuns = convRuns + 1;
+            break;
+        end
+        PrevDiff = CurrDiff;
+    end
+
+    if(PSO_Curr == PSO_Max)
+        % if max gen reached
+        break;
+    end
+
+    % Get best values
+    [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, ProbDim, FitVal, Pbest, Gbest);
+
+    if(PSO_Curr == PSO_Max)
+        break;
+    end
+    % Change value according to how current iteration
+    w = wmax-(wmax-wmin)*(PSO_Curr/PSO_Max);
+
+    % Calculate new velocities and move
+    [TransPos, TransVel] = PSO_ChangeVel(PopNum, PosPop, VelPop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax);
+
+    % Evaluate
+    TransFitVal = PSO_GetFitValues(PopNum, TransPos, ProbDim, DimMinMax);
+
+    % GA Portion
+    PSO_Arranged = sort(TransFitVal);
+    GA_Num_Curr = 1;
+    while GA_Num_Curr <= GA_Num
+        % Get one from best individuals
+        for RowNum = 1:PopNum
+            if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+               Sel_Indiv = TransPos(RowNum, :);
+               break;
+            end
+        end
+
+        % Generate a population with the first indiv being the selected
+        % chromosome
+        GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMinMax);
+        GA_Chroms(1, :) = Sel_Indiv;
+
+        GA_Fit_Elite = PSO_Arranged(GA_Num_Curr);
+        GA_Fit_Chrom = Sel_Indiv;
+        GA_Curr = 1;
+        while GA_Curr <= GA_MaxItr
+            % Get Fitness
+            GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+            TransPop = zeros(GA_PS, ProbDim);
+
+            % Keep Elite
+            Arranged = sort(GA_FitVal);
+            if Arranged(1) < GA_Fit_Elite
+                GA_Fit_Elite = Arranged(1);
+                for i = 1:GA_PS
+                    if Arranged(1) == GA_FitVal(i)
+                        GA_Fit_Chrom = GA_Chroms(i,:);
+                    end
+                end
+            end
+
+            % Create Wheel
+            GA_RouWheel = GA_CreateWheel(GA_PS, GA_FitVal);
+
+            % Create the population
+            for i = 1:GA_PS
+                % Select 2 Parents
+                [Parent1, Parent2] = GA_Selection(GA_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);
+                % Cross-over
+                SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim);
+                % Mutate
+                if rand() <= GA_mut
+                    SibRep = GA_Mutation(SibRep, DimMinMax, ProbDim);
+                end
+                % Place
+                TransPop(i, :) = SibRep;
+            end
+
+            GA_Chroms = TransPop;
+            GA_Curr = GA_Curr + 1;
+        end
+        % Replace the individual
+        for RowNum = 1:PopNum
+            if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+                TransPos(RowNum,:) = GA_Fit_Chrom(1,:);
+                break;
+            end
+        end
+        GA_Num_Curr = GA_Num_Curr + 1;
+    end
+
+    % Update GA_Vars
+    GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+    GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+    GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+    PosPop = TransPos;
+    VelPop = TransVel;
+    PSO_Curr = PSO_Curr + 1;
+end
+
+if PSO_Curr >= PSO_Max
+    for i = 1:PopNum
+        if min(FitVal) == FitVal(i)
+            minInd = i;
+        end
+        if max(FitVal) == FitVal(i)
+            maxInd = i;
+        end
+    end
+    g1_b = 85.334407 + 0.0056858*PosPop(minInd, 2)*PosPop(minInd, 5) + 0.00026*PosPop(minInd, 1)*PosPop(minInd, 4) - 0.0022053*PosPop(minInd, 3)*PosPop(minInd, 5);
+    g2_b = 80.51249 + 0.0071317*PosPop(minInd, 2)*PosPop(minInd, 5) + 0.0029955*PosPop(minInd, 1)*PosPop(minInd, 2) - 0.0021813*PosPop(minInd, 3)^2;
+    g3_b = 9.300961 + 0.0047026*PosPop(minInd, 3)*PosPop(minInd, 5) + 0.0012547*PosPop(minInd, 1)*PosPop(minInd, 3) + 0.0019085*PosPop(minInd, 3)*PosPop(minInd, 4);
+
+    g1_w = 85.334407 + 0.0056858*PosPop(maxInd, 2)*PosPop(maxInd, 5) + 0.0006262*PosPop(maxInd, 1)*PosPop(maxInd, 4) - 0.0022053*PosPop(maxInd, 3)*PosPop(maxInd, 5);
+    g2_w = 80.51249 + 0.0071317*PosPop(maxInd, 2)*PosPop(maxInd, 5) + 0.0029955*PosPop(maxInd, 1)*PosPop(maxInd, 2) - 0.0021813*PosPop(maxInd, 3)^2;
+    g3_w = 9.300961 + 0.0047026*PosPop(maxInd, 3)*PosPop(maxInd, 5) + 0.0012547*PosPop(maxInd, 1)*PosPop(maxInd, 3) + 0.0019085*PosPop(maxInd, 3)*PosPop(maxInd, 4);
+
+    mPos = mean(FitVal);
+    X = sprintf('Did Not Converge!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nMean: %0.15e\n',PSO_Curr,FitVal(minInd),PosPop(minInd, :),g1_b,g2_b,g3_b,FitVal(maxInd),PosPop(maxInd, :),g1_w,g2_w,g3_w, mPos);
+    disp(X);
+end
+
+    %movie(M,1,120);
+
+    if PSO_Curr >= PSO_Max
+        Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b 0];
+    else % Converged
+        Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b 1];
+    end
+end
+
+% Get Best Fit
+Vals = zeros(RunMax,1);
+for o = 1:RunMax
+    Vals(o) = Ans(o,ProbDim+1);
+end
+
+% Generate Stats
+Mean = mean(Vals);
+StdDev = std(Vals);
+Median = median(Vals);
+Worst = max(Vals);
+Best = min(Vals);
+
+% Get index of best run
+BesInd = 0;
+minConvVal = 0;
+for o = 1:RunMax
+    if min(Vals) == Ans(o,ProbDim+1)
+        BesInd = o;
+    end
+end
+
+if convRuns > 0
+    % Get Best Fit
+    ConvVals = zeros(convRuns,1);
+    for o = 1:convRuns
+        if(Ans(o,ProbDim+ConsNum+1+1) == 1)
+            ConvVals(o) = Ans(o,ProbDim+1);
+        end
+    end
+
+    Best = min(ConvVals);
+    BesInd = 0;
+    for o = 1:convRuns
+        if min(ConvVals) == Ans(o,ProbDim+1)
+            BesInd = o;
+        end
+    end
+end
+
+ConvRatio = convRuns/RunMax;
+
+X = sprintf('\n\nBest OverAll Value: %0.15f\nPosition: %0.15f %0.15f %0.15f %0.15f %0.15f\nConstraints:\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Best Overall Value: %0.15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\n', Best, Ans(BesInd, 1), Ans(BesInd, 2), Ans(BesInd, 3), Ans(BesInd, 4), Ans(BesInd, 5), Ans(BesInd, 7), Ans(BesInd, 8), Ans(BesInd, 9), Mean, Median, StdDev, Worst, convRuns, ConvRatio);
+disp(X);
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.079533544893000
+Best Position: 78.000000000000000 33.000000000028145 27.076006184171568 44.999985957229271 44.954323435237526
+G1: 91.997594498124712
+G2: 97.203598613763248
+G3: 20.000079354371650
+Worst Value: -30815.873249098237000
+Worst Position: 78.000000000000000 32.999999999661931 27.076006184070771 44.999985957229029 44.954323435561292
+G1: 93.282956096970423
+G2: 97.203598613648381
+G3: 20.000079354373032
+Mean: -3.094892834383365e+04
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31024.864199213451000
+Best Position: 78.011236497785603 33.000503302389745 27.071569261226504 45.000000000000000 44.964468294062328
+G1: 91.999592626885942
+G2: 97.207899974260101
+G3: 20.000000000000000
+Worst Value: -30815.656704830992000
+Worst Position: 78.011236506445243 33.000503301205505 27.071569258398473 45.000000000000000 44.964468300531230
+G1: 93.285139794182228
+G2: 97.207899976316085
+G3: 19.999999999999996
+Mean: -3.099390148991664e+04
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31022.468006190582000
+Best Position: 78.000949389331851 33.066971206276264 27.105428614347243 44.999914929291528 44.862265319077281
+G1: 92.000000000000000
+G2: 97.215624621456612
+G3: 20.000000000000004
+Worst Value: -30359.992487148549000
+Worst Position: 78.090967246977598 33.938216221395287 28.546909347675005 45.393842734599644 45.101181254320650
+G1: 93.417859692704155
+G2: 97.589932604358367
+G3: 20.625739761709369
+Mean: -3.101188183529040e+04
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.434729993882000
+Best Position: 78.002345282485834 33.000000000067061 27.070891104093658 44.999999999991545 44.968945892262163
+G1: 92.000000000000000
+G2: 97.207875932025075
+G3: 20.000000000000000
+Worst Value: -30816.226854061850000
+Worst Position: 78.002345282485805 33.000000000067075 27.070891104093729 44.999999999991537 44.968945892261949
+G1: 93.285400647909825
+G2: 97.207875932025033
+G3: 19.999999999999993
+Mean: -3.101037183018530e+04
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.513944898848000
+Best Position: 78.000201700883565 33.000000000003617 27.071061911790043 44.999000880757727 44.969432721149893
+G1: 91.999999999678820
+G2: 97.207758436651275
+G3: 20.000005053938082
+Worst Value: -30816.305949616119000
+Worst Position: 78.000201700886308 32.999999999994891 27.071061911783016 44.999000880798910 44.969432721155101
+G1: 93.285336784992722
+G2: 97.207758436648760
+G3: 20.000005053938192
+Mean: -3.096024104520178e+04
+
+
+Trial: 6
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.311790765787000
+Best Position: 78.000000000179540 33.000100798917103 27.071765070833223 45.000000000000000 44.969636410365510
+G1: 92.000000000000000
+G2: 97.207759270164615
+G3: 20.000353657951273
+Worst Value: -30816.103677836789000
+Worst Position: 78.000000000179540 33.000100798917089 27.071765070833216 45.000000000000007 44.969636410365531
+G1: 93.285362000002962
+G2: 97.207759270164615
+G3: 20.000353657951269
+Mean: -3.097259134630782e+04
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.464432920842000
+Best Position: 78.001718335817131 33.000000000011731 27.070963111606940 44.999999425957810 44.968889904020919
+G1: 91.999978349405140
+G2: 97.207792276701127
+G3: 20.000000007015149
+Worst Value: -30816.256655375593000
+Worst Position: 78.001718335817273 32.999999999981284 27.070963111593070 44.999999425956780 44.968889904064454
+G1: 93.285368649463123
+G2: 97.207792276696154
+G3: 20.000000007015164
+Mean: -3.094100935211222e+04
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31025.494251449745000
+Best Position: 78.000000000000014 33.000698154659510 27.071457866554635 45.000000000000000 44.968204407539361
+G1: 92.000000000000000
+G2: 97.207789677870053
+G3: 20.000049940760405
+Worst Value: -30816.286411831108000
+Worst Position: 78.000000000000014 33.000698154659517 27.071457866554635 45.000000000000007 44.968204407539361
+G1: 93.285362000000006
+G2: 97.207789677870068
+G3: 20.000049940760405
+Mean: -3.101963643194033e+04
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 450
+Best Value: -31013.744689504067000
+Best Position: 78.000000000000327 33.000000000000000 27.203147277461120 44.999999999994131 44.560969177721503
+G1: 91.934782443344048
+G2: 97.095970830086316
+G3: 20.000000000409223
+Worst Value: -31013.744689503052000
+Worst Position: 78.000000000000185 33.000000000000000 27.203147277464019 44.999999999996348 44.560969177724218
+G1: 93.220144443344054
+G2: 97.095970830086600
+G3: 20.000000000410822
+Mean: -3.101374468950365e+04
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: -31007.018671944519000
+Best Position: 78.000000000000000 33.008436264863576 27.127943562853755 44.978200991026348 44.999999999999936
+G1: 92.000000000000000
+G2: 97.212886141036662
+G3: 20.025301632544352
+Worst Value: -30797.780484170933000
+Worst Position: 78.000000000000000 33.008436264863576 27.127943562853741 44.978200991026348 44.999999999999972
+G1: 93.284739341827304
+G2: 97.212886141036662
+G3: 20.025301632544348
+Mean: -3.100534476644249e+04
+
+
+
+Best OverAll Value: -31025.513944898848000
+Position: 78.000201700883565 33.000000000003617 27.071061911790043 44.999000880757727 44.969432721149893
+Constraints:
+G1: 91.999999999678820
+G2: 97.207758436651275
+G3: 20.000005053938082
+Mean: -31022.039425042662000
+Median: -31025.195662155340000
+Standard Deviation:6.410115424074499
+Worst Best Overall Value: -31007.018671944519000
+Number of Converged Runs: 0
+Ratio of Convergence: 0.000000000000000e+00
+
+\end{verbatim} \color{black}
+    
+
+
+\end{document}
+    

@@ -1,0 +1,4165 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PSO_GA</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-06"><meta name="DC.source" content="PSO_GA.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%LICNACHAN, LANCE OLIVER C.</span>
+<span class="comment">%2014-64880</span>
+
+format <span class="string">long</span>;
+<span class="comment">% rng('shuffle');</span>
+rune=1;
+<span class="keyword">while</span> rune &lt;= 3
+    CurPopNum = 150;
+    <span class="keyword">if</span> rune == 2
+        CurPopNum = 250;
+    <span class="keyword">elseif</span> rune == 3
+        CurPopNum = 500;
+    <span class="keyword">end</span>
+    Y = sprintf(<span class="string">'\nCurPopNum: %d\n'</span>,CurPopNum);
+    disp(Y);
+
+    mun=1;
+    <span class="keyword">while</span> mun &lt;= 5
+    Y = sprintf(<span class="string">'\nMaxIt: %d\n'</span>,(CurPopNum*(2*mun)));
+    disp(Y);
+
+        ProbDim = 4;
+        ConsNum = 4;
+        convRuns = 0;
+        RunMax = 10;
+        Ans = zeros(RunMax, ProbDim+ConsNum+1+1);
+        timeRec = zeros(RunMax,1);
+        <span class="keyword">for</span> trials = 1:RunMax
+        tic;
+        Y = sprintf(<span class="string">'\nTrial: %d\n'</span>,trials);
+        disp(Y);
+
+        <span class="comment">% Variables specific to the problem</span>
+
+        DimMinMax = zeros(ProbDim, 2);
+        DimMinMax(1, :) = [1 99]*0.0625;
+        DimMinMax(2, :) = [1 99]*0.0625;
+        DimMinMax(3, :) = [10 200];
+        DimMinMax(4, :) = [10 200];
+
+        <span class="comment">% Variables specific to the algorithm</span>
+        AcceptThreshold = 1e-5;
+        PopNum = CurPopNum;
+        <span class="comment">% PopNum = 200;</span>
+        PSO_Curr = 1;
+        PSO_Max = CurPopNum*(2*mun);
+        c1 = 1.5;
+        c2 = 1.5;
+        wmax = 0.9;
+        wmin = 0.4;
+
+        GA_cross = 0.85;
+        GA_mut = 0.02;
+        GA_y = 10;
+        GA_B = 15;
+        GA_NumMax = 20;
+        GA_NumMin = 1;
+        GA_MinPS = 10;
+        GA_MaxPS = 5;
+        GA_MinItr = 10;
+        GA_MaxItr = 15;
+        GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+        GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+        GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+        TransPos = zeros(PopNum, ProbDim);
+        TransVel = zeros(PopNum, ProbDim);
+
+        <span class="comment">% Initialization Step</span>
+        [PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimMinMax);
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        [Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, ProbDim, FitVal);
+
+        PrevDiff = 0;
+        <span class="keyword">while</span> PSO_Curr &lt;= PSO_Max
+        <span class="comment">%     disp(Gbest(ProbDim+1));</span>
+
+            <span class="comment">% Evaluate</span>
+            FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        <span class="comment">%</span>
+        <span class="comment">%     clf;    %clear frame</span>
+        <span class="comment">%     figure(1);</span>
+        <span class="comment">%     hold on;</span>
+        <span class="comment">%     posit = 1:PopNum;</span>
+        <span class="comment">%     plot(posit,FitVal,'.r','MarkerSize', 10);</span>
+        <span class="comment">%     M(PSO_Curr)=getframe(gca);</span>
+
+            <span class="keyword">if</span>(PSO_Curr == 1)
+                PrevDiff = max(FitVal) - min(FitVal);
+            <span class="keyword">else</span>
+                CurrDiff = max(FitVal) - min(FitVal);
+                <span class="comment">% disp(CurrDiff);</span>
+                <span class="comment">% Check for population convergence</span>
+                <span class="keyword">if</span> PrevDiff - CurrDiff &lt; AcceptThreshold &amp;&amp; CurrDiff &lt; AcceptThreshold
+                    <span class="keyword">for</span> i = 1:PopNum
+                        <span class="keyword">if</span> min(FitVal) == FitVal(i)
+                            minInd = i;
+                        <span class="keyword">end</span>
+                        <span class="keyword">if</span> max(FitVal) == FitVal(i)
+                            maxInd = i;
+                        <span class="keyword">end</span>
+                    <span class="keyword">end</span>
+                    g1_b = -PosPop(minInd, 1) + 0.0193*PosPop(minInd, 3);
+                    g2_b = -PosPop(minInd, 2) + 0.0095*PosPop(minInd, 3);
+                    g3_b = -(pi*(PosPop(minInd, 3)^2)*PosPop(minInd, 4)) - ((4/3)*pi*(PosPop(minInd, 3)^3)) + 1296000;
+                    g4_b = PosPop(minInd, 4) - 240;
+
+                    g1_w = -PosPop(maxInd, 1) + 0.0193*PosPop(maxInd, 3);
+                    g2_w = -PosPop(maxInd, 2) + 0.0095*PosPop(maxInd, 3);
+                    g3_w = -(pi*(PosPop(maxInd, 3)^2)*PosPop(maxInd, 4)) - ((4/3)*pi*(PosPop(maxInd, 3)^3)) + 1296000;
+                    g4_w = PosPop(maxInd, 4) - 240;
+
+                    mPos = mean(FitVal);
+                    X = sprintf(<span class="string">'Population Converged!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15e\n'</span>,PSO_Curr,FitVal(minInd), PosPop(minInd, :), g1_b,g2_b,g3_b,g4_b, FitVal(maxInd), PosPop(maxInd, :), g1_w,g2_w,g3_w,g4_w, mPos);
+                    disp(X);
+                    convRuns = convRuns + 1;
+                    <span class="keyword">break</span>;
+                <span class="keyword">end</span>
+                PrevDiff = CurrDiff;
+            <span class="keyword">end</span>
+
+            <span class="keyword">if</span>(PSO_Curr == PSO_Max)
+                <span class="comment">% if max gen reached</span>
+                <span class="keyword">break</span>;
+            <span class="keyword">end</span>
+
+            <span class="comment">% Get best values</span>
+            [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, ProbDim, FitVal, Pbest, Gbest);
+
+            <span class="comment">% Change value according to how current iteration</span>
+            w = wmax-(wmax-wmin)*(PSO_Curr/PSO_Max);
+
+            <span class="comment">% Calculate new velocities and move</span>
+            [TransPos, TransVel] = PSO_ChangeVel(PopNum, PosPop, VelPop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax);
+
+            <span class="comment">% Evaluate</span>
+            TransFitVal = PSO_GetFitValues(PopNum, TransPos, ProbDim, DimMinMax);
+
+            <span class="comment">% GA Portion</span>
+            PSO_Arranged = sort(TransFitVal);
+            GA_Num_Curr = 1;
+            <span class="keyword">while</span> GA_Num_Curr &lt;= GA_Num
+                <span class="comment">% Get one from best individuals</span>
+                <span class="keyword">for</span> RowNum = 1:PopNum
+                    <span class="keyword">if</span> TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+                       Sel_Indiv = TransPos(RowNum, :);
+                       <span class="keyword">break</span>;
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+
+                <span class="comment">% Generate a population with the first indiv being the selected</span>
+                <span class="comment">% chromosome</span>
+                GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMinMax);
+                GA_Chroms(1, :) = Sel_Indiv;
+
+                GA_Fit_Elite = PSO_Arranged(GA_Num_Curr);
+                GA_Fit_Chrom = Sel_Indiv;
+                GA_Curr = 1;
+                <span class="keyword">while</span> GA_Curr &lt;= GA_MaxItr
+                    <span class="comment">% Get Fitness</span>
+                    GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+                    TransPop = zeros(GA_PS, ProbDim);
+
+                    <span class="comment">% Keep Elite</span>
+                    Arranged = sort(GA_FitVal);
+                    <span class="keyword">if</span> Arranged(1) &lt; GA_Fit_Elite
+                        GA_Fit_Elite = Arranged(1);
+                        <span class="keyword">for</span> i = 1:GA_PS
+                            <span class="keyword">if</span> Arranged(1) == GA_FitVal(i)
+                                GA_Fit_Chrom = GA_Chroms(i,:);
+                            <span class="keyword">end</span>
+                        <span class="keyword">end</span>
+                    <span class="keyword">end</span>
+
+                    <span class="comment">% Create Wheel</span>
+                    GA_RouWheel = GA_CreateWheel(GA_PS, GA_FitVal);
+
+                    <span class="comment">% Create the population</span>
+                    <span class="keyword">for</span> i = 1:GA_PS
+                        <span class="comment">% Select 2 Parents</span>
+                        [Parent1, Parent2] = GA_Selection(GA_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);
+                        <span class="comment">% Cross-over</span>
+                        SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim);
+                        <span class="comment">% Mutate</span>
+                        <span class="keyword">if</span> rand() &lt;= GA_mut
+                            SibRep = GA_Mutation(SibRep, DimMinMax, ProbDim);
+                        <span class="keyword">end</span>
+                        <span class="comment">% Place</span>
+                        TransPop(i, :) = SibRep;
+                    <span class="keyword">end</span>
+
+                    GA_Chroms = TransPop;
+                    GA_Curr = GA_Curr + 1;
+                <span class="keyword">end</span>
+                <span class="comment">% Replace the individual</span>
+                <span class="keyword">for</span> RowNum = 1:PopNum
+                    <span class="keyword">if</span> TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+                        TransPos(RowNum,:) = GA_Fit_Chrom(1,:);
+                        <span class="keyword">break</span>;
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+                GA_Num_Curr = GA_Num_Curr + 1;
+            <span class="keyword">end</span>
+
+            <span class="comment">% Update GA_Vars</span>
+            GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+            GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+            GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+            PosPop = TransPos;
+            VelPop = TransVel;
+            PSO_Curr = PSO_Curr + 1;
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> PSO_Curr &gt;= PSO_Max
+            <span class="keyword">for</span> i = 1:PopNum
+                <span class="keyword">if</span> min(FitVal) == FitVal(i)
+                    minInd = i;
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> max(FitVal) == FitVal(i)
+                    maxInd = i;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            g1_b = -PosPop(minInd, 1) + 0.0193*PosPop(minInd, 3);
+            g2_b = -PosPop(minInd, 2) + 0.0095*PosPop(minInd, 3);
+            g3_b = -(pi*(PosPop(minInd, 3)^2)*PosPop(minInd, 4)) - ((4/3)*pi*(PosPop(minInd, 3)^3)) + 1296000;
+            g4_b = PosPop(minInd, 4) - 240;
+
+            g1_w = -PosPop(maxInd, 1) + 0.0193*PosPop(maxInd, 3);
+            g2_w = -PosPop(maxInd, 2) + 0.0095*PosPop(maxInd, 3);
+            g3_w = -(pi*(PosPop(maxInd, 3)^2)*PosPop(maxInd, 4)) - ((4/3)*pi*(PosPop(maxInd, 3)^3)) + 1296000;
+            g4_w = PosPop(maxInd, 4) - 240;
+
+            mPos = mean(FitVal);
+            X = sprintf(<span class="string">'Did Not Converge!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15e\n'</span>,PSO_Curr,FitVal(minInd), PosPop(minInd, :), g1_b,g2_b,g3_b,g4_b, FitVal(maxInd), PosPop(maxInd, :), g1_w,g2_w,g3_w,g4_w, mPos);
+            disp(X);
+        <span class="keyword">end</span>
+            <span class="keyword">if</span> PSO_Curr &gt;= PSO_Max
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b g4_b 0];
+            <span class="keyword">else</span> <span class="comment">% Converged</span>
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b g4_b 1];
+            <span class="keyword">end</span>
+
+            timeRec(trials) = toc;
+            X = sprintf(<span class="string">'Running Time for this trial: %0.15e\n'</span>, timeRec(trials));
+            disp(X);
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> convRuns &gt; 0
+            <span class="comment">% Get Best Fit</span>
+            ConvVals = zeros(convRuns,1);
+            i=1;
+            <span class="keyword">for</span> o = 1:RunMax
+                <span class="keyword">if</span>(Ans(o,ProbDim+ConsNum+1+1) == 1)
+                    ConvVals(i) = Ans(o,ProbDim+1);
+                    i=i+1;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+            Best = min(ConvVals);
+            <span class="keyword">for</span> o = 1:RunMax
+                <span class="keyword">if</span> min(ConvVals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                    <span class="keyword">break</span>;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+            <span class="comment">% Generate Stats</span>
+            Mean = mean(ConvVals);
+            StdDev = std(ConvVals);
+            Median = median(ConvVals);
+            Worst = max(ConvVals);
+
+        <span class="keyword">else</span>
+            <span class="comment">% Get Best Fit</span>
+            Vals = zeros(RunMax,1);
+            <span class="keyword">for</span> o = 1:RunMax
+                Vals(o) = Ans(o,ProbDim+1);
+            <span class="keyword">end</span>
+
+            <span class="comment">% Generate Stats</span>
+            Mean = mean(Vals);
+            StdDev = std(Vals);
+            Median = median(Vals);
+            Worst = max(Vals);
+            Best = min(Vals);
+
+            <span class="comment">% Get index of best run</span>
+            BesInd = 0;
+            <span class="keyword">for</span> o = 1:RunMax
+                <span class="keyword">if</span> min(Vals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        ConvRatio = convRuns/RunMax;
+        totalTime = sum(timeRec);
+        aveTime = mean(timeRec);
+
+        X = sprintf(<span class="string">'\n\nBest OverAll Value: %0.15f\nPosition: %0.15f %0.15f %0.15f %0.15f\nConstraints:\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Best Overall Value: %0.15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\nTotal Running Time for all trials: %0.15e\nAverage running time: %0.15e\n'</span>, Best, Ans(BesInd, 1), Ans(BesInd, 2), Ans(BesInd, 3), Ans(BesInd, 4), Ans(BesInd, 6), Ans(BesInd, 7), Ans(BesInd, 8), Ans(BesInd, 9), Mean, Median, StdDev, Worst, convRuns, ConvRatio, totalTime, aveTime);
+        disp(X);
+
+        mun=mun+1;
+    <span class="keyword">end</span>
+
+    save(<span class="string">'currun.mat'</span>);
+    rune = rune+1;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+CurPopNum: 150
+
+
+MaxIt: 300
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 6051.918336521469428
+Best Position: 0.868520600514804 0.427510140149774 45.001067384186726 143.707240068283966
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -96.292759931716034
+Worst Value: 6148.211096464678121
+Worst Position: 0.868520600514786 0.427510140149764 45.001067384186513 143.707240068284420
+G1: 0.000000000000014
+G2: 0.000000000000008
+G3: 0.000000011175871
+G4: -96.292759931715580
+Mean: 6.075670550638179e+03
+
+Running Time for this trial: 3.052258351900000e+01
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 6201.742544931668817
+Best Position: 0.934493028273600 0.459983614953326 48.419327889823840 111.402379920601831
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -128.597620079398155
+Worst Value: 6330.340165040895045
+Worst Position: 0.934493028273600 0.459983614953326 48.419327889823869 111.402379920600595
+G1: 0.000000000000000
+G2: 0.000000000000001
+G3: 0.000000007217750
+G4: -128.597620079399405
+Mean: 6.258325497776963e+03
+
+Running Time for this trial: 2.943007371300000e+01
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 5880.671339646910383
+Best Position: 0.778168740494825 0.383036478490659 40.319623793181677 199.999937180726107
+G1: -0.000000001286419
+G2: -0.000000052455433
+G3: -0.039560585282743
+G4: -40.000062819273893
+Worst Value: 5922.081768517075034
+Worst Position: 0.778140119838825 0.383036475576849 40.319623474182563 199.999941640677292
+G1: 0.000028613212899
+G2: -0.000000052572115
+G3: -0.039658911526203
+G4: -40.000058359322708
+Mean: 5.894788859043945e+03
+
+Running Time for this trial: 2.953578584600000e+01
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 5975.628511275772325
+Best Position: 0.830684617486705 0.408887521455204 43.040646664733366 165.300849778888193
+G1: -0.000000136857351
+G2: -0.000001378140237
+G3: -0.000004029367119
+G4: -74.699150221111807
+Worst Value: 6050.337909725029022
+Worst Position: 0.830685824244185 0.408888053189213 43.040709533068558 165.300115400543177
+G1: -0.000000130255962
+G2: -0.000001312625062
+G3: 0.000026603462175
+G4: -74.699884599456823
+Mean: 6.002524591754898e+03
+
+Running Time for this trial: 2.937753790000000e+01
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 297
+Best Value: 5882.804938120840234
+Best Position: 0.778168641822869 0.383774662608494 40.319618747288381 199.999999679750459
+G1: -0.000000000000203
+G2: -0.000738284509254
+G3: -0.000013112323359
+G4: -40.000000320249541
+Worst Value: 5882.804941190242971
+Worst Position: 0.778168641719280 0.383774663487880 40.319618738509845 199.999999806457765
+G1: -0.000000000066040
+G2: -0.000738285472037
+G3: -0.000036113662645
+G4: -40.000000193542235
+Mean: 5.882804938734693e+03
+
+Running Time for this trial: 2.934788923800000e+01
+
+
+Trial: 6
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 6175.940272873413051
+Best Position: 0.900698015835117 0.457211357572986 46.668290764502622 127.189291092405981
+G1: -0.000000004080216
+G2: -0.013862595310211
+G3: -0.000780547503382
+G4: -112.810708907594019
+Worst Value: 6288.946177575834554
+Worst Position: 0.900726785840990 0.457218077240554 46.669779378892940 127.175222803727749
+G1: -0.000000043828356
+G2: -0.013855173141071
+G3: 0.001271086512133
+G4: -112.824777196272251
+Mean: 6.184259547461125e+03
+
+Running Time for this trial: 2.940774748200000e+01
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 6552.792505238397098
+Best Position: 1.060625157405958 0.522069377997751 54.954671368184329 63.325594865572988
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -176.674405134427019
+Worst Value: 6729.466910474046017
+Worst Position: 1.060625157405958 0.522069377997751 54.954671368185089 63.325594865574367
+G1: 0.000000000000014
+G2: 0.000000000000008
+G3: -0.000000058673322
+G4: -176.674405134425626
+Mean: 6.571637775125010e+03
+
+Running Time for this trial: 2.947102487400000e+01
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 5880.670847701672756
+Best Position: 0.778168641379689 0.383036378063173 40.319618724312150 199.999999999780044
+G1: -0.000000000000464
+G2: -0.000000000182207
+G3: -0.000014050630853
+G4: -40.000000000219956
+Worst Value: 5920.670863977260524
+Worst Position: 0.778168641136807 0.383036377965969 40.319618711764647 200.000000174793058
+G1: 0.000000000000251
+G2: -0.000000000204205
+G3: -0.000015800585970
+G4: -39.999999825206942
+Mean: 5.895070853110181e+03
+
+Running Time for this trial: 2.946910051000000e+01
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 5919.583639012422282
+Best Position: 0.800464285863805 0.394046152452418 41.474799928517555 184.520892089805187
+G1: -0.000000647243416
+G2: -0.000035553131501
+G3: -0.004807931836694
+G4: -55.479107910194813
+Worst Value: 5975.134250200477254
+Worst Position: 0.800468115891462 0.394047913222661 41.474998702062393 184.518326974029492
+G1: -0.000000640941658
+G2: -0.000035425553068
+G3: 0.002519168891013
+G4: -55.481673025970508
+Mean: 5.943292052942622e+03
+
+Running Time for this trial: 2.959044439300000e+01
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 300
+Best Value: 6066.713342887260296
+Best Position: 0.875486260243551 0.430938928982630 45.361977629725921 139.997416312157128
+G1: -0.000000091989840
+G2: -0.000000141500234
+G3: -0.000312995165586
+G4: -100.002583687842872
+Worst Value: 6169.176446291809043
+Worst Position: 0.875470544315254 0.430931193210712 45.361163330266855 140.005357410294806
+G1: -0.000000092041103
+G2: -0.000000141573177
+G3: 2.213831997709349
+G4: -99.994642589705194
+Mean: 6.098870504816093e+03
+
+Running Time for this trial: 2.958088873500000e+01
+
+
+
+Best OverAll Value: 5882.804938120840234
+Position: 0.778168641822869 0.383774662608494 40.319618747288381 199.999999679750459
+Constraints:
+G1: -0.000000000000203
+G2: -0.000738284509254
+G3: -0.000013112323359
+G4: -40.000000320249541
+Mean: 5882.804938120840234
+Median: 5882.804938120840234
+Standard Deviation:0.000000000000000
+Worst Best Overall Value: 5882.804938120840234
+Number of Converged Runs: 1
+Ratio of Convergence: 1.000000000000000e-01
+Total Running Time for all trials: 2.957330762100000e+02
+Average running time: 2.957330762100000e+01
+
+
+MaxIt: 600
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 6512.614839601954372
+Best Position: 1.047680687083849 0.515697747528320 54.283973424033633 67.616157804972644
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -172.383842195027341
+Worst Value: 6684.998681797216705
+Worst Position: 1.047680687083849 0.515697747528320 54.283973424033626 67.616157804972659
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000232831
+G4: -172.383842195027341
+Mean: 6.517211742060475e+03
+
+Running Time for this trial: 5.853405720100000e+01
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 6369.817260086527313
+Best Position: 0.997146587443607 0.489913026661218 51.569792280128240 86.359051337120675
+G1: -0.001849596437132
+G2: 0.000000000000000
+G3: -0.000000011641532
+G4: -153.640948662879339
+Worst Value: 6523.460058358738934
+Worst Position: 0.997146587443592 0.489913026661211 51.569792280127452 86.359051337126587
+G1: -0.001849596437133
+G2: 0.000000000000000
+G3: -0.000000012340024
+G4: -153.640948662873427
+Mean: 6.405667246349804e+03
+
+Running Time for this trial: 5.898895072000000e+01
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 5957.365267320556086
+Best Position: 0.813395958875410 0.402055914367213 42.073584729597819 176.944906297952372
+G1: -0.001375773594172
+G2: -0.002356859436033
+G3: -0.005011434201151
+G4: -63.055093702047628
+Worst Value: 6020.499904930513367
+Worst Position: 0.813356058762879 0.402042257571553 42.071256514491395 176.973788521258712
+G1: -0.001380808033195
+G2: -0.002365320683884
+G3: 0.083331887610257
+G4: -63.026211478741288
+Mean: 5.972931247531726e+03
+
+Running Time for this trial: 5.906016703600000e+01
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 5880.671160220461388
+Best Position: 0.778168641375105 0.383036486200421 40.319618724098724 199.999999999999943
+G1: 0.000000000000000
+G2: -0.000000108321483
+G3: 0.000000000000000
+G4: -40.000000000000057
+Worst Value: 5920.671160329252416
+Worst Position: 0.778168641375106 0.383036486200421 40.319618724098731 199.999999999999744
+G1: 0.000000000000000
+G2: -0.000000108321483
+G3: 0.000000000465661
+G4: -40.000000000000256
+Mean: 5.888404493574821e+03
+
+Running Time for this trial: 5.879038697200000e+01
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 6071.725477735663844
+Best Position: 0.872608500715994 0.432237868833960 45.201741776376721 141.634948615234066
+G1: -0.000214884431924
+G2: -0.002821321958382
+G3: -0.000000095460564
+G4: -98.365051384765934
+Worst Value: 6170.095096178857602
+Worst Position: 0.872609383641277 0.432238078301913 45.201800338245405 141.634347367159364
+G1: -0.000214637113140
+G2: -0.002820975088582
+G3: 0.000042191473767
+G4: -98.365652632840636
+Mean: 6.103859508466284e+03
+
+Running Time for this trial: 5.897912604400000e+01
+
+
+Trial: 6
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 5880.670848507295887
+Best Position: 0.778168641375105 0.383036378363835 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: -0.000000000484897
+G3: 0.000000000000000
+G4: -40.000000000000000
+Worst Value: 5920.670848508016206
+Worst Position: 0.778168641375105 0.383036378363835 40.319618724098724 199.999999999999915
+G1: 0.000000000000000
+G2: -0.000000000484897
+G3: 0.000000000232831
+G4: -40.000000000000085
+Mean: 5.881470848507322e+03
+
+Running Time for this trial: 5.827785148000000e+01
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 5944.812640724750054
+Best Position: 0.814380661406128 0.400860947324260 42.195889192027344 175.432843818346811
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -64.567156181653189
+Worst Value: 6009.379796906403499
+Worst Position: 0.814380661406128 0.400860947324260 42.195889192027344 175.432843818346811
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -64.567156181653189
+Mean: 5.945673536140491e+03
+
+Running Time for this trial: 5.737304360100000e+01
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 600
+Best Value: 6111.482937570001923
+Best Position: 0.895675882519475 0.441016564291463 46.408008589543854 129.666968637743111
+G1: -0.000001316741279
+G2: -0.000140482690797
+G3: 0.000000000000000
+G4: -110.333031362256889
+Worst Value: 6221.816148197010079
+Worst Position: 0.895675889483669 0.441016567148175 46.408008966009582 129.666965028141163
+G1: -0.000001316439684
+G2: -0.000140481971084
+G3: 0.000000000232831
+G4: -110.333034971858837
+Mean: 6.137227361258235e+03
+
+Running Time for this trial: 5.784835208500000e+01
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 567
+Best Value: 6269.029369744802352
+Best Position: 0.961302626430993 0.473180049279504 49.808426239947842 99.872392121013405
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -140.127607878986595
+Worst Value: 6269.029369744802352
+Worst Position: 0.961302626430993 0.473180049279504 49.808426239947842 99.872392121013405
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -140.127607878986595
+Mean: 6.269029369744814e+03
+
+Running Time for this trial: 5.673529123100000e+01
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 525
+Best Value: 5957.661027165278938
+Best Position: 0.821258363639423 0.404246344796607 42.552246820695501 171.093264796869960
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -68.906735203130040
+Worst Value: 5957.661027165279847
+Worst Position: 0.821258363639423 0.404246344796608 42.552246820695501 171.093264796869960
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -68.906735203130040
+Mean: 5.957661027165272e+03
+
+Running Time for this trial: 5.435280357100000e+01
+
+
+
+Best OverAll Value: 5957.661027165278938
+Position: 0.821258363639423 0.404246344796607 42.552246820695501 171.093264796869960
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -68.906735203130040
+Mean: 6113.345198455041100
+Median: 6113.345198455041100
+Standard Deviation:220.170666484797039
+Worst Best Overall Value: 6269.029369744802352
+Number of Converged Runs: 2
+Ratio of Convergence: 2.000000000000000e-01
+Total Running Time for all trials: 5.789400299409999e+02
+Average running time: 5.789400299409999e+01
+
+
+MaxIt: 900
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 900
+Best Value: 5880.713443272707082
+Best Position: 0.778193825176775 0.383048774050744 40.320923584288849 199.981836192554709
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.018163807445291
+Worst Value: 5920.731607080620051
+Worst Position: 0.778193825176775 0.383048774050744 40.320923584288842 199.981836192554738
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000465661
+G4: -40.018163807445262
+Mean: 5.882580957583747e+03
+
+Running Time for this trial: 8.658612609900000e+01
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 657
+Best Value: 5881.483364762987549
+Best Position: 0.778280718510968 0.383036377878938 40.319618724098717 200.000000000000000
+G1: -0.000112077135862
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000000
+Worst Value: 5881.483368407203670
+Worst Position: 0.778280719013633 0.383036377878938 40.319618724098724 199.999999999999972
+G1: -0.000112077638527
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000028
+Mean: 5.881483365646022e+03
+
+Running Time for this trial: 6.974335900400000e+01
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 818
+Best Value: 5880.684001604728110
+Best Position: 0.778168641766909 0.383040928616868 40.319618744399421 199.999999717399419
+G1: 0.000000000000000
+G2: -0.000004550545073
+G3: 0.000000000000000
+G4: -40.000000282600581
+Worst Value: 5880.684001604729929
+Worst Position: 0.778168641766909 0.383040928616868 40.319618744399406 199.999999717399618
+G1: 0.000000000000000
+G2: -0.000004550545073
+G3: 0.000000000000000
+G4: -40.000000282600382
+Mean: 5.880684001604712e+03
+
+Running Time for this trial: 8.407832157400000e+01
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 874
+Best Value: 5880.765732589194158
+Best Position: 0.778221954396476 0.383062203040548 40.322337162162853 199.962160821405689
+G1: -0.000000847166733
+G2: -0.000000000000000
+G3: -0.000000003958121
+G4: -40.037839178594311
+Worst Value: 5880.765732589592517
+Worst Position: 0.778221954396531 0.383062203040548 40.322337162162867 199.962160821405490
+G1: -0.000000847166788
+G2: -0.000000000000000
+G3: -0.000000003725290
+G4: -40.037839178594510
+Mean: 5.880765732589320e+03
+
+Running Time for this trial: 8.718127788400000e+01
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 824
+Best Value: 5880.670847105649955
+Best Position: 0.778168641375105 0.383036377878938 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000000
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375105 0.383036377878938 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000000
+Mean: 5.880670847105669e+03
+
+Running Time for this trial: 8.496474348300001e+01
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 744
+Best Value: 5880.679132993229359
+Best Position: 0.778173537154829 0.383038787718965 40.319872391441841 199.996469044185545
+G1: -0.000000000000001
+G2: -0.000000000000267
+G3: -0.001268261577934
+G4: -40.003530955814455
+Worst Value: 5880.679133005041876
+Worst Position: 0.778173537154605 0.383038787718733 40.319872391430266 199.996469044931729
+G1: -0.000000000000001
+G2: -0.000000000000145
+G3: -0.001271249493584
+G4: -40.003530955068271
+Mean: 5.880679132997671e+03
+
+Running Time for this trial: 7.893113733600001e+01
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 682
+Best Value: 6072.921359797805053
+Best Position: 0.877251582790809 0.431520286111688 45.423188011741367 139.375849462178934
+G1: -0.000584054164201
+G2: -0.000000000000145
+G3: -0.000000011408702
+G4: -100.624150537821066
+Worst Value: 6072.921366081974156
+Worst Position: 0.877251586105648 0.431520287839875 45.423188193660444 139.375847618130990
+G1: -0.000584053968001
+G2: -0.000000000000101
+G3: -0.000000167172402
+G4: -100.624152381869010
+Mean: 6.072921361874166e+03
+
+Running Time for this trial: 7.267443999000000e+01
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 900
+Best Value: 5880.670847105649955
+Best Position: 0.778168641375105 0.383036377878938 40.319618724098724 199.999999999999943
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000057
+Worst Value: 5920.670847106351175
+Worst Position: 0.778168641375105 0.383036377878938 40.319618724098710 200.000000000000028
+G1: -0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000698492
+G4: -39.999999999999972
+Mean: 5.882804180439020e+03
+
+Running Time for this trial: 8.672546801700000e+01
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 660
+Best Value: 5880.671082373613899
+Best Position: 0.778168641466335 0.383036458774197 40.319618728800862 199.999999999999659
+G1: -0.000000000000478
+G2: -0.000000080850589
+G3: -0.000334301264957
+G4: -40.000000000000341
+Worst Value: 5880.671083195215033
+Worst Position: 0.778168641518686 0.383036458772750 40.319618731525388 199.999999999998863
+G1: -0.000000000000246
+G2: -0.000000080823259
+G3: -0.000528000062332
+G4: -40.000000000001137
+Mean: 5.880671082593391e+03
+
+Running Time for this trial: 7.033983109700000e+01
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 690
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105669e+03
+
+Running Time for this trial: 7.315497313000000e+01
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5904.818296041607937
+Median: 5880.681567298978734
+Standard Deviation:67.924469333254706
+Worst Best Overall Value: 6072.921359797805053
+Number of Converged Runs: 8
+Ratio of Convergence: 8.000000000000000e-01
+Total Running Time for all trials: 7.943796776140001e+02
+Average running time: 7.943796776140002e+01
+
+
+MaxIt: 1200
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 767
+Best Value: 5881.654912424093709
+Best Position: 0.778304358676700 0.383036385857856 40.319619563844796 199.999999999887422
+G1: -0.000135701094496
+G2: -0.000000000001330
+G3: -0.059701945399866
+G4: -40.000000000112578
+Worst Value: 5881.654912738982603
+Worst Position: 0.778304358688321 0.383036385868794 40.319619565053912 199.999999999931191
+G1: -0.000135701082780
+G2: -0.000000000000782
+G3: -0.059788132319227
+G4: -40.000000000068809
+Mean: 5.881654912575247e+03
+
+Running Time for this trial: 8.173525233700001e+01
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 692
+Best Value: 5881.521013928609136
+Best Position: 0.778168641375193 0.383330491499720 40.319618724102590 199.999999999947249
+G1: -0.000000000000013
+G2: -0.000294113620746
+G3: -0.000000005820766
+G4: -40.000000000052751
+Worst Value: 5881.521013930002482
+Worst Position: 0.778168641375151 0.383330491500225 40.319618724100721 199.999999999972800
+G1: -0.000000000000007
+G2: -0.000294113621268
+G3: -0.000000003259629
+G4: -40.000000000027200
+Mean: 5.881521013929170e+03
+
+Running Time for this trial: 7.363411816300000e+01
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 944
+Best Value: 5880.723902326145435
+Best Position: 0.778172619203045 0.383037580783218 40.319745345591713 199.999999998671370
+G1: -0.000001534033125
+G2: -0.000000000000096
+G3: -9.002282909117639
+G4: -40.000000001328630
+Worst Value: 5880.723902422685569
+Worst Position: 0.778172619206182 0.383037580786040 40.319745345896123 199.999999999407066
+G1: -0.000001534030387
+G2: -0.000000000000027
+G3: -9.002308308612555
+G4: -40.000000000592934
+Mean: 5.880723902362321e+03
+
+Running Time for this trial: 1.003329551010000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 1200
+Best Value: 6366.432789655637862
+Best Position: 0.997648018677973 0.491070255592170 51.691605851807424 85.466406060482811
+G1: -0.000000025738089
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -154.533593939517175
+Worst Value: 6520.966387095673781
+Worst Position: 0.997648019036871 0.491070255769468 51.691605870470362 85.466405924117012
+G1: -0.000000025736793
+G2: 0.000000000000000
+G3: -0.000000001396984
+G4: -154.533594075883002
+Mean: 6.421034661059354e+03
+
+Running Time for this trial: 1.162171027340000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 748
+Best Value: 5880.747287356251945
+Best Position: 0.778168641375106 0.383062822240533 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000026444361595
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.747287356252855
+Worst Position: 0.778168641375106 0.383062822240533 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000026444361595
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880747287356266e+03
+
+Running Time for this trial: 7.944808706100000e+01
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 755
+Best Value: 5880.675476104096560
+Best Position: 0.778168722556154 0.383037775678174 40.319618724166112 199.999999999068194
+G1: -0.000000081179748
+G2: -0.000001397798596
+G3: -0.000000032363459
+G4: -40.000000000931806
+Worst Value: 5880.675476134711971
+Worst Position: 0.778168722558249 0.383037775682077 40.319618724135239 199.999999999497561
+G1: -0.000000081182438
+G2: -0.000001397802792
+G3: -0.000000030267984
+G4: -40.000000000502439
+Mean: 5.880675476114351e+03
+
+Running Time for this trial: 8.080345933800000e+01
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 885
+Best Value: 5999.128373252598976
+Best Position: 0.842705294200241 0.414803107403006 43.663484989789083 158.162628191255067
+G1: -0.000000033897311
+G2: -0.000000000000010
+G3: -0.000001719687134
+G4: -81.837371808744933
+Worst Value: 5999.128374215369149
+Worst Position: 0.842705294608460 0.414803107587216 43.663485009176682 158.162627973079623
+G1: -0.000000033931350
+G2: -0.000000000000038
+G3: -0.000000705476850
+G4: -81.837372026920377
+Mean: 5.999128373536138e+03
+
+Running Time for this trial: 9.481200337900000e+01
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 747
+Best Value: 5880.679028402074437
+Best Position: 0.778169769912258 0.383036377879002 40.319618724098895 199.999999999997868
+G1: -0.000001128537150
+G2: -0.000000000000062
+G3: -0.000000001396984
+G4: -40.000000000002132
+Worst Value: 5880.679028402532822
+Worst Position: 0.778169769912337 0.383036377878962 40.319618724098873 199.999999999998067
+G1: -0.000001128537229
+G2: -0.000000000000022
+G3: -0.000000001164153
+G4: -40.000000000001933
+Mean: 5.880679028402252e+03
+
+Running Time for this trial: 7.995258660300000e+01
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 998
+Best Value: 5880.942408231673653
+Best Position: 0.778188666432713 0.383042655486541 40.320279524857398 199.999999999931504
+G1: -0.000007271602965
+G2: -0.000000000000396
+G3: -46.980732926167548
+G4: -40.000000000068496
+Worst Value: 5880.942408236359370
+Worst Position: 0.778188666432997 0.383042655486592 40.320279524877400 199.999999999894385
+G1: -0.000007271602863
+G2: -0.000000000000256
+G3: -46.980734158307314
+G4: -40.000000000105615
+Mean: 5.880942408233480e+03
+
+Running Time for this trial: 1.057954581260000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 678
+Best Value: 5880.672687443102404
+Best Position: 0.778168748664152 0.383036430694100 40.319624283113278 199.999999967505573
+G1: -0.000000000000066
+G2: -0.000000000004523
+G3: -0.395057332236320
+G4: -40.000000032494427
+Worst Value: 5880.672690068458905
+Worst Position: 0.778168748796607 0.383036430756551 40.319624289976915 199.999999984307948
+G1: -0.000000000000052
+G2: -0.000000000001770
+G3: -0.395631121937186
+G4: -40.000000015692052
+Mean: 5.880672688246175e+03
+
+Running Time for this trial: 7.258198792700000e+01
+
+
+
+Best OverAll Value: 5880.672687443102404
+Position: 0.778168748664152 0.383036430694100 40.319624283113278 199.999999967505573
+Constraints:
+G1: -0.000000000000066
+G2: -0.000000000004523
+G3: -0.395057332236320
+G4: -40.000000032494427
+Mean: 5894.082787718738473
+Median: 5880.747287356251945
+Standard Deviation:39.393904676220849
+Worst Best Overall Value: 5999.128373252598976
+Number of Converged Runs: 9
+Ratio of Convergence: 9.000000000000000e-01
+Total Running Time for all trials: 8.853130107689999e+02
+Average running time: 8.853130107689999e+01
+
+
+MaxIt: 1500
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 971
+Best Value: 5880.671294263187519
+Best Position: 0.778168641375106 0.383036532572250 40.319618724098731 199.999999999999915
+G1: 0.000000000000000
+G2: -0.000000154693312
+G3: -0.000000000465661
+G4: -40.000000000000085
+Worst Value: 5880.671294268308884
+Worst Position: 0.778168641375106 0.383036532574022 40.319618724098731 199.999999999999886
+G1: 0.000000000000000
+G2: -0.000000154695084
+G3: -0.000000000465661
+G4: -40.000000000000114
+Mean: 5.880671294264819e+03
+
+Running Time for this trial: 1.034791463370000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 1069
+Best Value: 5880.804671167257766
+Best Position: 0.778246998637055 0.383074947510260 40.323678685290517 199.943549801397836
+G1: -0.000000000010948
+G2: -0.000000000000000
+G3: -0.304971198551357
+G4: -40.056450198602164
+Worst Value: 5880.804674274986610
+Worst Position: 0.778246998490693 0.383074947441059 40.323678678006154 199.943550060697902
+G1: -0.000000000005174
+G2: -0.000000000000000
+G3: -0.305777910631150
+G4: -40.056449939302098
+Mean: 5.880804672060622e+03
+
+Running Time for this trial: 1.141361029430000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 1270
+Best Value: 5880.680704853603856
+Best Position: 0.778174469639982 0.383039246713981 40.319920706734827 199.995796224344673
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.004203775655327
+Worst Value: 5880.680704853604766
+Worst Position: 0.778174469639982 0.383039246713981 40.319920706734827 199.995796224344673
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.004203775655327
+Mean: 5.880680704853611e+03
+
+Running Time for this trial: 1.334278998980000e+02
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 1038
+Best Value: 5880.706135182329490
+Best Position: 0.778173509061105 0.383036377887185 40.319618724966809 199.999999987915572
+G1: -0.000004867669246
+G2: 0.000000000000000
+G3: -0.000000000232831
+G4: -40.000000012084428
+Worst Value: 5880.706136542627064
+Worst Position: 0.778173509248745 0.383036377887185 40.319618724966809 199.999999987915572
+G1: -0.000004867856886
+G2: 0.000000000000000
+G3: -0.000000000232831
+G4: -40.000000012084428
+Mean: 5.880706135703175e+03
+
+Running Time for this trial: 1.110802835450000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 1052
+Best Value: 5880.670847597371903
+Best Position: 0.778168641446406 0.383036377881184 40.319618724335186 199.999999996717492
+G1: -0.000000000066736
+G2: -0.000000000000000
+G3: -0.000000047264621
+G4: -40.000000003282508
+Worst Value: 5880.670847612890611
+Worst Position: 0.778168641448607 0.383036377881217 40.319618724338589 199.999999996666503
+G1: -0.000000000068872
+G2: -0.000000000000000
+G3: -0.000000028871000
+G4: -40.000000003333497
+Mean: 5.880670847603427e+03
+
+Running Time for this trial: 1.125089750820000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 925
+Best Value: 5880.670850190734200
+Best Position: 0.778168643199135 0.383036378776776 40.319618818608049 199.999998684361259
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000001315638741
+Worst Value: 5880.670850190735109
+Worst Position: 0.778168643199135 0.383036378776777 40.319618818608049 199.999998684361231
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000001315638769
+Mean: 5.880670850190718e+03
+
+Running Time for this trial: 9.885059449100000e+01
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 758
+Best Value: 5880.948872329233382
+Best Position: 0.778206992203502 0.383036377879310 40.319618724134422 199.999999999540506
+G1: -0.000038350827707
+G2: -0.000000000000033
+G3: -0.000000191386789
+G4: -40.000000000459494
+Worst Value: 5880.948872384564311
+Worst Position: 0.778206992210988 0.383036377879176 40.319618724121526 199.999999999706432
+G1: -0.000038350835442
+G2: -0.000000000000021
+G3: -0.000000122236088
+G4: -40.000000000293568
+Mean: 5.880948872347662e+03
+
+Running Time for this trial: 8.126660046700000e+01
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 965
+Best Value: 5880.670847254534237
+Best Position: 0.778168641375117 0.383036377930443 40.319618724099321 199.999999999991587
+G1: 0.000000000000000
+G2: -0.000000000051500
+G3: 0.000000000000000
+G4: -40.000000000008413
+Worst Value: 5880.670847304979361
+Worst Position: 0.778168641375117 0.383036377947895 40.319618724099321 199.999999999991587
+G1: 0.000000000000000
+G2: -0.000000000068951
+G3: 0.000000000000000
+G4: -40.000000000008413
+Mean: 5.880670847270117e+03
+
+Running Time for this trial: 1.031229497930000e+02
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 699
+Best Value: 5880.827337062123661
+Best Position: 0.778168641534081 0.383090515256478 40.319618732163200 199.999999888694674
+G1: -0.000000000003331
+G2: -0.000054137300927
+G3: -0.000004893168807
+G4: -40.000000111305326
+Worst Value: 5880.827338491850242
+Worst Position: 0.778168641479176 0.383090515757495 40.319618729354410 199.999999927846574
+G1: -0.000000000002635
+G2: -0.000054137828628
+G3: -0.000005156267434
+G4: -40.000000072153426
+Mean: 5.880827337586998e+03
+
+Running Time for this trial: 7.495190940300000e+01
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 1258
+Best Value: 5880.670847105903704
+Best Position: 0.778168641375106 0.383036377879026 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000088
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105904613
+Worst Position: 0.778168641375106 0.383036377879026 40.319618724098731 199.999999999999801
+G1: 0.000000000000000
+G2: -0.000000000000088
+G3: 0.000000000000000
+G4: -40.000000000000199
+Mean: 5.880670847105909e+03
+
+Running Time for this trial: 1.328711202410000e+02
+
+
+
+Best OverAll Value: 5880.670847105903704
+Position: 0.778168641375106 0.383036377879026 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000088
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5880.732240700627699
+Median: 5880.675999558396143
+Standard Deviation:0.096232876894096
+Worst Best Overall Value: 5880.948872329233382
+Number of Converged Runs: 10
+Ratio of Convergence: 1.000000000000000e+00
+Total Running Time for all trials: 1.065695582200000e+03
+Average running time: 1.065695582200000e+02
+
+
+CurPopNum: 250
+
+
+MaxIt: 500
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5881.018290222602445
+Best Position: 0.778188795003165 0.383046855607202 40.320662953530572 200.000000000000000
+G1: -0.000000000000025
+G2: -0.000000557548661
+G3: -74.241689443588257
+G4: -40.000000000000000
+Worst Value: 5881.018290236881512
+Worst Position: 0.778188795003993 0.383046855607769 40.320662953571293 199.999999999998465
+G1: -0.000000000000067
+G2: -0.000000557548841
+G3: -74.241692331153899
+G4: -40.000000000001535
+Mean: 5.881018290225159e+03
+
+Running Time for this trial: 4.967733347800000e+01
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5970.459107586406390
+Best Position: 0.816483538127458 0.400572819871330 42.101351177346231 176.600594373541753
+G1: -0.003927460404676
+G2: -0.000609983686541
+G3: -0.000000015366822
+G4: -63.399405626458247
+Worst Value: 6033.863161553545069
+Worst Position: 0.816483665140777 0.400572894853868 42.101359860655997 176.600486793127686
+G1: -0.003927419830116
+G2: -0.000609976177636
+G3: 0.000001362292096
+G4: -63.399513206872314
+Mean: 5.986944131366102e+03
+
+Running Time for this trial: 4.969948424200000e+01
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5954.077154208431239
+Best Position: 0.819351524632632 0.403307745285492 42.453446872157095 172.286666620139272
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -67.713333379860728
+Worst Value: 6021.790487589710210
+Worst Position: 0.819351524632631 0.403307745285491 42.453446872157038 172.286666620139727
+G1: -0.000000000000000
+G2: 0.000000000000001
+G3: 0.000000001396984
+G4: -67.713333379860273
+Mean: 6.000663927574004e+03
+
+Running Time for this trial: 4.970676157900000e+01
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 6021.803394484124510
+Best Position: 0.853985349766781 0.420355483045825 44.247945583771013 151.704859601921527
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -88.295140398078473
+Worst Value: 6110.098534882671629
+Worst Position: 0.853985349766780 0.420355483045825 44.247945583771006 151.704859601921697
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: -0.000000000465661
+G4: -88.295140398078303
+Mean: 6.024275658415261e+03
+
+Running Time for this trial: 4.925052854900000e+01
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5947.522826406331660
+Best Position: 0.815841081494668 0.401579806953538 42.271558626662362 174.503192394443488
+G1: -0.000000000000084
+G2: -0.000000000000246
+G3: -0.000053432071581
+G4: -65.496807605556512
+Worst Value: 6013.019746777436012
+Worst Position: 0.815841081496803 0.401579806951534 42.271558626807277 174.503192392880635
+G1: 0.000000000000578
+G2: 0.000000000003136
+G3: -0.000054629286751
+G4: -65.496807607119365
+Mean: 5.969267804386139e+03
+
+Running Time for this trial: 4.993379419900000e+01
+
+
+Trial: 6
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5892.793559754083617
+Best Position: 0.784582742025514 0.386086885474910 40.640724786832472 195.577746442632161
+G1: -0.000216753639647
+G2: -0.000000000000002
+G3: -0.000000003259629
+G4: -44.422253557367839
+Worst Value: 5937.216030119342577
+Worst Position: 0.784582742041003 0.386086885483088 40.640724787680831 195.577746431072796
+G1: -0.000216753638763
+G2: -0.000000000000121
+G3: 0.000000000465661
+G4: -44.422253568927204
+Mean: 5.911628687191408e+03
+
+Running Time for this trial: 4.974431196000000e+01
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 6257.232978981631277
+Best Position: 0.956606005789304 0.470825634767453 49.560593133330386 101.870032891633045
+G1: -0.000086558316028
+G2: -0.000000000000814
+G3: -0.000000453088433
+G4: -138.129967108366941
+Worst Value: 6395.363322406975385
+Worst Position: 0.956606005691693 0.470825635649288 49.560593227761203 101.870032127852781
+G1: -0.000086556395902
+G2: 0.000000000014444
+G3: -0.000016977079213
+G4: -138.129967872147233
+Mean: 6.319115373162556e+03
+
+Running Time for this trial: 4.981192312400000e+01
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 6222.643344686865930
+Best Position: 0.942960209534646 0.464145902381847 48.857232035074048 107.678381124718214
+G1: -0.000015631257716
+G2: -0.000002198048644
+G3: -0.000000023515895
+G4: -132.321618875281786
+Worst Value: 6222.643472857889719
+Worst Position: 0.942960262778173 0.464145928847333 48.857234843628305 107.678357510733221
+G1: -0.000015630296147
+G2: -0.000002197832864
+G3: -0.000000003725290
+G4: -132.321642489266765
+Mean: 6.222643393477760e+03
+
+Running Time for this trial: 4.983161337300000e+01
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881310847105639e+03
+
+Running Time for this trial: 4.955647632100000e+01
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 500
+Best Value: 5880.671342147032192
+Best Position: 0.778168670224595 0.383036392079503 40.319620218890897 199.999999999986329
+G1: -0.000000000000000
+G2: -0.000000000000039
+G3: -0.106273557525128
+G4: -40.000000000013671
+Worst Value: 5920.777686864772477
+Worst Position: 0.778168668697278 0.383036391327715 40.319620139755330 200.000001104937212
+G1: -0.000000000000000
+G2: -0.000000000000040
+G3: -0.106290544848889
+G4: -39.999998895062788
+Mean: 5.895270047026696e+03
+
+Running Time for this trial: 4.985645167000000e+01
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5990.889284558315921
+Median: 5950.799990307381449
+Standard Deviation:139.542215956857262
+Worst Best Overall Value: 6257.232978981631277
+Number of Converged Runs: 0
+Ratio of Convergence: 0.000000000000000e+00
+Total Running Time for all trials: 4.970686784950000e+02
+Average running time: 4.970686784950000e+01
+
+
+MaxIt: 1000
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 865
+Best Value: 5880.670847105773646
+Best Position: 0.778168641375105 0.383036377878981 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: -0.000000000000043
+G3: 0.000000000000000
+G4: -40.000000000000000
+Worst Value: 5880.670847105968278
+Worst Position: 0.778168641375105 0.383036377879048 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: -0.000000000000110
+G3: 0.000000000000000
+G4: -40.000000000000000
+Mean: 5.880670847105831e+03
+
+Running Time for this trial: 9.298885865200000e+01
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 745
+Best Value: 5880.670847105785469
+Best Position: 0.778168641375186 0.383036377878977 40.319618724102881 199.999999999942077
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000057923
+Worst Value: 5880.670847105786379
+Worst Position: 0.778168641375186 0.383036377878978 40.319618724102881 199.999999999942077
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000057923
+Mean: 5.880670847105792e+03
+
+Running Time for this trial: 8.104599392700000e+01
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 625
+Best Value: 5880.675417577095686
+Best Position: 0.778168682218373 0.383037736787111 40.319620839014675 199.999999994516685
+G1: -0.000000000025389
+G2: -0.000001338816472
+G3: -0.150333895580843
+G4: -40.000000005483315
+Worst Value: 5880.675423827647137
+Worst Position: 0.778168682632456 0.383037736628479 40.319620861209742 199.999999997855895
+G1: -0.000000000011108
+G2: -0.000001338446987
+G3: -0.151928928447887
+G4: -40.000000002144105
+Mean: 5.880675419661939e+03
+
+Running Time for this trial: 6.847555027999999e+01
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 883
+Best Value: 5880.670847105816392
+Best Position: 0.778168641375106 0.383036377878996 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000058
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105818211
+Worst Position: 0.778168641375106 0.383036377878996 40.319618724098731 199.999999999999773
+G1: -0.000000000000000
+G2: -0.000000000000058
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105799e+03
+
+Running Time for this trial: 9.476741690400000e+01
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 771
+Best Value: 5880.670866014016610
+Best Position: 0.778168641375106 0.383036384420252 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000006541314
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670866015166212
+Worst Position: 0.778168641375106 0.383036384420650 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000006541712
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670866014441e+03
+
+Running Time for this trial: 8.424177435100000e+01
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 740
+Best Value: 5888.447842520362428
+Best Position: 0.778168641375106 0.385726814883583 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.002690437004645
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5888.447842520363338
+Worst Position: 0.778168641375106 0.385726814883582 40.319618724098731 199.999999999999801
+G1: 0.000000000000000
+G2: -0.002690437004644
+G3: 0.000000000000000
+G4: -40.000000000000199
+Mean: 5.888447842520365e+03
+
+Running Time for this trial: 8.053247591000000e+01
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 754
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105650864
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098738 199.999999999999744
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000256
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 8.216234628500000e+01
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 774
+Best Value: 5882.375697479817063
+Best Position: 0.778168641375106 0.383626167674283 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000589789795345
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5882.375697479817973
+Worst Position: 0.778168641375106 0.383626167674283 40.319618724098738 199.999999999999744
+G1: 0.000000000000000
+G2: -0.000589789795345
+G3: 0.000000000000000
+G4: -40.000000000000256
+Mean: 5.882375697479817e+03
+
+Running Time for this trial: 8.415663867900000e+01
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 1000
+Best Value: 5928.735939460349073
+Best Position: 0.804130616455675 0.396363676175506 41.657199402428340 182.182141089991063
+G1: -0.000146667988808
+G2: -0.000620281852436
+G3: -0.000057584606111
+G4: -57.817858910008937
+Worst Value: 5986.564758464207443
+Worst Position: 0.804133538969450 0.396364362848774 41.657359272043635 182.180103271588195
+G1: -0.000146505019008
+G2: -0.000619449764360
+G3: 0.000019069062546
+G4: -57.819896728411805
+Mean: 5.945854055738336e+03
+
+Running Time for this trial: 1.002687754450000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 714
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 7.795126425600000e+01
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5881.724895457773528
+Median: 5880.670847105816392
+Standard Deviation:2.583336795957553
+Worst Best Overall Value: 5888.447842520362428
+Number of Converged Runs: 9
+Ratio of Convergence: 9.000000000000000e-01
+Total Running Time for all trials: 8.465910946890001e+02
+Average running time: 8.465910946890001e+01
+
+
+MaxIt: 1500
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 990
+Best Value: 5880.877695994427086
+Best Position: 0.778180695798400 0.383042312601053 40.320243280604558 199.999999999945857
+G1: -0.000000000482732
+G2: -0.000000001435309
+G3: -44.403861634200439
+G4: -40.000000000054143
+Worst Value: 5880.877696822901271
+Worst Position: 0.778180695827209 0.383042312612906 40.320243284178936 199.999999999938836
+G1: -0.000000000442556
+G2: -0.000000001413206
+G3: -44.404115727171302
+G4: -40.000000000061164
+Mean: 5.880877696261242e+03
+
+Running Time for this trial: 1.091753823150000e+02
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 1500
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881150847105639e+03
+
+Running Time for this trial: 1.477181265510000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 1412
+Best Value: 5975.381667533432847
+Best Position: 0.830559219608437 0.408824486335759 43.034156456395714 165.376678074592206
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -74.623321925407794
+Worst Value: 5975.381667533434666
+Worst Position: 0.830559219608437 0.408824486335759 43.034156456395714 165.376678074592235
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -74.623321925407765
+Mean: 5.975381667533426e+03
+
+Running Time for this trial: 1.454507276270000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 1500
+Best Value: 6143.785351705963876
+Best Position: 0.910022790823876 0.447914679376252 47.148913618192708 122.706482599943044
+G1: -0.000048757992757
+G2: -0.000000000003421
+G3: 0.000000000000000
+G4: -117.293517400056956
+Worst Value: 6261.079003776284480
+Worst Position: 0.910022804090171 0.447914685959863 47.148914311204933 122.706476220723403
+G1: -0.000048757883916
+G2: -0.000000000003416
+G3: 0.000000000465661
+G4: -117.293523779276597
+Mean: 6.195863740785273e+03
+
+Running Time for this trial: 1.509142084960000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 1126
+Best Value: 5880.671222184068029
+Best Position: 0.778168863136410 0.383036487036358 40.319630214321734 199.999840047784119
+G1: 0.000000000000000
+G2: -0.000000000000302
+G3: 0.000000000000000
+G4: -40.000159952215881
+Worst Value: 5880.671222184071667
+Worst Position: 0.778168863136410 0.383036487036358 40.319630214321741 199.999840047784147
+G1: 0.000000000000000
+G2: -0.000000000000301
+G3: -0.000000000465661
+G4: -40.000159952215853
+Mean: 5.880671222184082e+03
+
+Running Time for this trial: 1.239897124020000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 778
+Best Value: 5880.702196416669722
+Best Position: 0.778168641376563 0.383047223110440 40.319618724174184 199.999999999464052
+G1: -0.000000000000002
+G2: -0.000010845230785
+G3: -0.000002627959475
+G4: -40.000000000535948
+Worst Value: 5880.702196551562338
+Worst Position: 0.778168641375892 0.383047223158931 40.319618724139431 199.999999999710326
+G1: -0.000000000000001
+G2: -0.000010845279606
+G3: -0.000001414911821
+G4: -40.000000000289674
+Mean: 5.880702196473248e+03
+
+Running Time for this trial: 8.577926692000000e+01
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 1194
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 1.295077380160000e+02
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 783
+Best Value: 5880.671660506388434
+Best Position: 0.778168641379204 0.383036659264915 40.319618724170205 199.999999999212264
+G1: -0.000000000002719
+G2: -0.000000281385298
+G3: -0.000001059379429
+G4: -40.000000000787736
+Worst Value: 5880.671663137676660
+Worst Position: 0.778168641379288 0.383036660177633 40.319618724212383 199.999999998534321
+G1: -0.000000000001989
+G2: -0.000000282297615
+G3: -0.000000595580786
+G4: -40.000000001465679
+Mean: 5.880671661370500e+03
+
+Running Time for this trial: 8.660704021500000e+01
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 1408
+Best Value: 5880.748315015922344
+Best Position: 0.778214440546990 0.383058921727432 40.321991738186021 199.966968551410361
+G1: 0.000000000000000
+G2: -0.000000000214665
+G3: 0.000000000000000
+G4: -40.033031448589639
+Worst Value: 5880.748315015923254
+Worst Position: 0.778214440546990 0.383058921727432 40.321991738186021 199.966968551410361
+G1: 0.000000000000000
+G2: -0.000000000214665
+G3: 0.000000000000000
+G4: -40.033031448589639
+Mean: 5.880748315015891e+03
+
+Running Time for this trial: 1.479554478730000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 751
+Best Value: 5894.326479892436510
+Best Position: 0.786160067458758 0.386969981391981 40.733682251742906 194.315135445559463
+G1: -0.000000000000120
+G2: -0.000000000000424
+G3: -0.000000002793968
+G4: -45.684864554440537
+Worst Value: 5894.326479897522404
+Worst Position: 0.786160067462252 0.386969981393521 40.733682251927043 194.315135443066112
+G1: -0.000000000000060
+G2: -0.000000000000214
+G3: -0.000000002793968
+G4: -45.684864556933888
+Mean: 5.894326479894816e+03
+
+Running Time for this trial: 8.246997639300000e+01
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5894.256260581124479
+Median: 5880.725255716295578
+Standard Deviation:33.123487372117999
+Worst Best Overall Value: 5975.381667533432847
+Number of Converged Runs: 8
+Ratio of Convergence: 8.000000000000000e-01
+Total Running Time for all trials: 1.209567626808000e+03
+Average running time: 1.209567626808000e+02
+
+
+MaxIt: 2000
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 1568
+Best Value: 5880.671345440011464
+Best Position: 0.778168641375107 0.383036550276777 40.319618724098781 199.999999999999176
+G1: 0.000000000000000
+G2: -0.000000172397839
+G3: 0.000000000000000
+G4: -40.000000000000824
+Worst Value: 5880.671345440012374
+Worst Position: 0.778168641375107 0.383036550276777 40.319618724098781 199.999999999999176
+G1: -0.000000000000000
+G2: -0.000000172397838
+G3: 0.000000000000000
+G4: -40.000000000000824
+Mean: 5.880671345439989e+03
+
+Running Time for this trial: 1.726834921260000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 979
+Best Value: 5880.700816253274752
+Best Position: 0.778172775352070 0.383036377880213 40.319618724224199 199.999999998298648
+G1: -0.000004133974543
+G2: -0.000000000000083
+G3: -0.000000231899321
+G4: -40.000000001701352
+Worst Value: 5880.700816329846930
+Worst Position: 0.778172775361937 0.383036377879676 40.319618724172351 199.999999999002057
+G1: -0.000004133985411
+G2: -0.000000000000039
+G3: -0.000000138301402
+G4: -40.000000000997943
+Mean: 5.880700816283548e+03
+
+Running Time for this trial: 1.083921665590000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 1608
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 1.735766563620000e+02
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 1358
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 1.476999919470000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 1403
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 1.522889264350000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 1267
+Best Value: 5880.673852058836928
+Best Position: 0.778170047827847 0.383037286784052 40.319691597297791 199.998985554450599
+G1: 0.000000000000000
+G2: -0.000000216609723
+G3: 0.000000000000000
+G4: -40.001014445549401
+Worst Value: 5880.673852058838747
+Worst Position: 0.778170047827847 0.383037286784052 40.319691597297791 199.998985554450599
+G1: 0.000000000000000
+G2: -0.000000216609723
+G3: 0.000000000000000
+G4: -40.001014445549401
+Mean: 5.880673852058828e+03
+
+Running Time for this trial: 1.397579161710000e+02
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 1391
+Best Value: 5880.879547654287308
+Best Position: 0.778168642128213 0.383108577372939 40.319618763119834 199.999999456797639
+G1: 0.000000000000000
+G2: -0.000072199123300
+G3: 0.000000000000000
+G4: -40.000000543202361
+Worst Value: 5880.879547993816232
+Worst Position: 0.778168642128213 0.383108577490398 40.319618763119834 199.999999456797639
+G1: 0.000000000000000
+G2: -0.000072199240760
+G3: 0.000000000000000
+G4: -40.000000543202361
+Mean: 5.880879547780349e+03
+
+Running Time for this trial: 1.535234103620000e+02
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 1289
+Best Value: 5880.670937547883113
+Best Position: 0.778168641375114 0.383036409167257 40.319618724099179 199.999999999993832
+G1: 0.000000000000000
+G2: -0.000000031288314
+G3: -0.000000001164153
+G4: -40.000000000006168
+Worst Value: 5880.670937547896756
+Worst Position: 0.778168641375114 0.383036409167261 40.319618724099179 199.999999999993832
+G1: 0.000000000000000
+G2: -0.000000031288319
+G3: -0.000000001164153
+G4: -40.000000000006168
+Mean: 5.880670937547909e+03
+
+Running Time for this trial: 1.424393965140000e+02
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 1758
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 1.872219974800000e+02
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 5888.553636878550606
+Best Position: 0.782801634472910 0.385316866808056 40.559670179943495 196.685080983415958
+G1: 0.000000000000000
+G2: -0.000000000098593
+G3: 0.000000000000000
+G4: -43.314919016584042
+Worst Value: 5931.868555895935060
+Worst Position: 0.782801634472909 0.385316866808056 40.559670179943488 196.685080983415986
+G1: 0.000000000000000
+G2: -0.000000000098593
+G3: 0.000000000698492
+G4: -43.314919016584014
+Mean: 5.893058388456298e+03
+
+Running Time for this trial: 2.002929290360000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5880.697765264098052
+Median: 5880.670937547883113
+Standard Deviation:0.068867689977734
+Worst Best Overall Value: 5880.879547654287308
+Number of Converged Runs: 9
+Ratio of Convergence: 9.000000000000000e-01
+Total Running Time for all trials: 1.577876882992000e+03
+Average running time: 1.577876882992000e+02
+
+
+MaxIt: 2500
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 1234
+Best Value: 5880.671053019449573
+Best Position: 0.778168653380342 0.383036383788437 40.319619346131248 199.999999995803307
+G1: -0.000000000000009
+G2: -0.000000000000190
+G3: -0.044202541699633
+G4: -40.000000004196693
+Worst Value: 5880.671054094861574
+Worst Position: 0.778168653440666 0.383036383818045 40.319619349257003 199.999999997692299
+G1: -0.000000000000005
+G2: -0.000000000000103
+G3: -0.044434417737648
+G4: -40.000000002307701
+Mean: 5.880671053467129e+03
+
+Running Time for this trial: 1.366298884850000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 1946
+Best Value: 5881.693761894582167
+Best Position: 0.778772961496951 0.383333841151349 40.350930647510395 199.564573857345437
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.435426142654563
+Worst Value: 5881.693761894583076
+Worst Position: 0.778772961496951 0.383333841151349 40.350930647510395 199.564573857345437
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.435426142654563
+Mean: 5.881693761894561e+03
+
+Running Time for this trial: 2.098134426500000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 2467
+Best Value: 5880.670847315415813
+Best Position: 0.778168641499128 0.383036377939985 40.319618730524766 199.999999910544744
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000089455256
+Worst Value: 5880.670847315416722
+Worst Position: 0.778168641499128 0.383036377939985 40.319618730524773 199.999999910544659
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000089455341
+Mean: 5.880670847315408e+03
+
+Running Time for this trial: 2.480815944580000e+02
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 1929
+Best Value: 5880.670847105867324
+Best Position: 0.778168641375235 0.383036377879002 40.319618724105418 199.999999999906748
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000093252
+Worst Value: 5880.670847105868233
+Worst Position: 0.778168641375235 0.383036377879002 40.319618724105418 199.999999999906748
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000093252
+Mean: 5.880670847105860e+03
+
+Running Time for this trial: 2.089189861890000e+02
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 2500
+Best Value: 6263.064497530051085
+Best Position: 0.958986084624172 0.472039782587005 49.688398167053144 100.836754517969808
+G1: -0.000000000000046
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -139.163245482030192
+Worst Value: 6402.227810473895261
+Worst Position: 0.958986107142844 0.472039793671331 49.688399333824279 100.836745115236283
+G1: -0.000000000000035
+G2: 0.000000000000000
+G3: -0.000000000465661
+G4: -139.163254884763717
+Mean: 6.349902407716637e+03
+
+Running Time for this trial: 2.518146922360000e+02
+
+
+Trial: 6
+
+Did Not Converge!
+Number of Iterations: 2500
+Best Value: 5880.670847105649955
+Best Position: 0.778168641375105 0.383036377878938 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000000
+Worst Value: 5920.670847105651774
+Worst Position: 0.778168641375105 0.383036377878938 40.319618724098717 200.000000000000000
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000000
+Mean: 5.881950847105639e+03
+
+Running Time for this trial: 2.458896042520000e+02
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 2064
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 2.221132125510000e+02
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 1013
+Best Value: 5880.670847179942939
+Best Position: 0.778168641380589 0.383036377903211 40.319618724373377 199.999999996241030
+G1: -0.000000000000183
+G2: -0.000000000021664
+G3: -0.000000329222530
+G4: -40.000000003758970
+Worst Value: 5880.670848770044358
+Worst Position: 0.778168641377465 0.383036378453197 40.319618724211061 199.999999998551061
+G1: -0.000000000000192
+G2: -0.000000000573192
+G3: -0.000000586966053
+G4: -40.000000001448939
+Mean: 5.880670847809150e+03
+
+Running Time for this trial: 1.123462698260000e+02
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 2158
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105639e+03
+
+Running Time for this trial: 2.295976863020000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 1646
+Best Value: 5880.728810681030154
+Best Position: 0.778174929209651 0.383055845875019 40.319944518634628 199.995464752347260
+G1: -0.000000000000003
+G2: -0.000016372947990
+G3: -0.000000001396984
+G4: -40.004535247652740
+Worst Value: 5880.728810681209325
+Worst Position: 0.778174929209650 0.383055845875085 40.319944518634628 199.995464752347118
+G1: -0.000000000000001
+G2: -0.000016372948056
+G3: -0.000000000465661
+G4: -40.004535247652882
+Mean: 5.880728810681087e+03
+
+Running Time for this trial: 1.818616023490000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5880.805982675948144
+Median: 5880.670847247679376
+Standard Deviation:0.359289279592135
+Worst Best Overall Value: 5881.693761894582167
+Number of Converged Runs: 8
+Ratio of Convergence: 8.000000000000000e-01
+Total Running Time for all trials: 2.047066979298000e+03
+Average running time: 2.047066979298000e+02
+
+
+CurPopNum: 500
+
+
+MaxIt: 1000
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 998
+Best Value: 5880.670847105649955
+Best Position: 0.778168641375105 0.383036377878938 40.319618724098724 199.999999999999943
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000057
+Worst Value: 5880.670847105651774
+Worst Position: 0.778168641375105 0.383036377878938 40.319618724098724 199.999999999999943
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000057
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 1.063744849080000e+02
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 1000
+Best Value: 5880.670847105659959
+Best Position: 0.778168641375112 0.383036377878941 40.319618724099072 199.999999999995055
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000004945
+Worst Value: 5920.670847105664507
+Worst Position: 0.778168641375112 0.383036377878941 40.319618724099072 199.999999999995055
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000004945
+Mean: 5.881230847105667e+03
+
+Running Time for this trial: 1.040159532880000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 928
+Best Value: 5880.691583028142304
+Best Position: 0.778180901117438 0.383042412467133 40.320253943908696 199.991157466290360
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.008842533709640
+Worst Value: 5880.691583028144123
+Worst Position: 0.778180901117438 0.383042412467133 40.320253943908703 199.991157466290332
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: -0.000000000232831
+G4: -40.008842533709668
+Mean: 5.880691583028097e+03
+
+Running Time for this trial: 1.044374456480000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 1000
+Best Value: 6138.949281094327489
+Best Position: 0.905883775251998 0.445264685605957 46.869957221630933 125.293935862762581
+G1: -0.001293600874521
+G2: -0.000000092000463
+G3: -0.000000122701749
+G4: -114.706064137237419
+Worst Value: 6253.657676170413652
+Worst Position: 0.905884024037001 0.445264830261413 46.869972707383297 125.293791125955948
+G1: -0.001293550784503
+G2: -0.000000089541272
+G3: 0.000000302447006
+G4: -114.706208874044052
+Mean: 6.180932625031677e+03
+
+Running Time for this trial: 1.080244899160000e+02
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 1000
+Best Value: 6043.860781913866958
+Best Position: 0.864679306952209 0.425619347981657 44.802036629648143 145.786565289064725
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -94.213434710935275
+Worst Value: 6138.074216625269401
+Worst Position: 0.864679306952209 0.425619347981657 44.802036629648114 145.786565289064981
+G1: -0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000465661
+G4: -94.213434710935019
+Mean: 6.045368196869304e+03
+
+Running Time for this trial: 1.035938697240000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 985
+Best Value: 5880.670847144130676
+Best Position: 0.778168641375106 0.383036377892250 40.319618724098731 199.999999999999858
+G1: 0.000000000000000
+G2: -0.000000000013312
+G3: -0.000000000232831
+G4: -40.000000000000142
+Worst Value: 5880.670847144131585
+Worst Position: 0.778168641375106 0.383036377892250 40.319618724098731 199.999999999999858
+G1: -0.000000000000000
+G2: -0.000000000013312
+G3: -0.000000000232831
+G4: -40.000000000000142
+Mean: 5.880670847144110e+03
+
+Running Time for this trial: 1.069136749170000e+02
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 802
+Best Value: 5880.670850010048525
+Best Position: 0.778168643091357 0.383036378724268 40.319618813023588 199.999998762101995
+G1: -0.000000000000002
+G2: -0.000000000000544
+G3: -0.000000004889444
+G4: -40.000001237898005
+Worst Value: 5880.670850012887058
+Worst Position: 0.778168643092645 0.383036378725138 40.319618813090408 199.999998761171270
+G1: -0.000000000000000
+G2: -0.000000000000779
+G3: -0.000000002095476
+G4: -40.000001238828730
+Mean: 5.880670850011019e+03
+
+Running Time for this trial: 9.337527318500000e+01
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 1000
+Best Value: 5923.709861096464010
+Best Position: 0.778168642181162 0.397925644091313 40.319618765863311 199.999999418606450
+G1: 0.000000000000000
+G2: -0.014889265815612
+G3: 0.000000000000000
+G4: -40.000000581393550
+Worst Value: 5963.724751738083796
+Worst Position: 0.778168642181176 0.397925644091233 40.319618765867958 199.999999418391866
+G1: 0.000000000000076
+G2: -0.014889265815488
+G3: 0.000000765779987
+G4: -40.000000581608134
+Mean: 5.939315668157978e+03
+
+Running Time for this trial: 1.074913836060000e+02
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 937
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 1.029143345300000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 842
+Best Value: 5880.671622443052911
+Best Position: 0.778169095982661 0.383036603875143 40.319642278894378 199.999672100339069
+G1: 0.000000000000000
+G2: -0.000000002225646
+G3: 0.000000000000000
+G4: -40.000327899660931
+Worst Value: 5880.671622443053820
+Worst Position: 0.778169095982661 0.383036603875143 40.319642278894378 199.999672100339069
+G1: 0.000000000000000
+G2: -0.000000002225647
+G3: 0.000000000000000
+G4: -40.000327899660931
+Mean: 5.880671622443021e+03
+
+Running Time for this trial: 9.746994199700001e+01
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5880.674432806113145
+Median: 5880.670848577089600
+Standard Deviation:0.008407569818954
+Worst Best Overall Value: 5880.691583028142304
+Number of Converged Runs: 6
+Ratio of Convergence: 6.000000000000000e-01
+Total Running Time for all trials: 1.034610851719000e+03
+Average running time: 1.034610851719000e+02
+
+
+MaxIt: 2000
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 1925
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 2.037389387520000e+02
+
+
+Trial: 2
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880990847105667e+03
+
+Running Time for this trial: 2.052153956990000e+02
+
+
+Trial: 3
+
+Population Converged!
+Number of Iterations: 1254
+Best Value: 5880.673669127310859
+Best Position: 0.778168952323832 0.383036406095742 40.319621692625255 199.999999999725702
+G1: -0.000000253656165
+G2: -0.000000000015802
+G3: -0.211048733210191
+G4: -40.000000000274298
+Worst Value: 5880.673672572240321
+Worst Position: 0.778168952330911 0.383036406256594 40.319621710504471 199.999999999725702
+G1: -0.000000253318174
+G2: -0.000000000006801
+G3: -0.212319872807711
+G4: -40.000000000274298
+Mean: 5.880673670502459e+03
+
+Running Time for this trial: 1.467341444360000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880750847105667e+03
+
+Running Time for this trial: 2.053705726270000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 1870
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649045
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 2.016791143950000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 1761
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 1.951902818530000e+02
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880910847105667e+03
+
+Running Time for this trial: 2.059917027250000e+02
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881070847105667e+03
+
+Running Time for this trial: 2.062838368130000e+02
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 2000
+Best Value: 6013.980310058409486
+Best Position: 0.850127123941064 0.418456537078457 44.048037509888673 153.888248979040497
+G1: -0.000000000000212
+G2: -0.000000180734515
+G3: 0.000000000000000
+G4: -86.111751020959503
+Worst Value: 6100.092262286345431
+Worst Position: 0.850127144284451 0.418456546830586 44.048038563950612 153.888237397754438
+G1: -0.000000000000205
+G2: -0.000000180473055
+G3: 0.000000001164153
+G4: -86.111762602245562
+Mean: 6.042569492267666e+03
+
+Running Time for this trial: 2.138649124870000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 1934
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 2.037236376470000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5880.671411509980317
+Median: 5880.670847105649045
+Standard Deviation:0.001262046453959
+Worst Best Overall Value: 5880.673669127310859
+Number of Converged Runs: 5
+Ratio of Convergence: 5.000000000000000e-01
+Total Running Time for all trials: 1.987792537434000e+03
+Average running time: 1.987792537434000e+02
+
+
+MaxIt: 3000
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 3000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 311320.365644826786593
+Worst Position: 3.621998644515950 3.228956158397719 -47.849482909428417 201.519315168372685
+G1: -4.545493664667919
+G2: -3.683526246037289
+G3: 305392.985092978808098
+G4: -38.480684831627315
+Mean: 6.491710236701108e+03
+
+Running Time for this trial: 3.063564058390000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 1255
+Best Value: 5880.670847169505578
+Best Position: 0.778168641375261 0.383036377900937 40.319618724106185 199.999999999902599
+G1: -0.000000000000012
+G2: -0.000000000021929
+G3: -0.000000033294782
+G4: -40.000000000097401
+Worst Value: 5880.670847189974666
+Worst Position: 0.778168641375167 0.383036377908076 40.319618724101723 199.999999999960949
+G1: -0.000000000000003
+G2: -0.000000000029110
+G3: -0.000000013969839
+G4: -40.000000000039051
+Mean: 5.880670847176354e+03
+
+Running Time for this trial: 1.463452374880000e+02
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 3000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881070847105667e+03
+
+Running Time for this trial: 3.056778575780000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 3000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881070847105667e+03
+
+Running Time for this trial: 3.073822982280000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 2730
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 2.963914399930000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 2788
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 3.004956160540000e+02
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 3000
+Best Value: 5880.670847108000089
+Best Position: 0.778168641376495 0.383036377879622 40.319618724170731 199.999999998997538
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000001002462
+Worst Value: 5920.670847109003262
+Worst Position: 0.778168641376495 0.383036377879622 40.319618724170731 199.999999998997538
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000001002462
+Mean: 5.880830847108001e+03
+
+Running Time for this trial: 3.087510794170000e+02
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 2648
+Best Value: 5932.928179644462034
+Best Position: 0.807913852019469 0.397677802807510 41.860821348158993 179.603556533794375
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -60.396443466205625
+Worst Value: 5932.928179644462944
+Worst Position: 0.807913852019469 0.397677802807510 41.860821348158993 179.603556533794375
+G1: -0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -60.396443466205625
+Mean: 5.932928179644504e+03
+
+Running Time for this trial: 2.901791236210000e+02
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 3000
+Best Value: 5880.670847590638004
+Best Position: 0.778168641661851 0.383036378020082 40.319618738956002 199.999999793175789
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000206824211
+Worst Value: 5920.670847797463466
+Worst Position: 0.778168641661851 0.383036378020082 40.319618738956002 199.999999793175789
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000206824211
+Mean: 5.881070847592655e+03
+
+Running Time for this trial: 3.085440502980000e+02
+
+
+Trial: 10
+
+Population Converged!
+Number of Iterations: 1717
+Best Value: 5880.670847105670873
+Best Position: 0.778168641375119 0.383036377878945 40.319618724099428 199.999999999990081
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000009919
+Worst Value: 5880.670847105674511
+Worst Position: 0.778168641375119 0.383036377878946 40.319618724099428 199.999999999990081
+G1: 0.000000000000000
+G2: -0.000000000000001
+G3: 0.000000000000000
+G4: -40.000000000009919
+Mean: 5.880670847105669e+03
+
+Running Time for this trial: 1.963169862420000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5891.122313626186951
+Median: 5880.670847105670873
+Standard Deviation:23.370189568777686
+Worst Best Overall Value: 5932.928179644462034
+Number of Converged Runs: 5
+Ratio of Convergence: 5.000000000000000e-01
+Total Running Time for all trials: 2.766440094758000e+03
+Average running time: 2.766440094758000e+02
+
+
+MaxIt: 4000
+
+
+Trial: 1
+
+Population Converged!
+Number of Iterations: 3777
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 3.958221656660000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 3584
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 3.843833663620000e+02
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 4000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880910847105667e+03
+
+Running Time for this trial: 4.030873992800000e+02
+
+
+Trial: 4
+
+Population Converged!
+Number of Iterations: 2863
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 3.171934298310000e+02
+
+
+Trial: 5
+
+Population Converged!
+Number of Iterations: 3983
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649045
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 4.021779833790000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 3636
+Best Value: 6088.256172802877700
+Best Position: 0.885435920560776 0.435836333955752 45.877508837345836 134.829718511397772
+G1: -0.000000000000002
+G2: -0.000000000000967
+G3: -0.000000013038516
+G4: -105.170281488602228
+Worst Value: 6088.256173473405397
+Worst Position: 0.885435920866472 0.435836334106530 45.877508853185006 134.829718354940582
+G1: -0.000000000000001
+G2: -0.000000000001273
+G3: -0.000000007450581
+G4: -105.170281645059418
+Mean: 6.088256173053114e+03
+
+Running Time for this trial: 4.070609809110000e+02
+
+
+Trial: 7
+
+Did Not Converge!
+Number of Iterations: 4000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880830847105667e+03
+
+Running Time for this trial: 4.031122475940000e+02
+
+
+Trial: 8
+
+Population Converged!
+Number of Iterations: 3910
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 4.011559894540000e+02
+
+
+Trial: 9
+
+Did Not Converge!
+Number of Iterations: 4000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880830847105667e+03
+
+Running Time for this trial: 4.006764161320000e+02
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 4000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881070847105667e+03
+
+Running Time for this trial: 4.068763050670000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5915.268401388520033
+Median: 5880.670847105649045
+Standard Deviation:84.746354341277808
+Worst Best Overall Value: 6088.256172802877700
+Number of Converged Runs: 6
+Ratio of Convergence: 6.000000000000000e-01
+Total Running Time for all trials: 3.921546283676000e+03
+Average running time: 3.921546283676000e+02
+
+
+MaxIt: 5000
+
+
+Trial: 1
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.670847105689063
+Best Position: 0.778168641375129 0.383036377878950 40.319618724099939 199.999999999983032
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000016968
+Worst Value: 5920.670847105707253
+Worst Position: 0.778168641375129 0.383036377878949 40.319618724099939 199.999999999983032
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000016968
+Mean: 5.880830847105753e+03
+
+Running Time for this trial: 5.081164811900000e+02
+
+
+Trial: 2
+
+Population Converged!
+Number of Iterations: 2168
+Best Value: 5919.095396884533329
+Best Position: 0.800254081788010 0.393907449584948 41.463942061554071 184.660985036293852
+G1: -0.000000000000017
+G2: -0.000000000000185
+G3: -0.000000675674528
+G4: -55.339014963706148
+Worst Value: 5919.095397632092499
+Worst Position: 0.800254082206976 0.393907449791082 41.463942083262559 184.660984756034139
+G1: -0.000000000000009
+G2: -0.000000000000087
+G3: -0.000000314554200
+G4: -55.339015243965861
+Mean: 5.919095397159277e+03
+
+Running Time for this trial: 2.499307269600000e+02
+
+
+Trial: 3
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.802498075484436
+Best Position: 0.778246471091997 0.383074687843211 40.323651351916915 199.943870496344033
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.056129503655967
+Worst Value: 5920.858627579141285
+Worst Position: 0.778246471091997 0.383074687843211 40.323651351916915 199.943870496344033
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.056129503655967
+Mean: 5.881203059370548e+03
+
+Running Time for this trial: 5.083100663470000e+02
+
+
+Trial: 4
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880750847105667e+03
+
+Running Time for this trial: 4.988619036050000e+02
+
+
+Trial: 5
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5922.030016651323422
+Worst Position: 0.777888783882844 0.382899405593706 40.305158631847675 200.201698824716203
+G1: 0.000000777711816
+G2: -0.000000398591153
+G3: -1.560867194086313
+G4: -39.798301175283797
+Mean: 5.880833565444758e+03
+
+Running Time for this trial: 4.972353234160000e+02
+
+
+Trial: 6
+
+Population Converged!
+Number of Iterations: 4870
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 4.945947002210000e+02
+
+
+Trial: 7
+
+Population Converged!
+Number of Iterations: 4375
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 4.681243209290000e+02
+
+
+Trial: 8
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881390847105667e+03
+
+Running Time for this trial: 4.980787080960000e+02
+
+
+Trial: 9
+
+Population Converged!
+Number of Iterations: 4678
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5880.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.880670847105667e+03
+
+Running Time for this trial: 4.873661680460000e+02
+
+
+Trial: 10
+
+Did Not Converge!
+Number of Iterations: 5000
+Best Value: 5880.670847105649045
+Best Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Worst Value: 5920.670847105649955
+Worst Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+G1: 0.000000000000000
+G2: 0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5.881150847105667e+03
+
+Running Time for this trial: 4.971333864680000e+02
+
+
+
+Best OverAll Value: 5880.670847105649045
+Position: 0.778168641375106 0.383036377878938 40.319618724098731 199.999999999999773
+Constraints:
+G1: 0.000000000000000
+G2: -0.000000000000000
+G3: 0.000000000000000
+G4: -40.000000000000227
+Mean: 5890.276984550369889
+Median: 5880.670847105649045
+Standard Deviation:19.212274889442142
+Worst Best Overall Value: 5919.095396884533329
+Number of Converged Runs: 4
+Ratio of Convergence: 4.000000000000000e-01
+Total Running Time for all trials: 4.707751785278000e+03
+Average running time: 4.707751785278000e+02
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%LICNACHAN, LANCE OLIVER C.
+%2014-64880
+
+format long;
+% rng('shuffle');
+rune=1;
+while rune <= 3
+    CurPopNum = 150;
+    if rune == 2
+        CurPopNum = 250;
+    elseif rune == 3
+        CurPopNum = 500;
+    end
+    Y = sprintf('\nCurPopNum: %d\n',CurPopNum);
+    disp(Y);
+    
+    mun=1;
+    while mun <= 5
+    Y = sprintf('\nMaxIt: %d\n',(CurPopNum*(2*mun)));
+    disp(Y);
+    
+        ProbDim = 4;
+        ConsNum = 4;
+        convRuns = 0;
+        RunMax = 10;
+        Ans = zeros(RunMax, ProbDim+ConsNum+1+1);
+        timeRec = zeros(RunMax,1);
+        for trials = 1:RunMax
+        tic;
+        Y = sprintf('\nTrial: %d\n',trials);
+        disp(Y);
+
+        % Variables specific to the problem
+
+        DimMinMax = zeros(ProbDim, 2);
+        DimMinMax(1, :) = [1 99]*0.0625;
+        DimMinMax(2, :) = [1 99]*0.0625;
+        DimMinMax(3, :) = [10 200];
+        DimMinMax(4, :) = [10 200];
+
+        % Variables specific to the algorithm
+        AcceptThreshold = 1e-5;
+        PopNum = CurPopNum;
+        % PopNum = 200;
+        PSO_Curr = 1;
+        PSO_Max = CurPopNum*(2*mun);
+        c1 = 1.5;
+        c2 = 1.5;
+        wmax = 0.9;
+        wmin = 0.4;
+
+        GA_cross = 0.85;
+        GA_mut = 0.02;
+        GA_y = 10;
+        GA_B = 15;
+        GA_NumMax = 20;
+        GA_NumMin = 1;
+        GA_MinPS = 10;
+        GA_MaxPS = 5;
+        GA_MinItr = 10;
+        GA_MaxItr = 15;
+        GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+        GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+        GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+        TransPos = zeros(PopNum, ProbDim);
+        TransVel = zeros(PopNum, ProbDim);
+
+        % Initialization Step
+        [PosPop, VelPop] = PSO_InitPop(PopNum, ProbDim, DimMinMax);
+        FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        [Pbest, Gbest]= PSO_GetInitPGBest(PopNum, PosPop, ProbDim, FitVal);
+
+        PrevDiff = 0;
+        while PSO_Curr <= PSO_Max
+        %     disp(Gbest(ProbDim+1));
+
+            % Evaluate
+            FitVal = PSO_GetFitValues(PopNum, PosPop, ProbDim, DimMinMax);
+        % 
+        %     clf;    %clear frame
+        %     figure(1);
+        %     hold on;
+        %     posit = 1:PopNum;
+        %     plot(posit,FitVal,'.r','MarkerSize', 10);
+        %     M(PSO_Curr)=getframe(gca);
+
+            if(PSO_Curr == 1)
+                PrevDiff = max(FitVal) - min(FitVal);
+            else
+                CurrDiff = max(FitVal) - min(FitVal);
+                % disp(CurrDiff);
+                % Check for population convergence
+                if PrevDiff - CurrDiff < AcceptThreshold && CurrDiff < AcceptThreshold
+                    for i = 1:PopNum
+                        if min(FitVal) == FitVal(i)
+                            minInd = i;
+                        end
+                        if max(FitVal) == FitVal(i)
+                            maxInd = i;
+                        end
+                    end
+                    g1_b = -PosPop(minInd, 1) + 0.0193*PosPop(minInd, 3);
+                    g2_b = -PosPop(minInd, 2) + 0.0095*PosPop(minInd, 3);
+                    g3_b = -(pi*(PosPop(minInd, 3)^2)*PosPop(minInd, 4)) - ((4/3)*pi*(PosPop(minInd, 3)^3)) + 1296000;
+                    g4_b = PosPop(minInd, 4) - 240;
+
+                    g1_w = -PosPop(maxInd, 1) + 0.0193*PosPop(maxInd, 3);
+                    g2_w = -PosPop(maxInd, 2) + 0.0095*PosPop(maxInd, 3);
+                    g3_w = -(pi*(PosPop(maxInd, 3)^2)*PosPop(maxInd, 4)) - ((4/3)*pi*(PosPop(maxInd, 3)^3)) + 1296000;
+                    g4_w = PosPop(maxInd, 4) - 240;
+
+                    mPos = mean(FitVal);
+                    X = sprintf('Population Converged!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15e\n',PSO_Curr,FitVal(minInd), PosPop(minInd, :), g1_b,g2_b,g3_b,g4_b, FitVal(maxInd), PosPop(maxInd, :), g1_w,g2_w,g3_w,g4_w, mPos);
+                    disp(X);
+                    convRuns = convRuns + 1;
+                    break;
+                end
+                PrevDiff = CurrDiff;
+            end
+
+            if(PSO_Curr == PSO_Max)
+                % if max gen reached
+                break;
+            end
+
+            % Get best values
+            [Pbest, Gbest] = PSO_GetPGBest(PopNum, PosPop, ProbDim, FitVal, Pbest, Gbest);
+
+            % Change value according to how current iteration
+            w = wmax-(wmax-wmin)*(PSO_Curr/PSO_Max);
+
+            % Calculate new velocities and move
+            [TransPos, TransVel] = PSO_ChangeVel(PopNum, PosPop, VelPop, ProbDim, Pbest, Gbest, w, c1, c2, DimMinMax);
+
+            % Evaluate
+            TransFitVal = PSO_GetFitValues(PopNum, TransPos, ProbDim, DimMinMax);
+
+            % GA Portion
+            PSO_Arranged = sort(TransFitVal);
+            GA_Num_Curr = 1;
+            while GA_Num_Curr <= GA_Num
+                % Get one from best individuals
+                for RowNum = 1:PopNum
+                    if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+                       Sel_Indiv = TransPos(RowNum, :);
+                       break;
+                    end
+                end
+
+                % Generate a population with the first indiv being the selected
+                % chromosome
+                GA_Chroms = GA_InitPop(GA_PS, ProbDim, DimMinMax);
+                GA_Chroms(1, :) = Sel_Indiv;
+
+                GA_Fit_Elite = PSO_Arranged(GA_Num_Curr);
+                GA_Fit_Chrom = Sel_Indiv;
+                GA_Curr = 1;
+                while GA_Curr <= GA_MaxItr
+                    % Get Fitness
+                    GA_FitVal = PSO_GetFitValues(GA_PS, GA_Chroms, ProbDim, DimMinMax);
+                    TransPop = zeros(GA_PS, ProbDim);
+
+                    % Keep Elite
+                    Arranged = sort(GA_FitVal);
+                    if Arranged(1) < GA_Fit_Elite
+                        GA_Fit_Elite = Arranged(1);
+                        for i = 1:GA_PS
+                            if Arranged(1) == GA_FitVal(i)
+                                GA_Fit_Chrom = GA_Chroms(i,:);
+                            end
+                        end
+                    end
+
+                    % Create Wheel
+                    GA_RouWheel = GA_CreateWheel(GA_PS, GA_FitVal);
+
+                    % Create the population
+                    for i = 1:GA_PS
+                        % Select 2 Parents
+                        [Parent1, Parent2] = GA_Selection(GA_PS, GA_Chroms, ProbDim, GA_FitVal, GA_RouWheel);
+                        % Cross-over
+                        SibRep = GA_CrossOver(Parent1, Parent2, GA_cross, ProbDim);
+                        % Mutate
+                        if rand() <= GA_mut
+                            SibRep = GA_Mutation(SibRep, DimMinMax, ProbDim);
+                        end
+                        % Place
+                        TransPop(i, :) = SibRep;
+                    end
+
+                    GA_Chroms = TransPop;
+                    GA_Curr = GA_Curr + 1;
+                end
+                % Replace the individual
+                for RowNum = 1:PopNum
+                    if TransFitVal(RowNum) == PSO_Arranged(GA_Num_Curr);
+                        TransPos(RowNum,:) = GA_Fit_Chrom(1,:);
+                        break;
+                    end
+                end
+                GA_Num_Curr = GA_Num_Curr + 1;
+            end
+
+            % Update GA_Vars
+            GA_MaxItr = floor(GA_MinItr + ((PSO_Curr/PSO_Max)^GA_B)*(GA_MaxItr-GA_MinItr));
+            GA_Num = floor(GA_NumMax - ((PSO_Curr/PSO_Max)^GA_y)*(GA_NumMax-GA_NumMin));
+            GA_PS = floor(GA_MinPS + ((PSO_Curr/PSO_Max)^GA_y)*(GA_MaxPS-GA_MinPS));
+
+            PosPop = TransPos;
+            VelPop = TransVel;
+            PSO_Curr = PSO_Curr + 1;
+        end
+
+        if PSO_Curr >= PSO_Max
+            for i = 1:PopNum
+                if min(FitVal) == FitVal(i)
+                    minInd = i;
+                end
+                if max(FitVal) == FitVal(i)
+                    maxInd = i;
+                end
+            end
+            g1_b = -PosPop(minInd, 1) + 0.0193*PosPop(minInd, 3);
+            g2_b = -PosPop(minInd, 2) + 0.0095*PosPop(minInd, 3);
+            g3_b = -(pi*(PosPop(minInd, 3)^2)*PosPop(minInd, 4)) - ((4/3)*pi*(PosPop(minInd, 3)^3)) + 1296000;
+            g4_b = PosPop(minInd, 4) - 240;
+
+            g1_w = -PosPop(maxInd, 1) + 0.0193*PosPop(maxInd, 3);
+            g2_w = -PosPop(maxInd, 2) + 0.0095*PosPop(maxInd, 3);
+            g3_w = -(pi*(PosPop(maxInd, 3)^2)*PosPop(maxInd, 4)) - ((4/3)*pi*(PosPop(maxInd, 3)^3)) + 1296000;
+            g4_w = PosPop(maxInd, 4) - 240;
+
+            mPos = mean(FitVal);
+            X = sprintf('Did Not Converge!\nNumber of Iterations: %d\nBest Value: %0.15f\nBest Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nWorst Value: %0.15f\nWorst Position: %0.15f %0.15f %0.15f %0.15f\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15e\n',PSO_Curr,FitVal(minInd), PosPop(minInd, :), g1_b,g2_b,g3_b,g4_b, FitVal(maxInd), PosPop(maxInd, :), g1_w,g2_w,g3_w,g4_w, mPos);
+            disp(X);
+        end
+            if PSO_Curr >= PSO_Max
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b g4_b 0];
+            else % Converged
+                Ans(trials,:) = [PosPop(minInd, :) FitVal(minInd) g1_b g2_b g3_b g4_b 1];
+            end
+
+            timeRec(trials) = toc;
+            X = sprintf('Running Time for this trial: %0.15e\n', timeRec(trials));
+            disp(X);
+        end
+
+        if convRuns > 0
+            % Get Best Fit
+            ConvVals = zeros(convRuns,1);
+            i=1;
+            for o = 1:RunMax
+                if(Ans(o,ProbDim+ConsNum+1+1) == 1)
+                    ConvVals(i) = Ans(o,ProbDim+1);
+                    i=i+1;
+                end
+            end
+
+            Best = min(ConvVals);
+            for o = 1:RunMax
+                if min(ConvVals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                    break;
+                end
+            end
+
+            % Generate Stats
+            Mean = mean(ConvVals);
+            StdDev = std(ConvVals);
+            Median = median(ConvVals);
+            Worst = max(ConvVals);
+
+        else
+            % Get Best Fit
+            Vals = zeros(RunMax,1);
+            for o = 1:RunMax
+                Vals(o) = Ans(o,ProbDim+1);
+            end
+
+            % Generate Stats
+            Mean = mean(Vals);
+            StdDev = std(Vals);
+            Median = median(Vals);
+            Worst = max(Vals);
+            Best = min(Vals);
+
+            % Get index of best run
+            BesInd = 0;
+            for o = 1:RunMax
+                if min(Vals) == Ans(o,ProbDim+1)
+                    BesInd = o;
+                end
+            end
+        end
+
+        ConvRatio = convRuns/RunMax;
+        totalTime = sum(timeRec);
+        aveTime = mean(timeRec);
+
+        X = sprintf('\n\nBest OverAll Value: %0.15f\nPosition: %0.15f %0.15f %0.15f %0.15f\nConstraints:\nG1: %0.15f\nG2: %0.15f\nG3: %0.15f\nG4: %0.15f\nMean: %0.15f\nMedian: %0.15f\nStandard Deviation:%0.15f\nWorst Best Overall Value: %0.15f\nNumber of Converged Runs: %d\nRatio of Convergence: %0.15e\nTotal Running Time for all trials: %0.15e\nAverage running time: %0.15e\n', Best, Ans(BesInd, 1), Ans(BesInd, 2), Ans(BesInd, 3), Ans(BesInd, 4), Ans(BesInd, 6), Ans(BesInd, 7), Ans(BesInd, 8), Ans(BesInd, 9), Mean, Median, StdDev, Worst, convRuns, ConvRatio, totalTime, aveTime);
+        disp(X);
+
+        mun=mun+1;
+    end
+    
+    save('currun.mat');
+    rune = rune+1;
+end
+
+##### SOURCE END #####
+--></body></html>
